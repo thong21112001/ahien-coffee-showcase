@@ -12,15 +12,14 @@ interface AboutProps {
 
 export function About({ storyData, valuesData }: AboutProps) {
   const storyTitle = storyData?.title || "Hành Trình Gìn Giữ Hương Vị Xưa";
-  const storySubtitle =
-    storyData?.subtitle || "CÂU CHUYỆN BẾP NHÀ THU";
+  const storySubtitle = storyData?.subtitle || "CÂU CHUYỆN BẾP NHÀ THU";
   const storyContent =
     storyData?.content ||
     "Bếp Nhà Thu được sinh ra từ tình yêu nồng nàn với văn hóa ẩm thực xứ Quảng. Với sự chăm chút kĩ lưỡng từ nguồn nguyên liệu tươi ngon nhất mỗi sớm mai, các đầu bếp lành nghề gìn giữ trọn vẹn bí quyết gia truyền qua nhiều thế hệ.";
 
   const storyImg = storyData?.image
     ? getImageUrl(storyData.image)
-    : "/about-img.png";
+    : "/imageAbout1.png";
 
   const valuesList = valuesData?.gridItems || [
     {
@@ -85,7 +84,7 @@ export function About({ storyData, valuesData }: AboutProps) {
               {valuesList.map((item, idx) => (
                 <div
                   key={item.key || idx}
-                  className="bg-white p-6 rounded-2xl border border-stone-200/60 shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
+                  className="bg-white p-6 rounded-2xl border border-stone-200/60 shadow-xs hover:shadow-md transition-all hover:-translate-y-1"
                 >
                   <div className="w-12 h-12 rounded-xl bg-[#D9A05B]/15 text-[#8D4F2A] flex items-center justify-center font-extrabold text-lg mb-4">
                     0{idx + 1}

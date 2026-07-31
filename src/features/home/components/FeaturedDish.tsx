@@ -17,7 +17,7 @@ export function FeaturedDish({ data }: FeaturedDishProps) {
     data?.content ||
     "Món ăn đặc sản độc nhất vô nhị chỉ có tại đất Quảng. Sợi mì dai ngon kết hợp cùng thịt xá xíu đậm đà, tóp mỡ giòn rụm và nước dùng thanh ngọt được ninh kỹ nhiều giờ.";
 
-  const image = data?.image ? getImageUrl(data.image) : "/featured-dish.png";
+  const image = data?.image ? getImageUrl(data.image) : "/caolau.png";
 
   return (
     <section className="py-20 bg-stone-900 text-white overflow-hidden relative">
