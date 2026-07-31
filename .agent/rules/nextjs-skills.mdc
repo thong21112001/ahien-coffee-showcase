@@ -1,0 +1,149 @@
+---
+description: "Guide on Agent Skills for Next.js"
+alwaysApply: false
+---
+
+# Agent Skills for Next.js
+
+## Overview
+
+Agent Skills are extended capabilities from the community or custom-made to help Agents handle specialized tasks for Next.js.
+
+## Useful Skills for Next.js
+
+### 1. Next.js Optimization Skill
+**Purpose**: Automatically optimize Next.js code for performance
+
+**When to use**:
+- When optimizing images
+- When code splitting is needed
+- When lazy loading is needed
+- When memoization is needed
+
+**Usage example**:
+```
+Optimize @components/ProductList.tsx for performance
+```
+
+Agent will:
+- Check and suggest using `next/image`
+- Suggest dynamic imports
+- Suggest React.memo when needed
+- Suggest lazy loading
+
+### 2. Next.js SEO Skill
+**Purpose**: Optimize SEO for Next.js pages
+
+**When to use**:
+- When creating a new page
+- When improving SEO
+- When metadata is needed
+
+**Usage example**:
+```
+Optimize SEO for @app/products/page.tsx
+```
+
+Agent will:
+- Check for complete metadata
+- Suggest Open Graph tags
+- Suggest structured data
+- Check semantic HTML
+
+### 3. Next.js Testing Skill
+**Purpose**: Create tests for Next.js components and pages
+
+**When to use**:
+- When creating unit tests
+- When integration tests are needed
+- When E2E tests are needed
+
+**Usage example**:
+```
+Create tests for @components/ProductCard.tsx
+```
+
+Agent will:
+- Create test file with Jest/React Testing Library
+- Test rendering
+- Test interactions
+- Test edge cases
+
+## How to Activate Skills
+
+### 1. Enable Agent Skills in Settings
+
+1. Open **Cursor Settings → Rules**
+2. Find **Import Settings** section
+3. Enable **Agent Skills**
+
+### 2. Automatic Skills
+
+When Agent Skills are enabled, Cursor will:
+- Automatically detect when skills can be useful
+- Apply appropriate skills based on context
+- No manual configuration needed
+
+## Community Skills
+
+### Finding Skills
+- [Agent Skills Repository](https://github.com/agent-skills)
+- Cursor Community Forum
+- GitHub with tag `cursor-skills` or `nextjs-skills`
+
+### Importing Skills
+1. Find suitable skill from repository
+2. Follow that skill's instructions
+3. Skills will automatically be applied when Agent determines they are relevant
+
+## Creating Custom Skills (Advanced)
+
+If you want to create your own skill for your team:
+
+1. **Define skill** according to Agent Skills standard
+2. **Publish to repository** (GitHub, GitLab, etc.)
+3. **Configure** in Cursor to import skill
+
+### Example Custom Skill Structure
+
+```markdown
+# Next.js Performance Optimization Skill
+
+## Description
+Optimize performance for Next.js applications
+
+## Capabilities
+- Image optimization
+- Code splitting
+- Lazy loading
+- Memoization
+
+## Usage
+When Agent detects code needs optimization, skill will automatically suggest improvements.
+```
+
+## Best Practices
+
+1. **Choose appropriate skills**: Only enable skills you actually need
+2. **Check quality**: Ensure skills come from trusted sources
+3. **Update regularly**: Keep skills in sync with latest versions
+4. **Monitor performance**: Some skills may affect performance
+
+## Notes
+
+- Skills are automatically applied by Agent
+- Skills cannot be configured like always-apply rules
+- Some skills may require additional configuration or API keys
+- Skills may affect token usage
+
+## Troubleshooting
+
+### Skills Not Working
+1. Check if Agent Skills are enabled
+2. Check if skills are from trusted sources
+3. View logs in Cursor Settings
+
+### Skills Causing Errors
+1. Disable problematic skill
+2. Report issue to skill maintainer
+3. Use alternative skill if available

@@ -1,0 +1,131 @@
+---
+description: "Rules for Next.js components and pages"
+globs: ["**/app/**/*.tsx", "**/components/**/*.tsx"]
+alwaysApply: true
+---
+
+# Next.js Component Rules
+
+## Server Components (Default)
+- Use Server Components by default in `app/` directory
+- Only use `'use client'` when interactivity is needed
+- Don't import Server Components into Client Components
+
+## Client Components
+- Add `'use client'` directive at the top of file
+- Use hooks (useState, useEffect) in Client Components
+- Importing Server Components into Client Components is not allowed
+
+## Example Server Component
+```tsx
+// app/products/page.tsx
+export default async function ProductsPage() {
+  const products = await fetchProducts();
+  
+  return (
+    <div>
+      <h1>Products</h1>
+      <ProductList products={products} />
+    </div>
+  );
+}
+```
+
+## Example Client Component
+```tsx
+// components/Counter.tsx
+'use client';
+
+import { useState } from 'react';
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      Count: {count}
+    </button>
+  );
+}
+```
+
+## File Naming
+- Pages: `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`
+- Components: PascalCase (e.g., `ProductCard.tsx`)
+- Utilities: camelCase (e.g., `formatPrice.ts`)
+
+## Module Component Structure
+
+Components in module should be organized as follows:
+
+```
+modules/{module}/components/
+├── ComponentName/
+│   ├── ComponentName.tsx
+│   ├── ComponentName.types.ts
+│   ├── ComponentName.test.tsx (optional)
+│   └── index.ts
+```
+
+### Example Module Component
+
+```tsx
+// modules/products/components/ProductCard/ProductCard.tsx
+'use client';
+
+import { ProductCardProps } from './ProductCard.types';
+import { Button } from '@/shared/components';
+
+export default function ProductCard({ product, onAddToCart }: ProductCardProps) {
+  return (
+    <div className="border rounded-lg p-4 dark:bg-gray-800 dark:border-gray-700">
+      <h3 className="text-xl font-semibold dark:text-white">{product.name}</h3>
+      <p className="text-gray-600 dark:text-gray-400">${product.price}</p>
+      <Button onClick={() => onAddToCart?.(product.id)}>
+        Add to Cart
+      </Button>
+    </div>
+  );
+}
+```
+
+```tsx
+// modules/products/components/ProductCard/ProductCard.types.ts
+export interface ProductCardProps {
+  product: {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+  };
+  onAddToCart?: (id: string) => void;
+}
+```
+
+```tsx
+// modules/products/components/ProductCard/index.ts
+export { default } from './ProductCard';
+export type { ProductCardProps } from './ProductCard.types';
+```
+
+## Props Interface
+- Always define Props interface with TypeScript
+- Use type for simple props, interface for complex props
+- Export types if reuse is needed
+
+## Example Props Interface
+```tsx
+interface ProductCardProps {
+  product: {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+  };
+  onAddToCart?: (id: string) => void;
+}
+
+export default function ProductCard({ product, onAddToCart }: ProductCardProps) {
+  // Component implementation
+}
+```

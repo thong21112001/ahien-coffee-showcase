@@ -1,0 +1,117 @@
+---
+description: "Rules for Next.js API routes"
+globs: ["**/app/api/**/*.ts", "**/pages/api/**/*.ts"]
+alwaysApply: false
+---
+
+# Next.js API Routes Rules
+
+## App Router API Routes
+- Use `app/api/` directory
+- Export named functions: GET, POST, PUT, DELETE, PATCH
+- Use NextRequest and NextResponse
+
+## Example API Route
+```typescript
+// app/api/users/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function GET(request: NextRequest) {
+  try {
+    const users = await getUsers();
+    return NextResponse.json(users);
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Failed to fetch users' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const user = await createUser(body);
+    return NextResponse.json(user, { status: 201 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Failed to create user' },
+      { status: 500 }
+    );
+  }
+}
+```
+
+## Error Handling
+- Always wrap in try-catch
+- Return appropriate status codes (200, 201, 400, 401, 404, 500)
+- Log errors for debugging
+- Return clear error messages
+
+## Validation
+- Validate input with zod or yup
+- Return 400 if validation fails
+- Validate both request body and query parameters
+
+## Example With Validation
+```typescript
+import { z } from 'zod';
+
+const createUserSchema = z.object({
+  name: z.string().min(1),
+  email: z.string().email(),
+});
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const validatedData = createUserSchema.parse(body);
+    const user = await createUser(validatedData);
+    return NextResponse.json(user, { status: 201 });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: 'Validation failed', details: error.errors },
+        { status: 400 }
+      );
+    }
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+```
+
+## Dynamic Routes
+- Use `[id]` or `[slug]` for dynamic segments
+- Access params from context: `params.id`
+
+```typescript
+// app/api/users/[id]/route.ts
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const user = await getUserById(params.id);
+  if (!user) {
+    return NextResponse.json(
+      { error: 'User not found' },
+      { status: 404 }
+    );
+  }
+  return NextResponse.json(user);
+}
+```
+
+## CORS (if needed)
+```typescript
+export async function GET(request: NextRequest) {
+  return NextResponse.json(data, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+    },
+  });
+}
+```

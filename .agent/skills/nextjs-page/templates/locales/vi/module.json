@@ -1,0 +1,11 @@
+{
+    "title": "{Module}",
+    "welcome": "Chào mừng đến Trang {Module}",
+    "description": "Duyệt và quản lý tất cả {module}",
+    "add": "Thêm {Module}",
+    "edit": "Sửa {Module}",
+    "delete": "Xóa {Module}",
+    "loading": "Đang tải...",
+    "error": "Đã xảy ra lỗi",
+    "noItems": "Không có {module} nào"
+}
