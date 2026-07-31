@@ -105,7 +105,7 @@ export default function MenuPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex justify-center items-center h-screen bg-[#12100e]">
+        <div className="flex justify-center items-center h-screen">
           <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#D9A05B]"></div>
         </div>
       }

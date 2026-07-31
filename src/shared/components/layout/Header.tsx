@@ -3,21 +3,19 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, Globe } from "lucide-react";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { label: "Trang chủ", href: "/" },
     { label: "Về chúng tôi", href: "#ve-chung-toi" },
-    { label: "Thực đơn", href: "/menu" },
+    { label: "Danh mục", href: "#thuc-don" },
     { label: "Hình ảnh", href: "#hinh-anh" },
     { label: "Liên hệ", href: "#lien-he" },
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200/60 shadow-xs py-3 text-stone-800 transition-all">
+    <header className="sticky top-0 z-50 bg-white border-b border-stone-100 shadow-xs py-3.5 text-stone-800">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -25,80 +23,110 @@ export function Header() {
             <Image
               src="/logo.png"
               alt="Bếp Nhà Thu Logo"
-              width={90}
-              height={55}
-              className="object-contain transition-transform group-hover:scale-105"
-              priority
+              width={80}
+              height={50}
             />
           </Link>
 
-          {/* Desktop Nav Items & Actions */}
-          <div className="hidden md:flex items-center gap-8">
-            <nav className="flex items-center gap-7">
+          {/* Action Buttons & Desktop Nav */}
+          <div className="hidden md:flex items-center gap-4">
+            <nav className="hidden md:flex items-center gap-8">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="text-sm font-semibold tracking-wide text-stone-700 hover:text-[#8D4F2A] transition-colors"
+                  className="text-sm font-semibold tracking-wide text-stone-600 hover:text-brand-brown transition-colors"
                 >
                   {item.label}
                 </Link>
               ))}
             </nav>
 
-            <div className="flex items-center gap-4">
-              {/* Language Switcher */}
-              <div className="flex items-center gap-1.5 text-xs font-semibold cursor-pointer text-stone-600 hover:text-[#8D4F2A] transition-colors">
-                <Globe className="w-4 h-4 text-stone-500" />
-                <span>Tiếng Việt</span>
-              </div>
-
-              {/* Order Button */}
-              <Link
-                href="/menu"
-                className="rounded-full bg-[#8D4F2A] hover:bg-[#763f1f] active:scale-95 text-white px-5 py-2.5 text-sm font-bold shadow-md shadow-[#8D4F2A]/20 transition-all hover:scale-105"
-              >
-                Khám phá thực đơn
-              </Link>
+            {/* Language Selector */}
+            <div className="flex items-center gap-1.5 text-xs font-semibold cursor-pointer text-stone-600 hover:text-brand-brown transition-colors">
+              <span className="w-5 h-5 rounded-full overflow-hidden relative inline-block align-middle border border-stone-300/20">
+                <Image
+                  src="/englishLg.png"
+                  alt="VN Flag"
+                  fill
+                  className="object-cover"
+                />
+              </span>
+              <span>English</span>
             </div>
+
+            <Link
+              href="#lien-he"
+              className="rounded-full bg-brand-brown hover:bg-brand-brown-dark text-white px-5 py-2.5 text-sm shadow-md transition-all hover:scale-[1.02] active:scale-95"
+            >
+              Đặt món ngay!
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-stone-700 hover:text-[#8D4F2A] focus:outline-none transition-colors cursor-pointer"
-            aria-label="Toggle Navigation Menu"
+            className="md:hidden p-1.5 rounded-lg focus:outline-none text-stone-600 hover:text-brand-brown transition-colors"
+            aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {isMobileMenuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
           </button>
         </div>
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 w-full bg-white text-stone-800 shadow-xl border-t border-stone-100 animate-in fade-in slide-in-from-top-5 duration-200">
-          <div className="px-5 py-6 space-y-4">
+          <div className="px-4 py-6 space-y-4">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block text-base font-semibold text-stone-800 hover:text-[#8D4F2A] transition-colors py-2"
+                className="block text-base font-semibold text-stone-700 hover:text-brand-brown transition-colors py-2"
               >
                 {item.label}
               </Link>
             ))}
-            <div className="pt-4 border-t border-stone-100 flex flex-col gap-3">
+            <div className="pt-4 border-t border-stone-100 flex items-center justify-between">
+              <div className="flex items-center gap-2 text-sm font-semibold">
+                <span className="w-5 h-5 rounded-full overflow-hidden relative inline-block">
+                  <Image
+                    src="/englishLg.png"
+                    alt="VN Flag"
+                    fill
+                    className="object-cover"
+                  />
+                </span>
+                <span>English</span>
+              </div>
               <Link
-                href="/menu"
+                href="#lien-he"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="w-full text-center rounded-full bg-[#8D4F2A] hover:bg-[#763f1f] text-white px-5 py-3 text-sm font-bold shadow-md"
+                className="rounded-full bg-brand-brown hover:bg-brand-brown-dark text-white px-5 py-2.5 text-sm shadow-md inline-block"
               >
-                Khám phá thực đơn
+                Đặt món ngay!
               </Link>
             </div>
           </div>

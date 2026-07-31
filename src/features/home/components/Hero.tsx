@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { SettingSection } from "../types/home.types";
 import { getImageUrl } from "@/shared/utils/image";
@@ -10,52 +11,72 @@ interface HeroProps {
 }
 
 export function Hero({ data }: HeroProps) {
-  const title = data?.title || "Bếp Nhà Thu - Ẩm Thực Hội An Traditional";
+  const title =
+    data?.title ||
+    "BẾP NHÀ THU - Ẩm thực là cách dịu dàng nhất để chạm đến trái tim con người!";
   const subtitle =
     data?.subtitle ||
-    "Thưởng thức hương vị truyền thống Hội An trong không gian ấm cúng, cổ kính.";
-  const bgImage = data?.image
-    ? getImageUrl(data.image)
-    : "/bannerExperience.png";
+    "Thưởng thức hương vị truyền thống Hội An xưa trong không gian ấm áp, cổ kính, giàu cảm xúc. Mỗi bữa ăn không chỉ là thưởng thức, mà là một hành trình.";
+  const avatarImage =
+    (data?.image ? getImageUrl(data.image) : "") || "/avtMain.png";
+  const backgroundImage =
+    (data?.image ? getImageUrl(data.image) : "") || "/bannerMain.png";
+  const menuUrl = data?.url || "#thuc-don";
+
+  const showAvatar = true;
 
   return (
-    <section className="relative min-h-[85vh] flex items-center justify-center bg-stone-900 text-white overflow-hidden">
-      {/* Background Image Overlay */}
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-40 transform scale-105 transition-transform duration-1000"
-        style={{ backgroundImage: `url('${bgImage}')` }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#12100e] via-transparent to-stone-900/60" />
+    <section
+      className="relative min-h-[484px] bg-cover bg-center h-full lg:h-[10vh] xl:h-[60vh] flex items-center justify-center overflow-hidden py-12 lg:py-0 select-none"
+      style={{ backgroundImage: `url('${backgroundImage}')` }}
+    >
+      {/* Main Grid Container */}
+      <div className="relative z-20 px-4 sm:px-6 lg:px-22 w-full h-full flex items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
+          {/* Left Column: Typography & CTAs (60% width on large screens) */}
+          <div className="lg:col-span-12 xl:col-span-7 max-w-4xl text-left space-y-6 sm:space-y-8 z-20">
+            <h1 className="text-2xl md:text-3xl lg:text-[48px] font-bold font-sans text-white tracking-tight leading-normal max-w-4xl">
+              {title}
+            </h1>
 
-      {/* Hero Content */}
-      <div className="relative z-10 max-w-4xl mx-auto text-center px-4 py-20">
-        <span className="inline-block px-4 py-1.5 rounded-full bg-[#D9A05B]/20 border border-[#D9A05B]/40 text-[#D9A05B] text-xs md:text-sm font-bold uppercase tracking-widest mb-6 backdrop-blur-xs">
-          Tinh hoa ẩm thực cố đô
-        </span>
+            <p className="text-stone-300 text-sm sm:text-base md:text-lg max-w-3xl leading-relaxed font-normal">
+              {subtitle}
+            </p>
 
-        <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight mb-6">
-          {title}
-        </h1>
-
-        <p className="text-stone-300 text-base md:text-xl max-w-2xl mx-auto leading-relaxed mb-10 font-normal">
-          {subtitle}
-        </p>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            href="/menu"
-            className="w-full sm:w-auto px-8 py-4 bg-[#8D4F2A] hover:bg-[#763f1f] active:scale-95 text-white font-bold rounded-2xl shadow-xl shadow-[#8D4F2A]/30 transition-all text-base cursor-pointer hover:scale-105"
-          >
-            Xem thực đơn ngay
-          </Link>
-          <Link
-            href="#lien-he"
-            className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 active:scale-95 text-white border border-white/30 font-bold rounded-2xl backdrop-blur-xs transition-all text-base cursor-pointer"
-          >
-            Đặt bàn trực tuyến
-          </Link>
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center font-medium gap-7 pt-2">
+              <Link
+                href="#lien-he"
+                className="rounded-full bg-brand-brown hover:bg-brand-brown-dark text-white px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-200 text-center hover:scale-[1.02] active:scale-98 cursor-pointer text-sm"
+              >
+                Đặt món ngay!
+              </Link>
+              <Link
+                href={menuUrl}
+                className="rounded-full bg-white hover:bg-stone-100 text-brand-brown px-8 py-4 shadow-md hover:shadow-lg transition-all duration-200 text-center hover:scale-[1.02] active:scale-98 cursor-pointer text-sm"
+              >
+                Xem thực đơn
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Right Image Container - Absolute positioned */}
+      {showAvatar && (
+        <div
+          className="hidden xl:block absolute bottom-40 xl:bottom-90 -right-10 xl:-right-25 w-[55%] h-full z-10 pointer-events-none"
+        >
+          <Image
+            src={avatarImage}
+            alt={title}
+            width={1000}
+            height={1000}
+            className="object-contain object-bottom"
+            priority
+          />
+        </div>
+      )}
     </section>
   );
 }

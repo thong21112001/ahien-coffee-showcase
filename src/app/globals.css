@@ -1,10 +1,30 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --font-sans: var(--font-sans), system-ui, sans-serif;
-  --color-brand-gold: #D9A05B;
-  --color-brand-brown: #8D4F2A;
-  --color-brand-dark: #6D4231;
+  --font-sans: var(--font-sans), "Be Vietnam Pro", "sans-serif";
+  --font-serif: var(--font-sans), "Be Vietnam Pro", "sans-serif";
+  --color-brand-brown: #8d4f2a;
+  --color-brand-brown-dark: #763f1f;
+  --color-brand-brown-light: #a7663e;
+  --color-brand-gold: #d99c3b;
+  --color-brand-gold-dark: #b87e2a;
+  --color-brand-gold-light: #ebaf52;
+  --color-brand-dark: #12100e;
+  --color-brand-dark-card: #1c1916;
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+body {
+  color: #1c1917;
+  background-color: #fafaf9;
+  scroll-behavior: smooth;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -17,3 +37,4 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+

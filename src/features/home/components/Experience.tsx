@@ -1,50 +1,100 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { SettingSection } from "../types/home.types";
+import { getImageUrl } from "@/shared/utils/image";
 
 interface ExperienceProps {
   data?: SettingSection;
 }
 
 export function Experience({ data }: ExperienceProps) {
-  const title = data?.title || "Trải Nghiệm Không Gian Ẩm Thực";
-  const subtitle = data?.subtitle || "HÀNH TRÌNH THƯỞNG THỨC";
+  const title = data?.title || "Trải nghiệm tại Bếp Nhà Thu";
+  const subtitle =
+    data?.subtitle ||
+    "Mỗi hành trình tại Bếp Nhà Thu bắt đầu từ không gian mộc mạc tinh tế, chạm đến vị giác bằng những hương vị Hội An nguyên bản và đọng lại thành những kỷ niệm vương vấn đến mai sau.";
 
-  const gridItems = data?.gridItems || [
-    { title: "Đón Tiếp Ấm Cúng", content: "Nụ cười nồng hậu đón chào quý khách ngay từ cửa bến.", position: 1 },
-    { title: "Không Gian Hoài Cổ", content: "Kiến trúc đèn lồng lung linh mang dấu ấn Hội An cổ kính.", position: 2 },
-    { title: "Thực Đơn Tinh Hoa", content: "Thưởng thức từng món ăn đậm đà chuẩn vị truyền thống.", position: 3 },
-    { title: "Kỷ Niệm Đáng Nhớ", content: "Lưu giữ những khoảnh khắc ấm áp bên người thân yêu.", position: 4 },
+  const defaultExperiences = [
+    {
+      title: "Bước vào không gian",
+      desc: "Cảm nhận sự ấm áp từ ánh đèn lồng, gỗ cũ, và không khí dễ chịu",
+      image: "/imageExperience1.png",
+    },
+    {
+      title: "Thưởng thức món ăn",
+      desc: "Khám phá hương vị truyền thống được nấu nướng tỉ mỉ với tình yêu",
+      image: "/imageExperience2.png",
+    },
+    {
+      title: "Trọn vẹn cảm xúc",
+      desc: "Khép lại hành trình, gói kèm hơi ấm và nụ cười hiếu khách",
+      image: "/imageExperience3.png",
+    },
   ];
 
+  const experiences = data?.gridItems
+    ? [...data.gridItems]
+        .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+        .map((item, idx) => ({
+          title: item.title || "",
+          desc: item.content || "",
+          image:
+            (item.image ? getImageUrl(item.image) : "") ||
+            `/imageExperience${idx + 1}.png`,
+        }))
+    : defaultExperiences;
+
+  const renderContent = (content: string) => {
+    if (!content) return null;
+    if (content.includes("<") && content.includes(">")) {
+      return <span dangerouslySetInnerHTML={{ __html: content }} />;
+    }
+    return <span>{content}</span>;
+  };
+
   return (
-    <section className="py-20 bg-[#12100e] text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-[#D9A05B] font-extrabold text-xs md:text-sm tracking-widest uppercase">
-            {subtitle}
-          </span>
-          <h2 className="text-2xl md:text-4xl font-extrabold text-white mt-2">
+    <section className="py-24 bg-[url('/bannerExperience.png')] bg-fixed bg-cover bg-center text-white relative overflow-hidden">
+      {/* Background glow effects */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-brand-brown/15 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-brand-gold/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Header */}
+        <div className="text-center max-w-5xl mx-auto mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold font-serif text-white mb-4">
             {title}
           </h2>
+          <p className="text-white leading-relaxed">{subtitle}</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {gridItems.map((item, idx) => (
+        {/* Experience Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {experiences.map((exp, index) => (
             <div
-              key={idx}
-              className="bg-[#1c1916] p-6 rounded-2xl border border-stone-800 hover:border-[#D9A05B]/50 transition-all hover:-translate-y-1.5 shadow-lg"
+              key={index}
+              className="bg-white border border-stone-800 rounded-2xl overflow-hidden hover:border-brand-brown/50 transition-all duration-500 group hover:scale-[1.02]"
             >
-              <div className="text-3xl font-extrabold text-[#D9A05B] mb-3">
-                0{idx + 1}
+              {/* Image Container */}
+              <div className="relative h-fit w-full overflow-hidden flex justify-center items-center p-5">
+                <Image
+                  src={exp.image}
+                  alt={exp.title}
+                  width={500}
+                  height={500}
+                  className="object-cover transition-transform rounded-4xl duration-500"
+                />
               </div>
-              <h4 className="font-bold text-white text-base mb-2">
-                {item.title}
-              </h4>
-              <p className="text-stone-400 text-xs md:text-sm leading-relaxed">
-                {item.content}
-              </p>
+
+              {/* Text Container */}
+              <div className="p-8 space-y-4">
+                <h3 className="text-xl font-bold text-center font-serif text-black tracking-tight group-hover:text-brand-gold transition-colors">
+                  {exp.title}
+                </h3>
+                <p className="text-gray-500 text-lg text-center leading-relaxed">
+                  {renderContent(exp.desc)}
+                </p>
+              </div>
             </div>
           ))}
         </div>

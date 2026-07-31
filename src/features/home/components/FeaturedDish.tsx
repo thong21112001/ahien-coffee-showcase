@@ -11,46 +11,55 @@ interface FeaturedDishProps {
 }
 
 export function FeaturedDish({ data }: FeaturedDishProps) {
-  const title = data?.title || "Cao Lầu Hội An - Món Ăn Chữ Ký";
-  const subtitle = data?.subtitle || "MÓN ĂN ĐẶC SẮC NHẤT";
+  const subtitle = data?.subtitle || "Món ăn đặc sản";
+  const title = data?.title || "Cao Lầu - Trọn vẹn hồn phố cổ";
   const content =
     data?.content ||
-    "Món ăn đặc sản độc nhất vô nhị chỉ có tại đất Quảng. Sợi mì dai ngon kết hợp cùng thịt xá xíu đậm đà, tóp mỡ giòn rụm và nước dùng thanh ngọt được ninh kỹ nhiều giờ.";
-
-  const image = data?.image ? getImageUrl(data.image) : "/caolau.png";
+    data?.description ||
+    "Sợi mì vàng óng quyện cùng nước dùng xíu đậm đà, thịt xá xíu mềm thơm và tóp mỡ giòn rụm. Thưởng thức một bát Cao Lầu tại Bếp Nhà Thu là chạm vào một câu chuyện thấm đượm tình đất, tình người và tinh hoa văn hóa truyền đời của phố cổ Hội An.";
+  const dishImage =
+    (data?.image ? getImageUrl(data.image) : "") || "/caolau.png";
+  const url = data?.url || "#lien-he";
 
   return (
-    <section className="py-20 bg-stone-900 text-white overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="relative w-full aspect-square rounded-3xl overflow-hidden shadow-2xl border border-stone-800">
-            <Image
-              src={image}
-              alt={title}
-              fill
-              className="object-cover hover:scale-105 transition-transform duration-700"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          </div>
+    <section className="py-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative bg-[url('/bannerMain.png')] bg-center bg-cover rounded-3xl overflow-hidden shadow-2xl border border-stone-850">
+          {/* Subtle amber glowing effect */}
+          <div className="absolute inset-0 bg-black/55 z-0"></div>
 
-          <div className="space-y-6">
-            <span className="text-[#D9A05B] font-extrabold text-xs md:text-sm tracking-widest uppercase">
-              {subtitle}
-            </span>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
-              {title}
-            </h2>
-            <div
-              className="text-stone-300 text-base leading-relaxed space-y-4 font-normal"
-              dangerouslySetInnerHTML={{ __html: content }}
-            />
-            <div className="pt-4">
-              <Link
-                href="/menu"
-                className="inline-block px-8 py-3.5 bg-[#8D4F2A] hover:bg-[#763f1f] active:scale-95 text-white font-bold rounded-2xl shadow-lg transition-all hover:scale-105"
-              >
-                Thưởng thức ngay
-              </Link>
+          <div className="absolute top-0 right-0 w-80 h-80 bg-brand-gold/10 rounded-full blur-[80px] pointer-events-none"></div>
+
+          <div className="relative z-20 grid grid-cols-1 lg:grid-cols-12 gap-3 items-center mx-5">
+            {/* Left Content (Grid spanning 7 cols) */}
+            <div className="lg:col-span-7 py-8 md:py-13 space-y-6 text-white">
+              <span className="inline-block text-brand-gold text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full bg-brand-gold/10 border border-brand-gold/20">
+                {subtitle}
+              </span>
+              <h3 className="text-2xl md:text-[32px] font-bold font-serif tracking-tight text-white">
+                {title}
+              </h3>
+              <p className="text-stone-300 leading-relaxed text-base md:text-xl font-light">
+                {content}
+              </p>
+              <div className="pt-4 flex flex-col sm:flex-row gap-4 items-center">
+                <Link
+                  href={url}
+                  className="w-full sm:w-auto rounded-full bg-brand-brown hover:bg-brand-brown-dark text-white px-8 py-3.5 shadow-md hover:shadow-lg transition-all duration-200 text-center hover:scale-[1.02] active:scale-98 cursor-pointer"
+                >
+                  Đặt bàn ngay!
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Image (Grid spanning 5 cols) */}
+            <div className="lg:col-span-5 relative h-64 lg:h-[350px] w-full m-auto">
+              <Image
+                src={dishImage}
+                alt={title}
+                fill
+                className="object-cover object-center rounded-4xl"
+              />
             </div>
           </div>
         </div>
