@@ -35,32 +35,29 @@ const KNOWN_PUBLIC_IMAGES = new Set([
 export const getImageUrl = (path?: string): string => {
   if (!path) return "/placeholder.png";
 
-  // Full URL
+  // Full URL (remote / S3)
   if (path.startsWith("http://") || path.startsWith("https://")) {
     return path;
   }
 
-  // Already starting with '/' (explicit path in public, e.g. "/anh1.jpg", "/logo.png")
+  // Path starting with '/' (explicit path in public, e.g., "/images/banner/...")
   if (path.startsWith("/")) {
     return path;
   }
 
-  // Starts with 'public/'
+  // Path starting with 'public/'
   if (path.startsWith("public/")) {
     return `/${path.slice(7)}`;
   }
 
   const cleanPath = path.replace(/^\//, "");
 
-  // Prioritize files in the public directory
+  // Local public image check
   if (KNOWN_PUBLIC_IMAGES.has(cleanPath)) {
     return `/${cleanPath}`;
   }
 
-  const s3Base =
-    process.env.NEXT_PUBLIC_S3_BASE ||
-    process.env.NEXT_PUBLIC_SETTINGS_API_URL ||
-    "https://bepthu-api.dev00.xyz/uploads";
+  // When mock mode is enabled or S3 base URL is configured
+  const s3Base = process.env.NEXT_PUBLIC_S3_BASE || "https://bepthu-api.dev00.xyz/uploads";
   return `${s3Base.replace(/\/$/, "")}/${cleanPath}`;
 };
-

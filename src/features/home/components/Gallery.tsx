@@ -4,28 +4,26 @@ import React from "react";
 import Image from "next/image";
 import { SettingSection } from "../types/home.types";
 import { getImageUrl } from "@/shared/utils/image";
+import { IMAGES } from "@/shared/constants/images";
 
 interface GalleryProps {
   data?: SettingSection;
 }
 
 export function Gallery({ data }: GalleryProps) {
-  const title = data?.title || "Góc nhỏ Bếp Nhà Thu";
-  const subtitle =
-    data?.subtitle ||
-    "Khép lại những ồn ào, Bếp đón bạn vào một không gian an yên nơi góc phố Đào Duy Từ. Sự mộc mạc của cảnh vật hòa cùng cách chăm chút tỉ mỉ mang đến một chốn dừng chân đầm ấm, thân tình.";
+  if (!data) return null;
 
-  const apiImages = data?.gridItems
+  const title = data.title || "";
+  const subtitle = data.subtitle || "";
+
+  const apiImages = data.gridItems
     ? [...data.gridItems].sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
     : [];
 
   const renderSlot = (index: number, className: string, heightClass: string) => {
     const item = apiImages.find((img) => img.position === index);
-    const rawImage = item?.image;
-    const hasImage =
-      rawImage &&
-      rawImage !== "/placeholder.png" &&
-      rawImage !== "/uploads/placeholder.png";
+    const rawImage = item?.image || IMAGES.gallery[index];
+    const hasImage = Boolean(rawImage);
     const text = item?.key || `gallery-${index + 1}`;
 
     return (
@@ -35,7 +33,7 @@ export function Gallery({ data }: GalleryProps) {
         {hasImage ? (
           <>
             <Image
-              src={getImageUrl(rawImage) || "/placeholder.png"}
+              src={getImageUrl(rawImage)}
               alt={text}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -53,11 +51,8 @@ export function Gallery({ data }: GalleryProps) {
 
   const renderCenterSlot = (index: number, heightClass: string) => {
     const item = apiImages.find((img) => img.position === index);
-    const rawImage = item?.image;
-    const hasImage =
-      rawImage &&
-      rawImage !== "/placeholder.png" &&
-      rawImage !== "/uploads/placeholder.png";
+    const rawImage = item?.image || IMAGES.gallery[index];
+    const hasImage = Boolean(rawImage);
     const text = item?.key || `gallery-${index + 1}`;
 
     return (
@@ -66,7 +61,7 @@ export function Gallery({ data }: GalleryProps) {
       >
         {hasImage ? (
           <Image
-            src={getImageUrl(rawImage) || "/placeholder.png"}
+            src={getImageUrl(rawImage)}
             alt={text}
             fill
             className="object-cover brightness-90 transition-transform duration-500 group-hover:scale-105"
@@ -103,11 +98,11 @@ export function Gallery({ data }: GalleryProps) {
             {renderSlot(3, "", "h-44 sm:h-56")}
           </div>
 
-          {/* Row 2: 3 photos (middle is the signage) */}
+          {/* Row 2: 3 photos (middle is center slot) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Left */}
             {renderSlot(4, "", "h-56 sm:h-64")}
-            {/* Center (Signage) */}
+            {/* Center */}
             {renderCenterSlot(5, "h-56 sm:h-64")}
             {/* Right */}
             {renderSlot(6, "", "h-56 sm:h-64")}

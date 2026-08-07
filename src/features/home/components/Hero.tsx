@@ -5,23 +5,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { SettingSection } from "../types/home.types";
 import { getImageUrl } from "@/shared/utils/image";
+import { IMAGES } from "@/shared/constants/images";
 
 interface HeroProps {
   data?: SettingSection;
 }
 
 export function Hero({ data }: HeroProps) {
-  const title =
-    data?.title ||
-    "BẾP NHÀ THU - Ẩm thực là cách dịu dàng nhất để chạm đến trái tim con người!";
-  const subtitle =
-    data?.subtitle ||
-    "Thưởng thức hương vị truyền thống Hội An xưa trong không gian ấm áp, cổ kính, giàu cảm xúc. Mỗi bữa ăn không chỉ là thưởng thức, mà là một hành trình.";
-  const avatarImage =
-    (data?.image ? getImageUrl(data.image) : "") || "/avtMain.png";
-  const backgroundImage =
-    (data?.image ? getImageUrl(data.image) : "") || "/bannerMain.png";
-  const menuUrl = data?.url || "#thuc-don";
+  if (!data) return null;
+
+  const title = data.title || "";
+  const subtitle = data.subtitle || "";
+  const avatarImage = IMAGES.hero.avatar;
+  const backgroundImage = getImageUrl(data.image) || IMAGES.hero.background;
+  const menuUrl = data.url || "#thuc-don";
 
   const showAvatar = true;
 
@@ -64,9 +61,7 @@ export function Hero({ data }: HeroProps) {
 
       {/* Right Image Container - Absolute positioned */}
       {showAvatar && (
-        <div
-          className="hidden xl:block absolute bottom-40 xl:bottom-90 -right-10 xl:-right-25 w-[55%] h-full z-10 pointer-events-none"
-        >
+        <div className="hidden xl:block absolute bottom-40 xl:bottom-90 -right-10 xl:-right-25 w-[55%] h-full z-10 pointer-events-none">
           <Image
             src={avatarImage}
             alt={title}

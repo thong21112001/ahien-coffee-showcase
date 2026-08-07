@@ -6,18 +6,19 @@ import { toast } from "react-hot-toast";
 import Link from "next/link";
 import { SettingSection } from "../types/home.types";
 import { getImageUrl } from "@/shared/utils/image";
+import { IMAGES } from "@/shared/constants/images";
 
 interface ContactFormProps {
   data?: SettingSection;
 }
 
 export function ContactForm({ data }: ContactFormProps) {
-  const title = data?.title || "Góc nhỏ Bếp Nhà Thu";
-  const imageUrl =
-    (data?.image ? getImageUrl(data.image) : "") || "/imageContact.png";
-  const subtitle =
-    data?.content ||
-    "Khép lại những ồn ào, Bếp đón bạn vào một không gian an yên nơi góc phố Đào Duy Từ. Sự mộc mạc của cảnh vật hòa cùng cách chăm chút tỉ mỉ mang đến một chốn dừng chân đầm ấm, thân tình.";
+  if (!data) return null;
+
+  const title = data.title || "";
+  const imageUrl = getImageUrl(data.image) || IMAGES.contact.image;
+  const subtitle = data.content || data.subtitle || "";
+
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -45,7 +46,7 @@ export function ContactForm({ data }: ContactFormProps) {
   };
 
   const contactMethods =
-    data?.gridItems && data.gridItems.length > 0
+    data.gridItems && data.gridItems.length > 0
       ? [...data.gridItems]
           .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
           .map((item) => ({
@@ -208,7 +209,7 @@ export function ContactForm({ data }: ContactFormProps) {
                   rel="noopener noreferrer"
                 >
                   <Image
-                    src="/map.png"
+                    src={IMAGES.contact.map}
                     alt="Bản đồ chỉ đường Bếp Nhà Thu"
                     fill
                     className="object-cover"

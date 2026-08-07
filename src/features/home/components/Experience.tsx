@@ -4,46 +4,29 @@ import React from "react";
 import Image from "next/image";
 import { SettingSection } from "../types/home.types";
 import { getImageUrl } from "@/shared/utils/image";
+import { IMAGES } from "@/shared/constants/images";
 
 interface ExperienceProps {
   data?: SettingSection;
 }
 
 export function Experience({ data }: ExperienceProps) {
-  const title = data?.title || "Trải nghiệm tại Bếp Nhà Thu";
-  const subtitle =
-    data?.subtitle ||
-    "Mỗi hành trình tại Bếp Nhà Thu bắt đầu từ không gian mộc mạc tinh tế, chạm đến vị giác bằng những hương vị Hội An nguyên bản và đọng lại thành những kỷ niệm vương vấn đến mai sau.";
+  if (!data) return null;
 
-  const defaultExperiences = [
-    {
-      title: "Bước vào không gian",
-      desc: "Cảm nhận sự ấm áp từ ánh đèn lồng, gỗ cũ, và không khí dễ chịu",
-      image: "/imageExperience1.png",
-    },
-    {
-      title: "Thưởng thức món ăn",
-      desc: "Khám phá hương vị truyền thống được nấu nướng tỉ mỉ với tình yêu",
-      image: "/imageExperience2.png",
-    },
-    {
-      title: "Trọn vẹn cảm xúc",
-      desc: "Khép lại hành trình, gói kèm hơi ấm và nụ cười hiếu khách",
-      image: "/imageExperience3.png",
-    },
-  ];
+  const title = data.title || "";
+  const subtitle = data.subtitle || "";
 
-  const experiences = data?.gridItems
+  const experiences = data.gridItems
     ? [...data.gridItems]
         .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
         .map((item, idx) => ({
           title: item.title || "",
           desc: item.content || "",
-          image:
-            (item.image ? getImageUrl(item.image) : "") ||
-            `/imageExperience${idx + 1}.png`,
+          image: item.image ? getImageUrl(item.image) : IMAGES.experience.image1,
         }))
-    : defaultExperiences;
+    : [];
+
+  const bgImage = getImageUrl(data.image) || IMAGES.experience.background;
 
   const renderContent = (content: string) => {
     if (!content) return null;
@@ -54,7 +37,10 @@ export function Experience({ data }: ExperienceProps) {
   };
 
   return (
-    <section className="py-24 bg-[url('/bannerExperience.png')] bg-fixed bg-cover bg-center text-white relative overflow-hidden">
+    <section
+      className="py-24 bg-fixed bg-cover bg-center text-white relative overflow-hidden"
+      style={{ backgroundImage: `url('${bgImage}')` }}
+    >
       {/* Background glow effects */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-brand-brown/15 rounded-full blur-[100px] pointer-events-none"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-brand-gold/5 rounded-full blur-[120px] pointer-events-none"></div>

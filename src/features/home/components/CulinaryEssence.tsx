@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { SettingSection } from "../types/home.types";
-import { menuApi } from "@/features/menu/api/menu.api";
-import { ProductCategory, FeaturedCombo, Product } from "@/features/menu/types/menu.types";
 import { getImageUrl } from "@/shared/utils/image";
+import {
+  useMenuCategories,
+  useFeaturedCombos,
+  useMenuProducts,
+} from "../hooks/useMenu";
 
 interface CulinaryEssenceProps {
   data?: SettingSection;
@@ -17,25 +20,21 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
     data?.subtitle ||
     "Mỗi món ăn tại Bếp Nhà Thu là sự kết tinh của hương vị truyền thống Hội An, được chế biến tỉ mỉ để giữ trọn bản sắc và mang đến trải nghiệm ẩm thực đậm đà, khó quên.";
 
-  const [categoriesList, setCategoriesList] = useState<ProductCategory[]>([]);
-  const [featuredCombos, setFeaturedCombos] = useState<FeaturedCombo[]>([]);
-  const [productsList, setProductsList] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
+  const { data: categoriesList = [] } = useMenuCategories();
   const [activeCategory, setActiveCategory] = useState("set-menu");
   const [activeSetMenu, setActiveSetMenu] = useState("set-1");
 
-  useEffect(() => {
-    const fetchInitialData = async () => {
-      try {
-        const cats = await menuApi.getCategories();
-        setCategoriesList(cats);
-      } catch (err) {
-        console.error("Error fetching categories:", err);
-      }
-    };
-    fetchInitialData();
-  }, []);
+  const isComboOrSetMenu =
+    activeCategory === "set-menu" || activeCategory === "combo";
+
+  const { data: combosList = [], isLoading: combosLoading } = useFeaturedCombos(
+    isComboOrSetMenu ? (activeCategory as "combo" | "set-menu") : undefined
+  );
+
+  const { data: productsList = [], isLoading: productsLoading } =
+    useMenuProducts(!isComboOrSetMenu ? activeCategory : undefined, 100);
+
+  const isLoading = isComboOrSetMenu ? combosLoading : productsLoading;
 
   const getEnglishName = (nameLocalized: any, fallback: string): string => {
     if (!nameLocalized) return fallback;
@@ -92,37 +91,7 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
     })),
   ];
 
-  const isComboOrSetMenu =
-    activeCategory === "set-menu" || activeCategory === "combo";
-
-  const activeGroupData = featuredCombos.filter(
-    (item: any) => item.type === activeCategory
-  );
-
-  useEffect(() => {
-    const fetchCategoryData = async () => {
-      if (!activeCategory) return;
-      setIsLoading(true);
-      try {
-        if (isComboOrSetMenu) {
-          const combos = await menuApi.getFeaturedCombos(
-            activeCategory as "combo" | "set-menu"
-          );
-          setFeaturedCombos(combos);
-        } else {
-          const prods = await menuApi.getProducts(activeCategory, 100);
-          setProductsList(prods);
-        }
-      } catch (error) {
-        console.error("Error fetching category data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchCategoryData();
-  }, [activeCategory, isComboOrSetMenu]);
-
-  const displayGroupMenus = activeGroupData;
+  const displayGroupMenus = combosList;
 
   const activeSet: any =
     displayGroupMenus.find(
@@ -148,15 +117,7 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
     ? `${new Intl.NumberFormat("vi-VN").format(activeSet.price)} VNĐ net per person`
     : "";
 
-  const categoryProducts = productsList.filter(
-    (prod: any) =>
-      prod.category === activeCategory ||
-      (prod.category &&
-        (prod.category._id === activeCategory ||
-          prod.category.id === activeCategory))
-  );
-
-  const displayProducts = categoryProducts.map((prod: any) => ({
+  const displayProducts = productsList.map((prod: any) => ({
     id: prod._id || prod.id,
     name: prod.name,
     englishName: getEnglishName(prod.nameLocalized, ""),
@@ -164,10 +125,7 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
     price: getProductPrice(prod),
   }));
 
-  let activeCategoryItems: any[] = [];
-  if (!isComboOrSetMenu) {
-    activeCategoryItems = displayProducts;
-  }
+  const activeCategoryItems = !isComboOrSetMenu ? displayProducts : [];
 
   return (
     <section id="thuc-don" className="py-24 bg-white text-stone-850">
@@ -305,10 +263,7 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
                         {item.price > 0 && (
                           <div className="mt-auto w-full border-t border-[#d4a373]/30 pt-2 text-center">
                             <span className="text-[#9A5C32] font-bold text-sm lg:text-base">
-                              {new Intl.NumberFormat("vi-VN").format(
-                                item.price
-                              )}{" "}
-                              VNĐ
+                              {new Intl.NumberFormat("vi-VN").format(item.price)} VNĐ
                             </span>
                           </div>
                         )}
