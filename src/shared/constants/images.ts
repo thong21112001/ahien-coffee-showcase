@@ -26,7 +26,7 @@ export const IMAGES = {
     "/anh9.jpg",
     "/anh10.jpg",
   ],
-  featuredDish: "/caolau.png",
+  featuredDish: "/phin.png",
   contact: {
     image: "/imageContact.png",
     map: "/map.png",

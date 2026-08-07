@@ -48,13 +48,13 @@ export function ContactForm({ data }: ContactFormProps) {
   const contactMethods =
     data.gridItems && data.gridItems.length > 0
       ? [...data.gridItems]
-          .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
-          .map((item) => ({
-            name: item.title || "",
-            value: item.content || "",
-            iconSvg: item.icon || "",
-            icon: null,
-          }))
+        .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+        .map((item) => ({
+          name: item.title || "",
+          value: item.content || "",
+          iconSvg: item.icon || "",
+          icon: null,
+        }))
       : [];
 
   return (
@@ -203,14 +203,14 @@ export function ContactForm({ data }: ContactFormProps) {
               <div className="relative w-full grow rounded-2xl overflow-hidden bg-stone-100 border border-stone-200 min-h-[180px] lg:min-h-0">
                 <Link
                   href={
-                    "https://www.google.com/maps/place/6+%C4%90%C3%A0o+Duy+T%E1%BB%AB,+H%E1%BB%99i+An,+%C4%90%C3%A0+N%E1%BA%B5ng,+Vi%E1%BB%87t+Nam/@15.8773258,108.3200389,17z/data=!3m1!4b1!4m6!3m5!1s0x31420e7ce1f0ad7f:0x67d30a01e77e2e3c!8m2!3d15.8773207!4d108.3226138!16s%2Fg%2F11lgn28g0g?entry=ttu&g_ep=EgoyMDI2MDUxNy4wIKXMDSoASAFQAw%3D%3D"
+                    "https://www.google.com/maps/place/A+Hi%E1%BB%81n+Coffee/@16.0518188,108.2174677,17z/data=!3m1!4b1!4m6!3m5!1s0x314219005268a871:0xba5e4eb6104ae07c!8m2!3d16.0518188!4d108.2174677!16s%2Fg%2F11ntptjcq1?hl=vi&entry=ttu&g_ep=EgoyMDI2MDgwNC4wIKXMDSoASAFQAw%3D%3D"
                   }
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <Image
                     src={IMAGES.contact.map}
-                    alt="Bản đồ chỉ đường Bếp Nhà Thu"
+                    alt="Bản đồ chỉ đường A Hiền Coffee"
                     fill
                     className="object-cover"
                   />
@@ -218,7 +218,7 @@ export function ContactForm({ data }: ContactFormProps) {
               </div>
               <div className="text-center mt-4">
                 <p className="text-sm text-stone-600 font-medium">
-                  06 Đào Duy Từ, Phường Hội An, Thành phố Đà Nẵng
+                  K514/5 Hoàng Diệu, phường Hòa Cường, Thành phố Đà Nẵng
                 </p>
               </div>
             </div>

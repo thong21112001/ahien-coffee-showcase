@@ -5,9 +5,9 @@ export const heroMockData: SettingSection = {
   _id: "mock-hero-001",
   key: "home_hero",
   rootPage: "home-landing-page",
-  title: "BẾP NHÀ THU - Ẩm thực là cách dịu dàng nhất để chạm đến trái tim con người!",
+  title: "A HIỀN COFFEE – Since 1986",
   subtitle:
-    "Thưởng thức hương vị truyền thống Hội An xưa trong không gian ấm áp, cổ kính, giàu cảm xúc. Mỗi bữa ăn không chỉ là thưởng thức, mà là một hành trình.",
+    "Giữa nhịp sống hối hả của Đà Nẵng, luôn có một góc nhỏ dành cho những ai yêu cà phê, yêu sự bình yên và những cuộc trò chuyện giản dị.",
   image: IMAGES.hero.background,
   url: "#thuc-don",
   config: {

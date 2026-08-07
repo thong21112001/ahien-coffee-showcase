@@ -5,9 +5,9 @@ export const galleryMockData: SettingSection = {
   _id: "mock-gallery-001",
   key: "home_gallery",
   rootPage: "home-landing-page",
-  title: "Góc nhỏ Bếp Nhà Thu",
+  title: "A Hiền Coffee – Since 1986",
   subtitle:
-    "Khép lại những ồn ào, Bếp đón bạn vào một không gian an yên nơi góc phố Đào Duy Từ. Sự mộc mạc của cảnh vật hòa cùng cách chăm chút tỉ mỉ mang đến một chốn dừng chân đầm ấm, thân tình.",
+    "Từ năm 1986, A Hiền Coffee luôn gìn giữ hương vị cà phê truyền thống và sự chân thành trong từng ly cà phê. Chúng tôi hy vọng mỗi vị khách khi ghé quán đều tìm thấy một góc nhỏ để nghỉ ngơi, trò chuyện, làm việc hoặc đơn giản là tận hưởng một khoảng lặng cho riêng mình.",
   config: {
     hasTitle: true,
     hasSubtitle: true,

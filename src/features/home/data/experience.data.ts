@@ -5,9 +5,9 @@ export const experienceMockData: SettingSection = {
   _id: "mock-experience-001",
   key: "home_experience",
   rootPage: "home-landing-page",
-  title: "Trải nghiệm tại Bếp Nhà Thu",
+  title: "Trải nghiệm tại A Hiền Coffee",
   subtitle:
-    "Mỗi hành trình tại Bếp Nhà Thu bắt đầu từ không gian mộc mạc tinh tế, chạm đến vị giác bằng những hương vị Hội An nguyên bản và đọng lại thành những kỷ niệm vương vấn đến mai sau.",
+    "Từ năm 1986, mỗi ly cà phê tại A Hiền Coffee được tạo nên từ sự hòa quyện của nhiều hạt cà phê tuyển chọn, rang xay theo công thức riêng và pha phin chậm rãi. Không chỉ là một thức uống, đó là hương vị gắn liền với ký ức và những cuộc gặp gỡ qua nhiều thế hệ.",
   image: IMAGES.experience.background,
   config: {
     hasTitle: true,
@@ -24,22 +24,22 @@ export const experienceMockData: SettingSection = {
   gridItems: [
     {
       key: "exp-1",
-      title: "Bước vào không gian",
-      content: "Cảm nhận sự ấm áp từ ánh đèn lồng, gỗ cũ, và không khí dễ chịu",
+      title: "Chọn lọc hương vị",
+      content: "Những hạt cà phê được phối trộn theo công thức truyền thống để tạo nên hương thơm cân bằng và đậm đà.",
       image: IMAGES.experience.image1,
       position: 1,
     },
     {
       key: "exp-2",
-      title: "Thưởng thức món ăn",
-      content: "Khám phá hương vị truyền thống được nấu nướng tỉ mỉ với tình yêu",
+      title: "Pha phin chậm rãi",
+      content: "Từng giọt cà phê nhỏ xuống từ chiếc phin, giữ trọn hương thơm và vị nguyên bản trong từng tách.",
       image: IMAGES.experience.image2,
       position: 2,
     },
     {
       key: "exp-3",
-      title: "Trọn vẹn cảm xúc",
-      content: "Khép lại hành trình, gói kèm hơi ấm và nụ cười hiếu khách",
+      title: "Thưởng thức & lưu giữ",
+      content: "Thưởng thức một ly cà phê mang dấu ấn từ năm 1986, nơi mỗi cuộc trò chuyện đều trở nên gần gũi và đáng nhớ.",
       image: IMAGES.experience.image3,
       position: 3,
     },

@@ -5,12 +5,12 @@ export const featuredDishMockData: SettingSection = {
   _id: "mock-featured-dish-001",
   key: "home_featured_dish",
   rootPage: "home-landing-page",
-  title: "Cao Lầu - Trọn vẹn hồn phố cổ",
-  subtitle: "Món ăn đặc sản",
+  title: "Cà phê phin A Hiền - Since 1986",
+  subtitle: "Hương vị đặc trưng",
   description:
-    "Sợi mì vàng óng quyện cùng nước dùng xíu đậm đà, thịt xá xíu mềm thơm và tóp mỡ giòn rụm. Thưởng thức một bát Cao Lầu tại Bếp Nhà Thu là chạm vào một câu chuyện thấm đượm tình đất, tình người và tinh hoa văn hóa truyền đời của phố cổ Hội An.",
+    "Được phối trộn từ nhiều loại hạt cà phê theo công thức riêng từ năm 1986, mỗi ly cà phê phin A Hiền mang hương thơm đậm đà, vị cân bằng và hậu ngọt nhẹ. Từng giọt cà phê nhỏ chậm qua phin, giữ trọn tinh túy của hạt rang, tạo nên một trải nghiệm mộc mạc nhưng khó quên.",
   content:
-    "Sợi mì vàng óng quyện cùng nước dùng xíu đậm đà, thịt xá xíu mềm thơm và tóp mỡ giòn rụm. Thưởng thức một bát Cao Lầu tại Bếp Nhà Thu là chạm vào một câu chuyện thấm đượm tình đất, tình người và tinh hoa văn hóa truyền đời của phố cổ Hội An.",
+    "Không chạy theo xu hướng, A Hiền Coffee vẫn giữ cách pha phin truyền thống suốt nhiều thập kỷ. Mỗi ly cà phê là sự kết hợp giữa chất lượng hạt, kỹ thuật rang xay và thời gian chiết xuất vừa đủ, để khi thưởng thức, bạn cảm nhận được hương thơm lan tỏa, vị đậm vừa phải và dư vị kéo dài sau từng ngụm.",
   image: IMAGES.featuredDish,
   url: "#lien-he",
   config: {

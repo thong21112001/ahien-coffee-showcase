@@ -5,10 +5,10 @@ export const storyMockData: SettingSection = {
   _id: "mock-story-001",
   key: "home_story",
   rootPage: "home-landing-page",
-  title: "Câu chuyện Bếp nhà Thu",
+  title: "Câu chuyện A Hiền Coffee",
   subtitle:
-    "Không chỉ là một căn bếp, Bếp Nhà Thu là nơi lưu giữ những ký ức Hội An xưa – nơi mỗi món ăn được nấu bằng sự chân thành, kể lại câu chuyện về con người, văn hoá và những điều giản dị nhưng đầy sâu sắc.",
-  content: `Ý nghĩa Bếp Nhà Thu\n\nBếp Nhà Thu không chỉ là tên của một quán ăn, mà còn là lời hứa giữ gìn và phát huy những giá trị văn hóa ẩm thực đặc sắc của vùng đất Quảng Nam - Đà Nẵng. Chúng tôi mong muốn mang đến một không gian ấm cúng, gợi nhớ lại những kỷ niệm gia đình đầm ấm xung quanh bếp lửa quê.\n\nGiữa nhịp sống vội vã của hiện đại, Bếp Nhà Thu như một khoảng lặng bình yên, nơi thực khách có thể cảm nhận rõ nét từng nguyên liệu tươi ngon được chế biến theo công thức cổ truyền tỉ mỉ. Không chỉ đơn thuần là việc phục vụ bữa ăn, Bếp Nhà Thu còn truyền tải sự hiếu khách, chân chất của con người miền Trung đến từng thực khách ghé chân.\n\nTừ đĩa cơm gà thơm dẻo, sợi mì Cao Lầu vàng óng dai mềm cho đến những chiếc bánh lọc, nem lụi nướng thơm nức mũi, tất cả đều được chế biến bằng cả tấm lòng của đội ngũ đầu bếp giàu tâm huyết tại Bếp Nhà Thu.`,
+    "Từ năm 1986, A Hiền Coffee đã âm thầm hiện diện trong một con hẻm nhỏ giữa lòng Đà Nẵng. Chúng tôi tin rằng một ly cà phê ngon không chỉ đến từ hạt cà phê chất lượng, mà còn từ sự chân thành, sự tỉ mỉ và những khoảnh khắc bình yên được sẻ chia.",
+  content: `Ý nghĩa A Hiền Coffee \n\n A Hiền Coffee không đơn thuần là một quán cà phê, mà là một góc nhỏ để những người yêu sự bình yên tìm về giữa nhịp sống hối hả. Nép mình trong con hẻm nhỏ của thành phố Đà Nẵng, quán gìn giữ nét mộc mạc của những quán cà phê xưa, nơi hương cà phê phin lan tỏa chậm rãi và mỗi vị khách đều được chào đón bằng sự chân thành. \n\n Từ năm 1986, chúng tôi luôn trân trọng những giá trị truyền thống của cà phê Việt. Mỗi ly cà phê được pha bằng phin theo cách quen thuộc, để từng giọt cà phê nhỏ xuống mang theo hương thơm đậm đà và sự kiên nhẫn – như chính tinh thần mà A Hiền Coffee muốn gửi gắm đến mọi người. Không gian của quán được tạo nên từ cây xanh và những góc nhỏ bình yên. \n\n Dù bạn ghé quán để bắt đầu một ngày mới, gặp gỡ bạn bè, làm việc hay đơn giản chỉ muốn tìm một khoảng lặng cho riêng mình, A Hiền Coffee luôn mong rằng nơi đây sẽ mang đến cảm giác gần gũi như trở về một góc quen thuộc. Với chúng tôi, mỗi ly cà phê không chỉ là một thức uống, mà còn là lời mời bạn sống chậm lại, tận hưởng hiện tại và lưu giữ những khoảnh khắc giản dị nhưng đáng nhớ.`,
   config: {
     hasTitle: true,
     hasSubtitle: true,
@@ -49,7 +49,7 @@ export const valuesMockData: SettingSection = {
   key: "home_values",
   rootPage: "home-landing-page",
   title: "Giá trị cốt lõi",
-  subtitle: "Những nguyên tắc tạo nên nét đặc trưng của Bếp Nhà Thu",
+  subtitle: "Những nguyên tắc tạo nên nét đặc trưng của A Hiền Coffee",
   config: {
     hasTitle: true,
     hasSubtitle: true,
@@ -66,33 +66,33 @@ export const valuesMockData: SettingSection = {
     {
       key: "value-1",
       icon: "book",
-      title: "Ẩm thực là câu chuyện",
+      title: "Cà phê là một hành trình",
       content:
-        "Mỗi món ăn đều mang trong mình một câu chuyện về con người, về đất đai và niềm vui sum vầy.",
+        "Mỗi ly cà phê là sự hòa quyện giữa nhiều loại hạt được tuyển chọn kỹ lưỡng, tạo nên hương vị cân bằng, đậm đà và mang dấu ấn riêng của A Hiền Coffee.",
       position: 1,
     },
     {
       key: "value-2",
       icon: "clock",
-      title: "Giữ trọn hương vị xưa",
+      title: "Giữ trọn vị cà phê phin",
       content:
-        "Chúng tôi tôn trọng và truyền tải hương vị truyền thống Hội An một cách trọn vẹn và tỉ mỉ nhất.",
+        "Chúng tôi vẫn gìn giữ phương pháp pha phin truyền thống, để từng giọt cà phê nhỏ xuống chậm rãi, lưu giữ trọn vẹn hương thơm và vị nguyên bản.",
       position: 2,
     },
     {
       key: "value-3",
       icon: "hand-point-up",
-      title: "Trải nghiệm chạm cảm xúc",
+      title: "Pha bằng sự chân thành",
       content:
-        "Không chỉ mang lại món ăn ngon, chúng tôi hướng tới sự chân thành và hiếu khách chạm đến trái tim.",
+        "Không chỉ phục vụ một ly cà phê ngon, chúng tôi mong mang đến cảm giác gần gũi, bình yên và những khoảnh khắc đáng nhớ trong từng lần ghé quán.",
       position: 3,
     },
     {
       key: "value-4",
       icon: "leaf",
-      title: "Khởi nguồn tươi nguyên",
+      title: "Blend tạo nên khác biệt",
       content:
-        "Toàn bộ nguyên liệu đều được tuyển chọn kỹ lưỡng, đảm bảo độ tươi ngon, sạch sẽ và an toàn mỗi ngày.",
+        "Mỗi mẻ cà phê là sự phối trộn hài hòa giữa nhiều loại hạt với tỷ lệ riêng, tạo nên hương thơm đặc trưng, hậu vị êm và dấu ấn chỉ có tại A Hiền Coffee.",
       position: 4,
     },
   ],
