@@ -8,5 +8,5 @@ export {
   menuSectionMockData,
   categoriesMockData,
   productsMockData,
-  combosMockData,
+  // combosMockData,
 } from "./menu.data";

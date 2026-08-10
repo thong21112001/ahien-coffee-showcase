@@ -73,8 +73,8 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
   };
 
   const displayTabs = [
-    { id: "set-menu", label: "Set Menu", icon: "🍱" },
-    { id: "combo", label: "Combo đặc sản", icon: "🍾" },
+    // { id: "set-menu", label: "Set Menu", icon: "🍱" },
+    // { id: "combo", label: "Combo đặc sản", icon: "🍾" },
     ...categoriesList.map((cat: any) => ({
       id: cat._id || cat.id,
       label: cat.name,
@@ -87,7 +87,7 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
               ? "🍜"
               : cat.slug === "khai-vi-salad"
                 ? "🥗"
-                : "🍽️",
+                : "☕",
     })),
   ];
 
@@ -272,10 +272,10 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
               ) : (
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-12 text-center border border-white/20 shadow-xs">
                   <h4 className="text-lg font-bold text-white mb-2">
-                    Món ăn đang được cập nhật
+                    Đang được cập nhật mỗi ngày
                   </h4>
                   <p className="text-sm text-stone-300">
-                    Thực đơn cho danh mục này sẽ sớm được bổ sung.
+                    Sẽ được bổ sung nhanh thôi nhé.
                   </p>
                 </div>
               )}
@@ -289,7 +289,7 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
             href="#lien-he"
             className="rounded-xl bg-[#9A5C32] hover:bg-[#804a27] text-white px-10 py-3.5 shadow-md hover:shadow-lg transition-all text-center font-bold border border-[#d4a373]/30 uppercase tracking-wide text-sm"
           >
-            Đặt món ngay!
+            Liên hệ ngay!
           </a>
         </div>
       </div>

@@ -48,7 +48,7 @@ export function FeaturedDish({ data }: FeaturedDishProps) {
                   href={url}
                   className="w-full sm:w-auto rounded-full bg-brand-brown hover:bg-brand-brown-dark text-white px-8 py-3.5 shadow-md hover:shadow-lg transition-all duration-200 text-center hover:scale-[1.02] active:scale-98 cursor-pointer"
                 >
-                  Đặt bàn ngay!
+                  Liên hệ ngay!
                 </Link>
               </div>
             </div>
