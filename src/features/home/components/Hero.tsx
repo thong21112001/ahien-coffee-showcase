@@ -16,11 +16,11 @@ export function Hero({ data }: HeroProps) {
 
   const title = data.title || "";
   const subtitle = data.subtitle || "";
-  const avatarImage = IMAGES.hero.avatar;
+  // const avatarImage = IMAGES.hero.avatar;
   const backgroundImage = getImageUrl(data.image) || IMAGES.hero.background;
   const menuUrl = data.url || "#thuc-don";
 
-  const showAvatar = true;
+  // const showAvatar = true;
 
   return (
     <section
@@ -60,7 +60,7 @@ export function Hero({ data }: HeroProps) {
       </div>
 
       {/* Right Image Container - Absolute positioned */}
-      {showAvatar && (
+      {/* {showAvatar && (
         <div className="hidden xl:block absolute bottom-40 xl:bottom-90 -right-10 xl:-right-25 w-[55%] h-full z-10 pointer-events-none">
           <Image
             src={avatarImage}
@@ -71,7 +71,7 @@ export function Hero({ data }: HeroProps) {
             priority
           />
         </div>
-      )}
+      )} */}
     </section>
   );
 }
