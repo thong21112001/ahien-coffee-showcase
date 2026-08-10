@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { SettingSection } from "../types/home.types";
 import { getImageUrl } from "@/shared/utils/image";
@@ -21,8 +21,30 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
     "Nơi hương cà phê phin lan tỏa trong ánh nắng dịu và những câu chuyện đời thường. Chỉ cần bước vào, bạn sẽ cảm nhận được sự bình yên rất riêng giữa nhịp sống thành phố.";
 
   const { data: categoriesList = [] } = useMenuCategories();
-  const [activeCategory, setActiveCategory] = useState("set-menu");
+  const [activeCategory, setActiveCategory] = useState<string>("");
   const [activeSetMenu, setActiveSetMenu] = useState("set-1");
+
+  useEffect(() => {
+    if (categoriesList.length > 0) {
+      const coffeeCat = categoriesList.find(
+        (c: any) =>
+          c.slug?.toLowerCase().includes("ca-phe") ||
+          c.slug?.toLowerCase().includes("coffee") ||
+          c.name?.toLowerCase().includes("cà phê") ||
+          c.name?.toLowerCase().includes("coffee")
+      );
+      const defaultId: string = coffeeCat
+        ? coffeeCat._id || coffeeCat.id || ""
+        : categoriesList[0]?._id || categoriesList[0]?.id || "";
+
+      setActiveCategory((prev) => {
+        if (!prev || prev === "set-menu" || !categoriesList.some((c: any) => (c._id || c.id) === prev)) {
+          return defaultId;
+        }
+        return prev;
+      });
+    }
+  }, [categoriesList]);
 
   const isComboOrSetMenu =
     activeCategory === "set-menu" || activeCategory === "combo";

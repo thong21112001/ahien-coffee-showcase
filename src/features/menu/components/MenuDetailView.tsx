@@ -60,7 +60,7 @@ export function MenuDetailView({
           <div className="absolute left-1/2 -translate-x-1/2">
             <Image
               src="/logo.png"
-              alt="Thu Kitchen"
+              alt="A Hiền Coffee"
               width={140}
               height={90}
               className="object-contain"

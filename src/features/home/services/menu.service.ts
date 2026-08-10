@@ -35,17 +35,13 @@ export const menuService = {
     return menuApi.getProducts(categoryId, limit);
   },
 
-  // getFeaturedCombos: async (
-  //   type?: "combo" | "set-menu"
-  // ): Promise<FeaturedCombo[]> => {
-  //   if (USE_MOCK) {
-  //     await new Promise((resolve) => setTimeout(resolve, 150));
-  //     let items = [...combosMockData];
-  //     if (type) {
-  //       items = items.filter((c) => c.type === type);
-  //     }
-  //     return items;
-  //   }
-  //   return menuApi.getFeaturedCombos(type);
-  // },
+  getFeaturedCombos: async (
+    type?: "combo" | "set-menu"
+  ): Promise<FeaturedCombo[]> => {
+    if (USE_MOCK) {
+      await new Promise((resolve) => setTimeout(resolve, 150));
+      return [];
+    }
+    return menuApi.getFeaturedCombos(type);
+  },
 };

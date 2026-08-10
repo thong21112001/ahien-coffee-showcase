@@ -38,8 +38,17 @@ function MenuPageContent() {
       if (targetCategory && categoriesList.some((c) => (c._id || c.id) === targetCategory)) {
         setActiveCategory(targetCategory);
       } else {
-        const firstCatId = categoriesList[0]?._id || categoriesList[0]?.id || null;
-        setActiveCategory(firstCatId);
+        const coffeeCategory = categoriesList.find(
+          (c) =>
+            c.slug?.toLowerCase().includes("ca-phe") ||
+            c.slug?.toLowerCase().includes("coffee") ||
+            c.name?.toLowerCase().includes("cà phê") ||
+            c.name?.toLowerCase().includes("coffee")
+        );
+        const defaultCatId: string | null = coffeeCategory
+          ? coffeeCategory._id || coffeeCategory.id || null
+          : categoriesList[0]?._id || categoriesList[0]?.id || null;
+        setActiveCategory(defaultCatId);
       }
     }
   }, [categoriesList, targetCategory, activeCategory]);
@@ -67,7 +76,7 @@ function MenuPageContent() {
         <div className="mb-8 hidden lg:block">
           <Image
             src="/logo.png"
-            alt="Thu Kitchen"
+            alt="A Hiền Coffee"
             width={120}
             height={80}
             className="object-contain"

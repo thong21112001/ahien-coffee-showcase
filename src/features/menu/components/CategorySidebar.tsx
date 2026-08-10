@@ -20,18 +20,17 @@ export function CategorySidebar({
   isDetailMode = false,
 }: CategorySidebarProps) {
   const getCategoryIcon = (slug?: string) => {
-    switch (slug) {
-      case "trang-mieng":
-        return "🍰";
-      case "mon-chinh":
-        return "🍛";
-      case "khai-vi-salad":
-        return "🥗";
-      case "do-uong":
-        return "🍹";
-      default:
-        return "🍽️";
-    }
+    if (!slug) return "☕";
+    const s = slug.toLowerCase();
+    if (s.includes("ca-phe") || s.includes("coffee")) return "☕";
+    if (s.includes("tra") || s.includes("tea")) return "🍵";
+    if (s.includes("siro") || s.includes("syrup")) return "🧃";
+    if (s.includes("nuoc-giai-khat") || s.includes("drink")) return "🥤";
+    if (s.includes("sinh-to") || s.includes("smoothie")) return "🍹";
+    if (s.includes("trang-mieng") || s.includes("cake") || s.includes("dessert")) return "🍰";
+    if (s.includes("mon-chinh") || s.includes("food")) return "🍛";
+    if (s.includes("khai-vi") || s.includes("salad")) return "🥗";
+    return "☕";
   };
 
   return (
