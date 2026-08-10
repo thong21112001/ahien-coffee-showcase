@@ -110,9 +110,9 @@ export function Footer() {
               <Image
                 src="/logo.png"
                 alt="A Hiền Coffee Logo"
-                width={100}
+                width={60}
                 height={100}
-                className="object-cover"
+                className="h-16 w-auto object-contain"
               />
             </div>
 

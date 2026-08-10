@@ -23,8 +23,10 @@ export function Header() {
             <Image
               src="/logo.png"
               alt="A Hiền Coffee Logo"
-              width={80}
-              height={50}
+              width={50}
+              height={85}
+              className="h-12 w-auto object-contain"
+              priority
             />
           </Link>
 

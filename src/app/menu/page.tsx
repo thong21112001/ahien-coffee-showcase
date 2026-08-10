@@ -77,9 +77,9 @@ function MenuPageContent() {
           <Image
             src="/logo.png"
             alt="A Hiền Coffee"
-            width={120}
-            height={80}
-            className="object-contain"
+            width={60}
+            height={100}
+            className="h-16 w-auto object-contain"
             priority
           />
         </div>

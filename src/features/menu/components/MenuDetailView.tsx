@@ -61,9 +61,9 @@ export function MenuDetailView({
             <Image
               src="/logo.png"
               alt="A Hiền Coffee"
-              width={140}
-              height={90}
-              className="object-contain"
+              width={60}
+              height={100}
+              className="h-16 w-auto object-contain"
               priority
             />
           </div>
