@@ -24,7 +24,7 @@ export function Footer() {
           />
         </svg>
       ),
-      href: "https://facebook.com",
+      href: "https://www.facebook.com/quangthong211101",
     },
     {
       name: "Instagram",
@@ -62,24 +62,24 @@ export function Footer() {
       ),
       href: "https://google.com",
     },
-    {
-      name: "Yelp",
-      icon: (
-        <svg
-          width="27"
-          height="27"
-          viewBox="0 0 27 27"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M4.37333 0C1.958 0 0 1.958 0 4.37333V21.8667C0 24.282 1.958 26.24 4.37333 26.24H21.8667C24.282 26.24 26.24 24.282 26.24 21.8667V4.37333C26.24 1.958 24.282 0 21.8667 0H4.37333ZM5.67655 5.62286H10.6356L14.1572 10.6271L18.4305 5.62286H19.9924L14.8625 11.6289L21.1882 20.6171H16.2304L12.1438 14.8112L7.18476 20.6171H5.62286L11.4385 13.8094L5.67655 5.62286ZM8.06821 6.87238L16.882 19.3676H18.7965L9.98277 6.87238H8.06821Z"
-            fill="#955127"
-          />
-        </svg>
-      ),
-      href: "https://yelp.com",
-    },
+    // {
+    //   name: "Yelp",
+    //   icon: (
+    //     <svg
+    //       width="27"
+    //       height="27"
+    //       viewBox="0 0 27 27"
+    //       fill="none"
+    //       xmlns="http://www.w3.org/2000/svg"
+    //     >
+    //       <path
+    //         d="M4.37333 0C1.958 0 0 1.958 0 4.37333V21.8667C0 24.282 1.958 26.24 4.37333 26.24H21.8667C24.282 26.24 26.24 24.282 26.24 21.8667V4.37333C26.24 1.958 24.282 0 21.8667 0H4.37333ZM5.67655 5.62286H10.6356L14.1572 10.6271L18.4305 5.62286H19.9924L14.8625 11.6289L21.1882 20.6171H16.2304L12.1438 14.8112L7.18476 20.6171H5.62286L11.4385 13.8094L5.67655 5.62286ZM8.06821 6.87238L16.882 19.3676H18.7965L9.98277 6.87238H8.06821Z"
+    //         fill="#955127"
+    //       />
+    //     </svg>
+    //   ),
+    //   href: "https://yelp.com",
+    // },
     {
       name: "LinkedIn",
       icon: (
@@ -96,7 +96,7 @@ export function Footer() {
           />
         </svg>
       ),
-      href: "https://www.linkedin.com/in/nhat-cuong-truong-a0336b37a/",
+      href: "https://www.linkedin.com/in/quang-thong-tran-4885b3238/",
     },
   ];
 
@@ -109,7 +109,7 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <Image
                 src="/logo.png"
-                alt="Bếp Nhà Thu Logo"
+                alt="A Hiền Coffee Logo"
                 width={100}
                 height={100}
                 className="object-cover"
@@ -117,10 +117,7 @@ export function Footer() {
             </div>
 
             <p className="text-sm text-[#71717A] leading-relaxed max-w-md">
-              <strong className="text-brand-brown">BẾP NHÀ THU</strong> là nơi
-              gửi gắm tâm tình để bạn có thể tìm lại được hương vị mộc mạc và
-              thương nhớ nhất của ẩm thực miền Trung. Mỗi món ăn là một câu
-              chuyện chân thực về lòng hiếu khách và nét văn hoá đặc trưng.
+              <strong className="text-brand-brown">A Hiền Coffee</strong> là nơi hương cà phê phin lan tỏa trong ánh nắng dịu và những câu chuyện đời thường. Chỉ cần bước vào, bạn sẽ cảm nhận được sự bình yên rất riêng giữa nhịp sống thành phố.
             </p>
 
             {/* Social Icons */}
@@ -151,7 +148,7 @@ export function Footer() {
                   href="#thuc-don"
                   className="text-[#71717A] transition-colors"
                 >
-                  Combos mời bạn
+                  Cà phê
                 </Link>
               </li>
               <li>
@@ -159,7 +156,7 @@ export function Footer() {
                   href="#thuc-don"
                   className="text-[#71717A] transition-colors"
                 >
-                  Starters & Salad
+                  Nước giải khát
                 </Link>
               </li>
               <li>
@@ -167,7 +164,7 @@ export function Footer() {
                   href="#thuc-don"
                   className="text-[#71717A] transition-colors"
                 >
-                  Hội An Specialties
+                  Siro
                 </Link>
               </li>
               <li>
@@ -175,7 +172,7 @@ export function Footer() {
                   href="#thuc-don"
                   className="text-[#71717A] transition-colors"
                 >
-                  Món chính - Main course
+                  Trà
                 </Link>
               </li>
               <li>
@@ -183,7 +180,7 @@ export function Footer() {
                   href="#thuc-don"
                   className="text-[#71717A] transition-colors"
                 >
-                  Tráng miệng - Dessert
+                  Sinh tố
                 </Link>
               </li>
             </ul>
@@ -197,25 +194,25 @@ export function Footer() {
             <ul className="space-y-4 text-sm">
               <li className="flex gap-2">
                 <span className="text-[#71717A]">Hotline/Zalo:</span>
-                <span className="text-[#71717A]">0915003833</span>
+                <span className="text-[#71717A]">0367262415</span>
               </li>
               <li className="flex gap-2">
                 <span className="text-[#71717A]">Email:</span>
                 <Link
-                  href="mailto:nguyenhithuongthu012@gmail.com"
+                  href="mailto:quangthong211101@gmail.com"
                   className="text-[#71717A] transition-colors break-all"
                 >
-                  nguyenhithuongthu012@gmail.com
+                  quangthong211101@gmail.com
                 </Link>
               </li>
               <li className="flex gap-2">
                 <span className="text-[#71717A]">Facebook:</span>
-                <span className="text-[#71717A]">Bếp Nhà Thu</span>
+                <span className="text-[#71717A]">Trần Quang Thông</span>
               </li>
               <li className="flex gap-2 items-start">
                 <span className="text-[#71717A] shrink-0">Địa chỉ:</span>
                 <span className="text-[#71717A]">
-                  06 Đào Duy Từ, Phường Hội An, Thành phố Đà Nẵng
+                  K514/5 Hoàng Diệu, Hòa Cường, TP Đà Nẵng
                 </span>
               </li>
             </ul>
@@ -224,7 +221,7 @@ export function Footer() {
 
         {/* Copyright info */}
         <div className="flex flex-col md:flex-row items-center justify-between pt-5 text-xs text-stone-400 gap-4">
-          <p>© {currentYear} Bếp Nhà Thu. Tất cả các quyền được bảo lưu.</p>
+          <p>© {currentYear} A Hiền Coffee. Tất cả các quyền được bảo lưu.</p>
           <div className="flex gap-6">
             <span className="hover:text-brand-brown transition-colors cursor-pointer">
               Chính sách bảo mật

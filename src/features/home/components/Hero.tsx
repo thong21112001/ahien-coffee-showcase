@@ -46,13 +46,13 @@ export function Hero({ data }: HeroProps) {
                 href="#lien-he"
                 className="rounded-full bg-brand-brown hover:bg-brand-brown-dark text-white px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-200 text-center hover:scale-[1.02] active:scale-98 cursor-pointer text-sm"
               >
-                Đặt món ngay!
+                Liên hệ ngay!
               </Link>
               <Link
                 href={menuUrl}
                 className="rounded-full bg-white hover:bg-stone-100 text-brand-brown px-8 py-4 shadow-md hover:shadow-lg transition-all duration-200 text-center hover:scale-[1.02] active:scale-98 cursor-pointer text-sm"
               >
-                Xem thực đơn
+                Xem menu
               </Link>
             </div>
           </div>

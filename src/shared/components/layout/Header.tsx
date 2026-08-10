@@ -22,7 +22,7 @@ export function Header() {
           <Link href="/" className="flex items-center gap-2 group">
             <Image
               src="/logo.png"
-              alt="Bếp Nhà Thu Logo"
+              alt="A Hiền Coffee Logo"
               width={80}
               height={50}
             />
@@ -59,7 +59,7 @@ export function Header() {
               href="#lien-he"
               className="rounded-full bg-brand-brown hover:bg-brand-brown-dark text-white px-5 py-2.5 text-sm shadow-md transition-all hover:scale-[1.02] active:scale-95"
             >
-              Đặt món ngay!
+              Liên hệ ngay!
             </Link>
           </div>
 
@@ -126,7 +126,7 @@ export function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="rounded-full bg-brand-brown hover:bg-brand-brown-dark text-white px-5 py-2.5 text-sm shadow-md inline-block"
               >
-                Đặt món ngay!
+                Liên hệ ngay!
               </Link>
             </div>
           </div>

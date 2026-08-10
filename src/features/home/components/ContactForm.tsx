@@ -35,7 +35,7 @@ export function ContactForm({ data }: ContactFormProps) {
     // Simulate booking API call
     setTimeout(() => {
       toast.success(
-        "Đặt bàn thành công! Chúng tôi sẽ liên hệ xác nhận sớm nhất."
+        "Liên hệ thành công! Chúng tôi sẽ phản hồi sớm nhất."
       );
       setName("");
       setPhone("");
@@ -76,7 +76,7 @@ export function ContactForm({ data }: ContactFormProps) {
             <div className="bg-white rounded-3xl p-8 border border-stone-200/60 shadow-lg flex flex-col justify-between">
               <div>
                 <h3 className="text-center text-xl font-serif font-bold text-stone-900 mb-2">
-                  Bạn cần đặt bàn?
+                  Bạn cần hỗ trợ?
                 </h3>
                 <p className="text-center text-sm text-stone-500 mb-6">
                   Vui lòng điền đầy đủ thông tin, chúng tôi sẽ liên hệ xác nhận
@@ -143,7 +143,7 @@ export function ContactForm({ data }: ContactFormProps) {
                     disabled={isSubmitting}
                     className="w-full mt-2 rounded-xl bg-brand-brown hover:bg-brand-brown-dark disabled:bg-stone-400 text-white py-3.5 text-sm shadow-md hover:shadow-lg transition-all duration-250 hover:scale-[1.01] active:scale-99 cursor-pointer text-center font-bold"
                   >
-                    {isSubmitting ? "Đang gửi..." : "Đặt bàn ngay!"}
+                    {isSubmitting ? "Đang gửi..." : "Liên hệ ngay!"}
                   </button>
                 </form>
               </div>
@@ -153,7 +153,7 @@ export function ContactForm({ data }: ContactFormProps) {
             <div className="relative min-h-[350px] w-full rounded-3xl overflow-hidden shadow-xl border border-stone-200/50 hover:scale-[1.005] transition-transform duration-300">
               <Image
                 src={imageUrl}
-                alt="Đội ngũ Bếp Nhà Thu storefront"
+                alt="A Hiền Coffee"
                 fill
                 className="object-cover"
               />

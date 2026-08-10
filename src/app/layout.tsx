@@ -11,9 +11,9 @@ const beVietnam = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "Bếp Nhà Thu - Ẩm thực Hội An",
+  title: "A Hiền Coffee - Since 1986",
   description:
-    "Thưởng thức hương vị truyền thống Hội An trong không gian ấm cúng, cổ kính.",
+    "Thưởng thức hương vị cà phê phin truyền thống.",
 };
 
 export default function RootLayout({

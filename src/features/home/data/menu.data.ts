@@ -6,9 +6,9 @@ export const menuSectionMockData: SettingSection = {
   _id: "mock-menu-section-001",
   key: "menu_food",
   rootPage: "home-landing-page",
-  title: "Tinh hoa ẩm thực Bếp Nhà Thu",
+  title: "Cà phê phin tại A Hiền Coffee",
   subtitle:
-    "Mỗi món ăn tại Bếp Nhà Thu là sự kết tinh của hương vị truyền thống Hội An, được chế biến tỉ mỉ để giữ trọn bản sắc và mang đến trải nghiệm ẩm thực đậm đà, khó quên.",
+    "Nơi hương cà phê phin lan tỏa trong ánh nắng dịu và những câu chuyện đời thường. Chỉ cần bước vào, bạn sẽ cảm nhận được sự bình yên rất riêng giữa nhịp sống thành phố.",
   config: {
     hasTitle: true,
     hasSubtitle: true,

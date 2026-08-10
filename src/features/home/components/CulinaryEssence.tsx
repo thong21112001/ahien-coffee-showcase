@@ -15,10 +15,10 @@ interface CulinaryEssenceProps {
 }
 
 export function CulinaryEssence({ data }: CulinaryEssenceProps) {
-  const title = data?.title || "Tinh hoa ẩm thực Bếp Nhà Thu";
+  const title = data?.title || "Cà phê phin tại A Hiền Coffee";
   const subtitle =
     data?.subtitle ||
-    "Mỗi món ăn tại Bếp Nhà Thu là sự kết tinh của hương vị truyền thống Hội An, được chế biến tỉ mỉ để giữ trọn bản sắc và mang đến trải nghiệm ẩm thực đậm đà, khó quên.";
+    "Nơi hương cà phê phin lan tỏa trong ánh nắng dịu và những câu chuyện đời thường. Chỉ cần bước vào, bạn sẽ cảm nhận được sự bình yên rất riêng giữa nhịp sống thành phố.";
 
   const { data: categoriesList = [] } = useMenuCategories();
   const [activeCategory, setActiveCategory] = useState("set-menu");
@@ -82,12 +82,12 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
         cat.slug === "trang-mieng"
           ? "🍰"
           : cat.slug === "mon-chinh"
-          ? "🍛"
-          : cat.slug === "dac-san-hoi-an"
-          ? "🍜"
-          : cat.slug === "khai-vi-salad"
-          ? "🥗"
-          : "🍽️",
+            ? "🍛"
+            : cat.slug === "dac-san-hoi-an"
+              ? "🍜"
+              : cat.slug === "khai-vi-salad"
+                ? "🥗"
+                : "🍽️",
     })),
   ];
 
@@ -102,15 +102,15 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
 
   const activeSetItems = Array.isArray(activeSet.products)
     ? activeSet.products.map((p: any) => {
-        const prod = p.product || p;
-        return {
-          id: prod._id || prod.id,
-          name: prod.name,
-          englishName: getEnglishName(prod.nameLocalized, ""),
-          image: getDisplayImage(prod),
-          quantity: p.quantity,
-        };
-      })
+      const prod = p.product || p;
+      return {
+        id: prod._id || prod.id,
+        name: prod.name,
+        englishName: getEnglishName(prod.nameLocalized, ""),
+        image: getDisplayImage(prod),
+        quantity: p.quantity,
+      };
+    })
     : [];
 
   const priceText = activeSet.price
@@ -144,11 +144,10 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`flex flex-col items-center justify-center py-3 px-4 rounded-xl min-w-[120px] lg:min-w-[160px] transition-all border border-stone-200 shrink-0 cursor-pointer ${
-                activeCategory === cat.id
-                  ? "bg-[#9A5C32] text-white shadow-md border-[#9A5C32]"
-                  : "bg-white text-stone-600 hover:bg-stone-50"
-              }`}
+              className={`flex flex-col items-center justify-center py-3 px-4 rounded-xl min-w-[120px] lg:min-w-[160px] transition-all border border-stone-200 shrink-0 cursor-pointer ${activeCategory === cat.id
+                ? "bg-[#9A5C32] text-white shadow-md border-[#9A5C32]"
+                : "bg-white text-stone-600 hover:bg-stone-50"
+                }`}
             >
               <span className="text-2xl mb-2">{cat.icon}</span>
               <span className="text-sm font-semibold">{cat.label}</span>
@@ -173,11 +172,10 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
                   <button
                     key={set._id || set.id}
                     onClick={() => setActiveSetMenu(set._id || set.id)}
-                    className={`py-3.5 px-4 text-center rounded-xl font-bold transition-all shrink-0 lg:shrink whitespace-nowrap lg:whitespace-normal cursor-pointer ${
-                      (activeSet._id || activeSet.id) === (set._id || set.id)
-                        ? "bg-[#9A5C32] text-white border border-[#d4a373] shadow-lg scale-[1.02]"
-                        : "bg-[#e8e8e8] text-stone-700 hover:bg-stone-300 border border-transparent"
-                    }`}
+                    className={`py-3.5 px-4 text-center rounded-xl font-bold transition-all shrink-0 lg:shrink whitespace-nowrap lg:whitespace-normal cursor-pointer ${(activeSet._id || activeSet.id) === (set._id || set.id)
+                      ? "bg-[#9A5C32] text-white border border-[#d4a373] shadow-lg scale-[1.02]"
+                      : "bg-[#e8e8e8] text-stone-700 hover:bg-stone-300 border border-transparent"
+                      }`}
                   >
                     {set.name}
                   </button>

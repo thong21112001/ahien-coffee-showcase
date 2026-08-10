@@ -23,11 +23,11 @@ export function WebLayout({ children }: WebLayoutProps) {
 
       {/* Zalo Floating Shortcut Widget */}
       <a
-        href="https://zalo.me/0915003833"
+        href="https://zalo.me/0367262415"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-lg hover:shadow-xl hover:scale-110 active:scale-95 transition-all duration-300 group cursor-pointer border border-stone-200"
-        title="Chat với chúng tôi qua Zalo"
+        title="Chat liên hệ qua Zalo"
       >
         <span className="absolute inset-0 rounded-full bg-white opacity-90"></span>
         <Image
