@@ -32,6 +32,12 @@ export function Hero({ data }: HeroProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
           {/* Left Column: Typography & CTAs (60% width on large screens) */}
           <div className="lg:col-span-12 xl:col-span-7 max-w-4xl text-left space-y-6 sm:space-y-8 z-20">
+            {/* Artistic Concept Tag */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-brand-gold/30 text-brand-gold text-xs font-medium w-fit shadow-md">
+              <span className="w-2 h-2 rounded-full bg-brand-gold animate-pulse"></span>
+              <span>Visual Concept Art by Ahien AI</span>
+            </div>
+
             <h1 className="text-2xl md:text-3xl lg:text-[48px] font-bold font-sans text-white tracking-tight leading-normal max-w-4xl">
               {title}
             </h1>
