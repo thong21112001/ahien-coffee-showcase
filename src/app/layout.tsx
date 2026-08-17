@@ -14,6 +14,14 @@ export const metadata: Metadata = {
   title: "A Hiền Coffee - Since 1986",
   description:
     "Thưởng thức hương vị cà phê phin truyền thống.",
+  icons: {
+    icon: [
+      { url: "/logo.png" },
+      { url: "/logo.png", sizes: "32x32", type: "image/png" },
+    ],
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({
