@@ -1,0 +1,30 @@
+{
+    "app": {
+        "name": "Ứng dụng của tôi",
+        "description": "Ứng dụng Next.js"
+    },
+    "buttons": {
+        "save": "Lưu",
+        "cancel": "Hủy",
+        "delete": "Xóa",
+        "edit": "Sửa",
+        "add": "Thêm",
+        "close": "Đóng"
+    },
+    "messages": {
+        "success": "Thao tác thành công",
+        "error": "Đã xảy ra lỗi",
+        "loading": "Đang tải...",
+        "noData": "Không có dữ liệu"
+    },
+    "theme": {
+        "light": "Sáng",
+        "dark": "Tối",
+        "toggle": "Chuyển đổi theme"
+    },
+    "language": {
+        "en": "English",
+        "vi": "Tiếng Việt",
+        "switch": "Chuyển đổi ngôn ngữ"
+    }
+}

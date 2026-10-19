@@ -1,0 +1,16 @@
+{
+  "title": "Discover Your Signature Coffee",
+  "subtitle": "Answer 3 sensory questions to uncover the perfect cup tailored to your palate at A Hiền Coffee.",
+  "startBtn": "Start Flavor Quiz",
+  "nextBtn": "Next",
+  "prevBtn": "Back",
+  "finishBtn": "Reveal My Signature Cup",
+  "step": "Step",
+  "of": "of",
+  "resultTitle": "Your Tailored Signature Cup",
+  "originLabel": "Bean Origin:",
+  "roastLabel": "Roast Profile:",
+  "sensoryChartTitle": "Sensory Flavor Radar Chart",
+  "retakeBtn": "Retake Quiz",
+  "orderBtn": "Reserve Tasting Table"
+}

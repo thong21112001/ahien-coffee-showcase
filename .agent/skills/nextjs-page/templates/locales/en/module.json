@@ -1,0 +1,11 @@
+{
+    "title": "{Module}",
+    "welcome": "Welcome to {Module} Page",
+    "description": "Browse and manage all {module}",
+    "add": "Add {Module}",
+    "edit": "Edit {Module}",
+    "delete": "Delete {Module}",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "noItems": "No {module} available"
+}

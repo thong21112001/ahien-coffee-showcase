@@ -1,0 +1,30 @@
+{
+    "app": {
+        "name": "My App",
+        "description": "A Next.js application"
+    },
+    "buttons": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "add": "Add",
+        "close": "Close"
+    },
+    "messages": {
+        "success": "Operation completed successfully",
+        "error": "An error occurred",
+        "loading": "Loading...",
+        "noData": "No data available"
+    },
+    "theme": {
+        "light": "Light",
+        "dark": "Dark",
+        "toggle": "Toggle theme"
+    },
+    "language": {
+        "en": "English",
+        "vi": "Tiếng Việt",
+        "switch": "Switch language"
+    }
+}

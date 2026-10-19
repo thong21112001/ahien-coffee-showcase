@@ -1,0 +1,90 @@
+{
+  "nav": {
+    "about": "About Us",
+    "menu": "Menu",
+    "quiz": "Find Your Coffee",
+    "gallery": "Ambience",
+    "contact": "Contact",
+    "cta": "Visit Us"
+  },
+  "hero": {
+    "badge": "Artisanal Vietnamese Coffee Heritage",
+    "title": "Authentic Vietnamese Coffee Crafted to Inspire",
+    "subtitle": "Discover the richness of bold Buôn Ma Thuột Robusta and fragrant Cầu Đất Arabica, carefully wood-roasted by master roasters.",
+    "ctaContact": "Reserve Table",
+    "ctaMenu": "Explore Menu",
+    "ctaQuiz": "Take Coffee Quiz"
+  },
+  "story": {
+    "badge": "Our Story",
+    "title": "Born From Passion For Every Slow Drip",
+    "desc1": "A Hiền Coffee was founded with the aspiration to preserve and elevate traditional Vietnamese coffee culture. We believe each gentle drip of the Phin filter is a mindful pause that connects people with their soul.",
+    "desc2": "From volcanic basalt highland soil, ripe coffee cherries are handpicked and roasted at precise golden temperatures to retain natural essential oils and a lingering sweet finish.",
+    "stat1": "100%",
+    "stat1Label": "Handpicked ripe beans",
+    "stat2": "15+",
+    "stat2Label": "Years roasting mastery",
+    "stat3": "50k+",
+    "stat3Label": "Inspired cups served"
+  },
+  "values": {
+    "badge": "Core Values",
+    "title": "Mastery In Every Stage",
+    "item1Title": "Specialty Grade Beans",
+    "item1Desc": "Harvested selectively at peak ripeness from Cầu Đất & Buôn Ma Thuột farms.",
+    "item2Title": "Pure Artisanal Roasting",
+    "item2Desc": "Traditional small-batch roasting without chemical additives or artificial flavors.",
+    "item3Title": "Deliberate Slow Brewing",
+    "item3Desc": "Preserving the timeless Phin drip method enhanced with modern specialty standards.",
+    "item4Title": "Serene Sanctuary",
+    "item4Desc": "A tranquil haven to pause, listen to rhythmic coffee drops, and escape the rush."
+  },
+  "experience": {
+    "badge": "Sensory Journey",
+    "title": "Awaken All Your Senses",
+    "subtitle": "At A Hiền Coffee, you don't merely enjoy a drink — you immerse in an evocative Vietnamese coffee ritual.",
+    "step1Title": "1. Bean Aroma Selection",
+    "step1Desc": "Discover notes of dark chocolate, ripe stone berries, and toasted hazelnut.",
+    "step2Title": "2. Phin Drip Ceremony",
+    "step2Desc": "Watch dense drops slowly filter through the traditional handcrafted Phin.",
+    "step3Title": "3. Savor The Symphony",
+    "step3Desc": "Experience a velvety bittersweet warmth evolving into a resonant sweet aftertaste."
+  },
+  "featured": {
+    "badge": "Signature Offering",
+    "title": "Heritage Robusta Phin",
+    "desc": "A legendary blend of high-altitude Robusta and creamy condensed milk, delivering the quintessential Saigon coffee experience.",
+    "price": "$1.80",
+    "btn": "Taste Today"
+  },
+  "menu": {
+    "badge": "Curated Offerings",
+    "title": "The A Hiền Flavor Collection",
+    "subtitle": "From rustic Phin classics to refreshing tropical cold brew signatures."
+  },
+  "gallery": {
+    "badge": "Moments & Atmosphere",
+    "title": "Peaceful Corners At A Hiền",
+    "subtitle": "Warm rustic wood meets refined modern aesthetics for an intimate retreat."
+  },
+  "contact": {
+    "badge": "Get In Touch",
+    "title": "Visit Us Or Reserve In Advance",
+    "addressTitle": "Location",
+    "address": "Ho Chi Minh City, Vietnam",
+    "hoursTitle": "Opening Hours",
+    "hours": "06:30 - 22:00 Daily",
+    "phoneTitle": "Reservation Hotline",
+    "namePlaceholder": "Your Full Name",
+    "phonePlaceholder": "Phone Number / WhatsApp",
+    "guestsPlaceholder": "Number of Guests (1-10)",
+    "notePlaceholder": "Special request or arrival time",
+    "submitBtn": "Confirm Reservation",
+    "successMsg": "Thank you! Our barista team will contact you shortly to confirm."
+  },
+  "asmr": {
+    "title": "Barista ASMR Lounge",
+    "playing": "Café Ambience Playing",
+    "muted": "Turn on Café Ambience"
+  }
+}

@@ -1,0 +1,132 @@
+---
+description: "Data fetching rules for Next.js"
+globs: ["**/app/**/*.tsx", "**/lib/**/*.ts"]
+alwaysApply: false
+---
+
+# Next.js Data Fetching Rules
+
+## Server Components Data Fetching
+- Use async/await in Server Components
+- Fetch data directly in component
+- No useEffect needed in Server Components
+
+## Example Server Component Fetching
+```tsx
+// app/products/page.tsx
+async function getProducts() {
+  const res = await fetch('https://api.example.com/products', {
+    cache: 'no-store', // or 'force-cache', 'revalidate'
+  });
+  if (!res.ok) throw new Error('Failed to fetch products');
+  return res.json();
+}
+
+export default async function ProductsPage() {
+  const products = await getProducts();
+  
+  return (
+    <div>
+      <h1>Products</h1>
+      <ProductList products={products} />
+    </div>
+  );
+}
+```
+
+## Caching Strategies
+- `cache: 'force-cache'` - Default cache, no revalidation
+- `cache: 'no-store'` - No cache, always fetch new
+- `next: { revalidate: 3600 }` - Revalidate after 3600 seconds
+
+## Example With Revalidation
+```tsx
+async function getProducts() {
+  const res = await fetch('https://api.example.com/products', {
+    next: { revalidate: 3600 }, // Revalidate every hour
+  });
+  return res.json();
+}
+```
+
+## Client-Side Data Fetching
+- Use in Client Components
+- Use `useEffect` or libraries like SWR, React Query
+- Don't fetch in render, only in useEffect or event handlers
+
+## Example Client-Side Fetching
+```tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+
+export default function ClientProducts() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/products')
+      .then(res => res.json())
+      .then(data => {
+        setProducts(data);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  
+  return <ProductList products={products} />;
+}
+```
+
+## Server Actions (Next.js 13+)
+- Use `'use server'` directive
+- Place in separate file or top-level of component
+
+## Example Server Action
+```typescript
+// app/actions.ts
+'use server';
+
+export async function createProduct(formData: FormData) {
+  const name = formData.get('name');
+  const product = await saveProduct({ name });
+  return product;
+}
+```
+
+```tsx
+// app/products/page.tsx
+import { createProduct } from './actions';
+
+export default function ProductsPage() {
+  async function handleSubmit(formData: FormData) {
+    await createProduct(formData);
+  }
+
+  return (
+    <form action={handleSubmit}>
+      <input name="name" />
+      <button type="submit">Create</button>
+    </form>
+  );
+}
+```
+
+## Error Handling
+- Always handle errors when fetching data
+- Use error.tsx for error boundaries
+- Display loading states
+
+## Example Error Handling
+```tsx
+// app/products/page.tsx
+export default async function ProductsPage() {
+  try {
+    const products = await getProducts();
+    return <ProductList products={products} />;
+  } catch (error) {
+    return <div>Error loading products</div>;
+  }
+}
+```

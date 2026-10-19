@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-inter: "Inter", "sans-serif";
+}
+
+/* 
+  Make sure to interpret theme configuration from tailwind.config.js if using v4 
+  or configure it here.
+  For class-based dark mode in v4 with CSS variables:
+*/
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* System dark mode defaults could go here, 
+       but for class-based switching we want .dark to control it.
+       next-themes handles system preference by adding the class.
+    */
+  }
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+.dark {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}

@@ -1,0 +1,220 @@
+---
+description: "Styling rules for Next.js"
+globs: ["**/*.tsx", "**/*.css", "**/*.module.css"]
+alwaysApply: true
+---
+
+# Next.js Styling Rules
+
+## Tailwind CSS (Recommended)
+- Use Tailwind CSS for styling
+- Use utility classes
+- Create custom components for repeating patterns
+- Use `@apply` for complex patterns
+
+## Example Component With Tailwind
+```tsx
+// components/Button.tsx
+interface ButtonProps {
+  children: React.ReactNode;
+  variant?: 'primary' | 'secondary';
+  onClick?: () => void;
+}
+
+export default function Button({ children, variant = 'primary', onClick }: ButtonProps) {
+  const baseClasses = "px-4 py-2 rounded font-medium transition-colors";
+  const variantClasses = {
+    primary: "bg-blue-500 text-white hover:bg-blue-600",
+    secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300",
+  };
+  
+  return (
+    <button
+      className={`${baseClasses} ${variantClasses[variant]}`}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+}
+```
+
+## CSS Modules
+- Use when scoped styles are needed
+- File naming: `Component.module.css`
+- Import as: `import styles from './Component.module.css'`
+
+## Example CSS Module
+```tsx
+// components/Card.tsx
+import styles from './Card.module.css';
+
+export default function Card({ children }: { children: React.ReactNode }) {
+  return <div className={styles.card}>{children}</div>;
+}
+```
+
+```css
+/* components/Card.module.css */
+.card {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+```
+
+## Global Styles
+- Place in `app/globals.css`
+- Use for reset, base styles, and CSS variables
+
+## Responsive Design
+- Use Tailwind breakpoints: `sm:`, `md:`, `lg:`, `xl:`, `2xl:`
+- Mobile-first approach
+
+## Example Responsive
+```tsx
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  {/* Content */}
+</div>
+```
+
+## Theme System (Dark/Light Mode)
+
+The project supports Dark and Light mode by default. Theme is managed through Redux and Tailwind.
+
+### Theme Configuration
+
+```typescript
+// shared/store/themeSlice.ts
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+type Theme = 'light' | 'dark';
+
+interface ThemeState {
+  theme: Theme;
+}
+
+const initialState: ThemeState = {
+  theme: (typeof window !== 'undefined' && localStorage.getItem('theme') as Theme) || 'light',
+};
+
+const themeSlice = createSlice({
+  name: 'theme',
+  initialState,
+  reducers: {
+    setTheme: (state, action: PayloadAction<Theme>) => {
+      state.theme = action.payload;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('theme', action.payload);
+        document.documentElement.classList.toggle('dark', action.payload === 'dark');
+      }
+    },
+    toggleTheme: (state) => {
+      const newTheme = state.theme === 'light' ? 'dark' : 'light';
+      state.theme = newTheme;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('theme', newTheme);
+        document.documentElement.classList.toggle('dark', newTheme === 'dark');
+      }
+    },
+  },
+});
+
+export const { setTheme, toggleTheme } = themeSlice.actions;
+export default themeSlice.reducer;
+```
+
+### Tailwind Dark Mode Config
+
+```javascript
+// tailwind.config.js
+module.exports = {
+  darkMode: 'class', // Enable class-based dark mode
+  // ... other config
+}
+```
+
+### Theme Provider Component
+
+```tsx
+// shared/components/ThemeProvider/ThemeProvider.tsx
+'use client';
+
+import { useEffect } from 'react';
+import { useAppSelector, useAppDispatch } from '@/shared/store';
+import { setTheme } from '@/shared/store/themeSlice';
+
+export default function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const dispatch = useAppDispatch();
+  const theme = useAppSelector((state) => state.theme.theme);
+
+  useEffect(() => {
+    // Apply theme on mount
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
+
+  return <>{children}</>;
+}
+```
+
+### Using Theme
+
+```tsx
+// components/Button.tsx
+'use client';
+
+import { useAppSelector } from '@/shared/store';
+
+export default function Button({ children }: ButtonProps) {
+  const theme = useAppSelector((state) => state.theme.theme);
+  
+  return (
+    <button className="px-4 py-2 rounded font-medium transition-colors bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700">
+      {children}
+    </button>
+  );
+}
+```
+
+### Dark Mode with Tailwind Classes
+
+Always use `dark:` prefix for dark mode styles:
+
+```tsx
+<div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700">
+  {/* Content */}
+</div>
+```
+
+### Theme Toggle Component
+
+```tsx
+// shared/components/ThemeToggle/ThemeToggle.tsx
+'use client';
+
+import { useAppDispatch, useAppSelector } from '@/shared/store';
+import { toggleTheme } from '@/shared/store/themeSlice';
+
+export default function ThemeToggle() {
+  const dispatch = useAppDispatch();
+  const theme = useAppSelector((state) => state.theme.theme);
+
+  return (
+    <button
+      onClick={() => dispatch(toggleTheme())}
+      className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
+      aria-label="Toggle theme"
+    >
+      {theme === 'light' ? '🌙' : '☀️'}
+    </button>
+  );
+}
+```
+
+## Best Practices for Theme
+
+1. **Default Light**: Default theme is light mode
+2. **Persist Theme**: Save theme preference in localStorage
+3. **Class-based**: Use class-based dark mode with Tailwind
+4. **Consistent**: Use consistent color palette for both light and dark
+5. **Accessibility**: Ensure sufficient contrast ratio for both themes

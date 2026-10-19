@@ -1,0 +1,90 @@
+{
+  "nav": {
+    "about": "Về chúng tôi",
+    "menu": "Thực đơn",
+    "quiz": "Tìm gu cà phê",
+    "gallery": "Không gian",
+    "contact": "Liên hệ",
+    "cta": "Trải nghiệm ngay"
+  },
+  "hero": {
+    "badge": "Di Sản Cà Phê Thủ Công A Hiền",
+    "title": "Hương Vị Cà Phê Việt Đích Thực Khơi Nguồn Cảm Xúc",
+    "subtitle": "Khám phá nét tinh hoa từ những hạt Robusta Buôn Ma Thuột đậm đà và Arabica Cầu Đất thơm nồng, được rang mộc tỉ mỉ qua đôi bàn tay nghệ nhân.",
+    "ctaContact": "Đặt bàn ngay",
+    "ctaMenu": "Xem thực đơn",
+    "ctaQuiz": "Trắc nghiệm Gu Cà Phê"
+  },
+  "story": {
+    "badge": "Câu chuyện thương hiệu",
+    "title": "Khởi Nguồn Từ Đam Mê Từng Giọt Cà Phê Phin",
+    "desc1": "A Hiền Coffee ra đời với một khát vọng gìn giữ và nâng tầm bản sắc cà phê truyền thống Việt Nam. Chúng tôi tin rằng mỗi giọt cà phê phin nhỏ chậm rãi là một khoảng lặng quý giá kết nối con người với tâm hồn.",
+    "desc2": "Từ những nông trại vùng cao màu mỡ đất đỏ bazan, từng hạt cà phê chín mọng được tuyển chọn bằng tay, rang mộc chuẩn nhiệt độ vàng để giữ trọn vẹn lớp dầu tự nhiên và hậu vị ngọt sâu lắng.",
+    "stat1": "100%",
+    "stat1Label": "Cà phê chín hái tay",
+    "stat2": "15+",
+    "stat2Label": "Năm kinh nghiệm rang mộc",
+    "stat3": "50k+",
+    "stat3Label": "Tách cà phê truyền cảm hứng"
+  },
+  "values": {
+    "badge": "Giá trị cốt lõi",
+    "title": "Nghệ Thuật Trong Từng Công Đoạn",
+    "item1Title": "Hạt Cà Phê Thượng Hạng",
+    "item1Desc": "Thu hoạch thủ công tại Cầu Đất & Buôn Ma Thuột ở độ chín hoàn hảo 100%.",
+    "item2Title": "Rang Mộc Thủ Công",
+    "item2Desc": "Kỹ thuật rang mộc gia truyền kiểm soát độ ẩm và nhiệt lượng, không tẩm ướp phụ gia.",
+    "item3Title": "Pha Chế Chậm Tinh Tế",
+    "item3Desc": "Bảo tồn phương pháp pha phin truyền thống kết hợp kỹ thuật Specialty hiện đại.",
+    "item4Title": "Không Gian Yên Bình",
+    "item4Desc": "Nơi dừng chân thư giãn, lắng nghe tiếng tí tách của phin cà phê giữa nhịp sống vội vã."
+  },
+  "experience": {
+    "badge": "Hành trình trải nghiệm",
+    "title": "Đánh Thức Mọi Giác Quan",
+    "subtitle": "Đến với A Hiền Coffee, bạn không chỉ thưởng thức một tách thức uống mà là đắm mình vào hành trình văn hóa cà phê đầy cuốn hút.",
+    "step1Title": "1. Chọn Hạt & Thưởng Hương",
+    "step1Desc": "Khám phá hương thơm quả mọng chín, socola đen và khói ấm từ mẫu hạt mộc.",
+    "step2Title": "2. Chiêm Ngưỡng Pha Phin",
+    "step2Desc": "Tận mắt nhìn từng giọt cà phê sánh đậm chắt chiu qua phin nhôm truyền thống.",
+    "step3Title": "3. Thưởng Vị Đậm Đà",
+    "step3Desc": "Cảm nhận vị đắng êm dịu ban đầu lan tỏa thành vị ngọt bùi sâu lắng nơi vòm họng."
+  },
+  "featured": {
+    "badge": "Món đặc trưng",
+    "title": "Phin Robusta Thượng Hạng",
+    "desc": "Sự kết hợp hoàn hảo giữa Robusta Núi Min thượng hạng và sữa đặc béo ngậy tạo nên ly cà phê nâu đá đậm đà chuẩn vị Sài Gòn xưa.",
+    "price": "35.000 đ",
+    "btn": "Thử ngay hôm nay"
+  },
+  "menu": {
+    "badge": "Thực đơn tuyển chọn",
+    "title": "Bộ Sưu Tập Hương Vị A Hiền",
+    "subtitle": "Từ cà phê phin mộc mạc đến các dòng sáng tạo độc đáo kết hợp trái cây nhiệt đới."
+  },
+  "gallery": {
+    "badge": "Khoảnh khắc & Không gian",
+    "title": "Góc Bình Yên Tại A Hiền",
+    "subtitle": "Không gian mộc mạc pha lẫn nét hiện đại, nơi mỗi góc nhỏ đều mang đến sự thư thái tuyệt đối."
+  },
+  "contact": {
+    "badge": "Kết nối với chúng tôi",
+    "title": "Ghé Thăm Hoặc Đặt Chỗ Trước",
+    "addressTitle": "Địa chỉ quán",
+    "address": "TP. Hồ Chí Minh, Việt Nam",
+    "hoursTitle": "Giờ mở cửa",
+    "hours": "06:30 - 22:00 hàng ngày",
+    "phoneTitle": "Hotline đặt bàn",
+    "namePlaceholder": "Họ và tên của bạn",
+    "phonePlaceholder": "Số điện thoại liên hệ",
+    "guestsPlaceholder": "Số lượng khách (1-10)",
+    "notePlaceholder": "Ghi chú đặc biệt hoặc thời gian ghé quán",
+    "submitBtn": "Xác nhận gửi thông tin",
+    "successMsg": "Cảm ơn bạn! Chúng tôi sẽ liên hệ xác nhận trong ít phút."
+  },
+  "asmr": {
+    "title": "Barista ASMR Lounge",
+    "playing": "Đang phát âm thanh quán",
+    "muted": "Bật âm thanh không gian quán"
+  }
+}

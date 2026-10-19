@@ -1,0 +1,250 @@
+---
+description: "Internationalization (i18n) rules for Next.js"
+globs: ["**/locales/**/*", "**/i18n/**/*", "**/modules/**/locales/**/*"]
+alwaysApply: false
+---
+
+# Next.js i18n Rules
+
+## i18n Structure
+
+```
+src/
+├── locales/
+│   ├── en/
+│   │   ├── common.json
+│   │   ├── products.json
+│   │   └── auth.json
+│   ├── vi/
+│   │   ├── common.json
+│   │   ├── products.json
+│   │   └── auth.json
+│   └── index.ts
+├── modules/
+│   └── {module}/
+│       └── locales/              # Module-specific translations
+│           ├── en.json
+│           └── vi.json
+└── shared/
+    └── i18n/
+        ├── config.ts
+        └── hooks.ts
+```
+
+## i18n Configuration
+
+```typescript
+// shared/i18n/config.ts
+import { initReactI18next } from 'react-i18next';
+import i18n from 'i18next';
+import enCommon from '@/locales/en/common.json';
+import viCommon from '@/locales/vi/common.json';
+import enProducts from '@/modules/products/locales/en.json';
+import viProducts from '@/modules/products/locales/vi.json';
+
+i18n
+  .use(initReactI18next)
+  .init({
+    resources: {
+      en: {
+        common: enCommon,
+        products: enProducts,
+      },
+      vi: {
+        common: viCommon,
+        products: viProducts,
+      },
+    },
+    lng: 'vi', // Default language
+    fallbackLng: 'en',
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
+export default i18n;
+```
+
+## Translation Files
+
+### Common Translations
+
+```json
+// locales/en/common.json
+{
+  "buttons": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit"
+  },
+  "messages": {
+    "success": "Operation completed successfully",
+    "error": "An error occurred"
+  }
+}
+```
+
+```json
+// locales/vi/common.json
+{
+  "buttons": {
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "edit": "Sửa"
+  },
+  "messages": {
+    "success": "Thao tác thành công",
+    "error": "Đã xảy ra lỗi"
+  }
+}
+```
+
+### Module Translations
+
+```json
+// modules/products/locales/en.json
+{
+  "title": "Products",
+  "addProduct": "Add Product",
+  "productName": "Product Name",
+  "price": "Price",
+  "description": "Description"
+}
+```
+
+```json
+// modules/products/locales/vi.json
+{
+  "title": "Sản phẩm",
+  "addProduct": "Thêm sản phẩm",
+  "productName": "Tên sản phẩm",
+  "price": "Giá",
+  "description": "Mô tả"
+}
+```
+
+## i18n Hooks
+
+```typescript
+// shared/i18n/hooks.ts
+import { useTranslation } from 'react-i18next';
+
+export const useI18n = () => {
+  const { t, i18n } = useTranslation();
+  
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+  
+  return {
+    t,
+    currentLanguage: i18n.language,
+    changeLanguage,
+    availableLanguages: ['en', 'vi'],
+  };
+};
+```
+
+## Using i18n in Components
+
+### Server Component
+
+```tsx
+// modules/products/pages/ProductsPage.tsx
+import { useTranslation } from 'react-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+export default async function ProductsPage() {
+  // For Server Components, use getServerSideProps or getStaticProps
+  // See Next.js i18n routing documentation
+}
+```
+
+### Client Component
+
+```tsx
+// modules/products/components/ProductCard.tsx
+'use client';
+
+import { useI18n } from '@/shared/i18n/hooks';
+
+export default function ProductCard({ product }: ProductCardProps) {
+  const { t } = useI18n();
+  
+  return (
+    <div>
+      <h3>{product.name}</h3>
+      <p>{t('products.price')}: ${product.price}</p>
+      <button>{t('common.buttons.edit')}</button>
+    </div>
+  );
+}
+```
+
+## Language Switcher Component
+
+```tsx
+// shared/components/LanguageSwitcher/LanguageSwitcher.tsx
+'use client';
+
+import { useI18n } from '@/shared/i18n/hooks';
+
+export default function LanguageSwitcher() {
+  const { currentLanguage, changeLanguage, availableLanguages } = useI18n();
+  
+  return (
+    <select
+      value={currentLanguage}
+      onChange={(e) => changeLanguage(e.target.value)}
+      className="px-3 py-2 border rounded dark:bg-gray-800 dark:text-white"
+    >
+      {availableLanguages.map((lang) => (
+        <option key={lang} value={lang}>
+          {lang.toUpperCase()}
+        </option>
+      ))}
+    </select>
+  );
+}
+```
+
+## i18n with Redux (Optional)
+
+If you want to save language preference in Redux:
+
+```typescript
+// shared/store/i18nSlice.ts
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+interface I18nState {
+  language: 'en' | 'vi';
+}
+
+const initialState: I18nState = {
+  language: 'vi',
+};
+
+const i18nSlice = createSlice({
+  name: 'i18n',
+  initialState,
+  reducers: {
+    setLanguage: (state, action: PayloadAction<'en' | 'vi'>) => {
+      state.language = action.payload;
+    },
+  },
+});
+
+export const { setLanguage } = i18nSlice.actions;
+export default i18nSlice.reducer;
+```
+
+## Best Practices
+
+1. **Namespace**: Use namespace for each module (common, products, auth)
+2. **Keys**: Use nested keys for organization (buttons.save, messages.error)
+3. **Default Language**: Default is Vietnamese (vi)
+4. **Fallback**: Always have fallback language (en)
+5. **Module Translations**: Each module has its own translations in locales/
+6. **Type Safety**: Can create types for translation keys

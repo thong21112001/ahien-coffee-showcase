@@ -1,0 +1,406 @@
+---
+description: "Modular architecture for Next.js project"
+globs: ["**/modules/**/*", "**/shared/**/*", "**/app/**/*.tsx"]
+alwaysApply: true
+---
+
+# Next.js Module Architecture Rules
+
+## Module Structure
+
+The project uses a modular architecture with the following structure:
+
+```
+src/
+├── modules/
+│   └── {module-name}/           # Module name MUST match route name (plural, lowercase)
+│       ├── types/                # TypeScript types (REQUIRED)
+│       │   └── {module}.types.ts
+│       ├── services/            # API services (REQUIRED)
+│       │   └── {module}Service.ts
+│       ├── store/               # Redux store for module (REQUIRED)
+│       │   ├── {module}Slice.ts
+│       │   ├── {module}Thunks.ts
+│       │   └── index.ts
+│       ├── pages/               # Module pages (REQUIRED)
+│       │   └── {Module}Page.tsx
+│       ├── components/          # Module-specific components (optional)
+│       ├── hooks/               # Custom hooks (optional)
+│       ├── utils/                # Utilities (optional)
+│       └── index.ts              # Main export (REQUIRED)
+├── locales/                      # i18n translations (NOT in modules)
+│   ├── en/
+│   │   └── {module}.json
+│   └── vi/
+│       └── {module}.json
+├── store/                        # Global Redux store (NOT in shared)
+│   ├── rootReducer.ts           # Combines all module reducers
+│   └── store.ts                 # Store configuration
+├── shared/
+│   ├── components/              # Base shared components
+│   ├── hooks/                   # Shared hooks
+│   ├── utils/                    # Shared utilities
+│   ├── store/                    # Shared store utilities
+│   │   ├── themeSlice.ts       # Theme slice (shared utility)
+│   │   └── index.ts            # Re-exports from @/store
+│   └── types/                    # Shared types
+└── app/                          # Next.js App Router
+    └── {route}/                  # Route name MUST match module name
+        └── page.tsx             # Import from modules/{module}/pages/
+```
+
+## Naming Conventions
+
+### Critical Naming Rules
+
+1. **Module Name = Route Name** (MUST match exactly)
+   - Route: `/posts` → Module: `posts` (NOT `post`)
+   - Route: `/products` → Module: `products` (NOT `product`)
+   - Route: `/users` → Module: `users` (NOT `user`)
+   - Always use **plural, lowercase** for module and route names
+
+2. **File Naming**:
+   - Types: `{module}.types.ts` (lowercase, plural)
+   - Service: `{module}Service.ts` (lowercase, plural)
+   - Slice: `{module}Slice.ts` (lowercase, plural)
+   - Thunks: `{module}Thunks.ts` (lowercase, plural)
+   - Page Component: `{Module}Page.tsx` (PascalCase, singular for component name)
+   - Translation: `{module}.json` (lowercase, plural)
+
+3. **Component Naming**:
+   - Page Component: `{Module}Page` (PascalCase, singular)
+   - Example: `PostsPage`, `ProductsPage`, `UsersPage`
+
+4. **Interface/Type Naming**:
+   - Main entity: `{Module}` (PascalCase, singular)
+   - DTOs: `Create{Module}Dto`, `Update{Module}Dto`
+   - Example: `Product`, `CreateProductDto`, `UpdateProductDto`
+
+## Required Module Structure
+
+### Minimum Required Files
+
+Every module MUST have these files:
+
+1. **`types/{module}.types.ts`** - TypeScript interfaces
+2. **`services/{module}Service.ts`** - Service layer with CRUD operations
+3. **`store/{module}Slice.ts`** - Redux slice
+4. **`store/{module}Thunks.ts`** - Redux async thunks
+5. **`store/index.ts`** - Store exports
+6. **`pages/{Module}Page.tsx`** - Page component
+7. **`index.ts`** - Module exports
+
+### Example Module "Products"
+
+```
+modules/products/                 # Module name: products (plural, lowercase)
+├── types/
+│   └── products.types.ts        # Types file (lowercase, plural)
+├── services/
+│   └── productsService.ts      # Service file (lowercase, plural)
+├── store/
+│   ├── productsSlice.ts       # Slice file (lowercase, plural)
+│   ├── productsThunks.ts     # Thunks file (lowercase, plural)
+│   └── index.ts               # Store exports
+├── pages/
+│   └── ProductsPage.tsx       # Page component (PascalCase, singular)
+├── components/                 # Optional: module-specific components
+│   ├── ProductCard.tsx
+│   └── ProductList.tsx
+├── hooks/                      # Optional: custom hooks
+│   └── useProducts.ts
+├── utils/                      # Optional: utilities
+│   └── formatProduct.ts
+└── index.ts                    # Main module export
+```
+
+### Module Index Export
+
+```typescript
+// modules/{module}/index.ts
+// REQUIRED exports:
+export { default as {Module}Page } from './pages/{Module}Page';
+export * from './store';
+export type { {Module}, Create{Module}Dto, Update{Module}Dto } from './types/{module}.types';
+export { {module}Service } from './services/{module}Service';
+
+// Optional exports (if exists):
+export { default as {Module}Card } from './components/{Module}Card';
+export * from './hooks';
+```
+
+### Store Index Export
+
+```typescript
+// modules/{module}/store/index.ts
+export { default as {module}Reducer } from './{module}Slice';
+export { clearError, setItems } from './{module}Slice';
+export * from './{module}Thunks';
+```
+
+## Next.js Page Import Module
+
+Next.js pages in `app/` will import from module pages:
+
+```tsx
+// app/products/page.tsx
+import { ProductsPage } from '@/modules/products';
+
+export default function Page() {
+  return <ProductsPage />;
+}
+```
+
+```tsx
+// app/products/[id]/page.tsx
+import { ProductDetailPage } from '@/modules/products';
+
+type Props = {
+  params: { id: string };
+};
+
+export default function Page({ params }: Props) {
+  return <ProductDetailPage productId={params.id} />;
+}
+```
+
+## Shared Components
+
+Base components are placed in `shared/components/`:
+
+```
+shared/components/
+├── Button/
+│   ├── Button.tsx
+│   ├── Button.types.ts
+│   └── index.ts
+├── Input/
+│   ├── Input.tsx
+│   ├── Input.types.ts
+│   └── index.ts
+└── Card/
+    ├── Card.tsx
+    ├── Card.types.ts
+    └── index.ts
+```
+
+### Using Shared Components
+
+```tsx
+// modules/products/components/ProductCard.tsx
+import { Button, Card } from '@/shared/components';
+
+export default function ProductCard({ product }: ProductCardProps) {
+  return (
+    <Card>
+      <h3>{product.name}</h3>
+      <Button>Add to Cart</Button>
+    </Card>
+  );
+}
+```
+
+## Module Rules
+
+### Required Rules
+
+1. **Module Name = Route Name**: Module folder name MUST exactly match the route name (plural, lowercase)
+   - ✅ Route `/posts` → Module `posts`
+   - ❌ Route `/posts` → Module `post` (WRONG)
+
+2. **Required Files**: Every module MUST have:
+   - `types/{module}.types.ts`
+   - `services/{module}Service.ts`
+   - `store/{module}Slice.ts`
+   - `store/{module}Thunks.ts`
+   - `store/index.ts`
+   - `pages/{Module}Page.tsx`
+   - `index.ts`
+
+3. **Root Reducer Registration**: MUST add module reducer to `src/store/rootReducer.ts`:
+   ```typescript
+   import { {module}Reducer } from '@/modules/{module}/store';
+   
+   const rootReducer = combineReducers({
+     // ... other reducers
+     {module}: {module}Reducer, // REQUIRED
+   });
+   ```
+   
+   **Important**: `src/store/rootReducer.ts` is NOT in `shared/`, so it CAN import from modules. This is the only file allowed to import from modules outside of `app/` and `modules/`.
+
+4. **i18n Translations**: Translations MUST be in `src/locales/{lang}/{module}.json`, NOT in `modules/{module}/locales/`
+   - ✅ `src/locales/en/products.json`
+   - ❌ `modules/products/locales/en.json` (WRONG)
+
+5. **Module Independence**: Each module operates independently with its own components, hooks, services
+
+6. **Clear Exports**: Module must have `index.ts` exporting all public APIs
+
+7. **Separate Types**: Each module has its own types, shared types go to `shared/types`
+
+8. **Shared Cannot Import from Modules**: `shared/` MUST NOT import from `modules/` or `app/`
+   - ❌ `shared/components/Button.tsx` importing from `@/modules/products` (FORBIDDEN)
+   - ✅ `shared/components/Button.tsx` only imports from `@/shared/*` or its own files
+   - This prevents circular dependencies and keeps shared as base layer
+
+### File Structure Rules
+
+1. **Types File** (`types/{module}.types.ts`):
+   - Define: `{Module}`, `Create{Module}Dto`, `Update{Module}Dto`
+   - Use PascalCase for interface names
+   - Use singular form for entity interface
+
+2. **Service File** (`services/{module}Service.ts`):
+   - Export singleton instance: `export const {module}Service = new {Module}Service()`
+   - Include dummy data for development
+   - Implement full CRUD operations
+
+3. **Store Files**:
+   - Slice: Export reducer as default, export actions
+   - Thunks: Export all async thunks
+   - Index: Re-export reducer, actions, and thunks
+
+4. **Page Component** (`pages/{Module}Page.tsx`):
+   - Usually a Client Component (uses hooks)
+   - Use Redux hooks: `useAppDispatch`, `useAppSelector`
+   - Use i18n hook: `useI18n()`
+   - Handle loading and error states
+
+5. **Module Index** (`index.ts`):
+   - Export page component
+   - Export store (reducer, actions, thunks)
+   - Export types
+   - Export service
+
+## Import Rules and Dependencies
+
+### Dependency Direction (CRITICAL)
+
+**Import flow MUST follow this direction only:**
+
+```
+app/ → modules/ → shared/
+```
+
+**Allowed imports:**
+- ✅ `app/` can import from `modules/`
+- ✅ `modules/` can import from `shared/`
+- ✅ `modules/` can import from other `modules/` (but avoid if possible)
+
+**FORBIDDEN imports:**
+- ❌ `shared/` CANNOT import from `modules/`
+- ❌ `shared/` CANNOT import from `app/`
+
+**ALLOWED imports (special cases):**
+- ✅ `store/` CAN import from `modules/*/store` (for rootReducer.ts only)
+  - `src/store/rootReducer.ts` is the central point to combine all reducers
+  - This is a standard Redux pattern and required for the architecture
+  - `store/` is NOT part of `shared/`, so it doesn't violate the rule
+
+### Why This Rule Exists
+
+1. **Shared is Base Layer**: `shared/` contains base utilities, components, and infrastructure
+2. **Avoid Circular Dependencies**: If shared imports from modules, it creates circular dependencies
+3. **Reusability**: Shared code should be independent and reusable across all modules
+4. **Separation of Concerns**: Business logic (modules) depends on base layer (shared), not vice versa
+
+### Examples
+
+#### ✅ CORRECT: Module imports from Shared
+```tsx
+// modules/products/components/ProductCard.tsx
+import { Button, Card } from '@/shared/components'; // ✅ OK
+import { useI18n } from '@/shared/i18n/hooks'; // ✅ OK
+import { useAppDispatch } from '@/shared/store'; // ✅ OK
+```
+
+#### ❌ WRONG: Shared imports from Module
+```tsx
+// shared/components/Button/Button.tsx
+import { Product } from '@/modules/products/types/products.types'; // ❌ FORBIDDEN
+import { productsService } from '@/modules/products/services/productsService'; // ❌ FORBIDDEN
+import { ProductsPage } from '@/modules/products'; // ❌ FORBIDDEN
+```
+
+#### ✅ CORRECT: Shared uses only its own types
+```tsx
+// shared/components/Button/Button.tsx
+import { ButtonProps } from './Button.types'; // ✅ OK - own types
+import { useTheme } from '@/shared/store'; // ✅ OK - shared store
+import { useI18n } from '@/shared/i18n/hooks'; // ✅ OK - shared hooks
+```
+
+### Shared Components Rules
+
+1. **No Business Logic**: Shared components should be generic and reusable
+2. **No Module Dependencies**: Never import from `@/modules/*`
+3. **Use Shared Types Only**: Import types from `@/shared/types` or define own types
+4. **Generic Props**: Accept generic props, not module-specific types
+
+### Module-to-Module Dependencies
+
+While technically allowed, **avoid dependencies between modules**:
+
+```tsx
+// ❌ AVOID: Module importing from another module
+// modules/orders/components/OrderCard.tsx
+import { Product } from '@/modules/products/types/products.types'; // ❌ Avoid
+
+// ✅ PREFER: Use shared types or duplicate if needed
+// modules/orders/types/orders.types.ts
+export interface OrderProduct {
+  id: string;
+  name: string;
+  // Define what you need, don't import from other modules
+}
+```
+
+**Exception**: Only import from other modules if absolutely necessary and the dependency is stable.
+
+## Best Practices
+
+1. **Module Size**: Modules should be small and focused on a specific domain
+2. **No Cross-Module Dependencies**: Avoid dependencies between modules, use `shared` instead
+3. **Shared Independence**: Shared code must never depend on modules or app
+4. **Component Types**: 
+   - Module pages: Usually Client Components (need hooks)
+   - Module components: Can be Client or Server Components as needed
+5. **Service Pattern**: Use singleton pattern for services
+6. **Redux Pattern**: Use Redux Toolkit with slices and thunks
+7. **i18n Pattern**: All translations in `src/locales`, not in modules
+8. **Type Safety**: Always use TypeScript types, avoid `any`
+9. **Error Handling**: Always handle errors in thunks and services
+10. **Loading States**: Always manage loading states in Redux slice
+11. **Naming Consistency**: Follow naming conventions strictly
+12. **Dependency Direction**: Always respect the import flow: app → modules → shared
+
+## Common Mistakes to Avoid
+
+1. ❌ **Wrong module name**: Using singular when route is plural
+   - Route `/posts` but module `post` (WRONG)
+   - ✅ Should be: Route `/posts` → Module `posts`
+
+2. ❌ **Translations in wrong location**: 
+   - `modules/{module}/locales/` (WRONG)
+   - ✅ Should be: `src/locales/{lang}/{module}.json`
+
+3. ❌ **Forgetting root reducer**: Not adding reducer to `rootReducer.ts`
+   - ✅ MUST add: `{module}: {module}Reducer` to `src/store/rootReducer.ts`
+
+4. ❌ **Wrong file naming**: 
+   - `productService.ts` when module is `products` (WRONG)
+   - ✅ Should be: `productsService.ts`
+
+5. ❌ **Missing required files**: Not creating all required files
+   - ✅ MUST create: types, services, store (slice, thunks, index), pages, index
+
+6. ❌ **Shared importing from modules**: 
+   - `shared/components/Button.tsx` importing from `@/modules/products` (WRONG)
+   - ✅ Shared should only import from `@/shared/*` or its own files
+   - This creates circular dependencies and breaks the architecture
+
+7. ❌ **Module-to-module dependencies**: 
+   - `modules/orders` importing from `modules/products` (AVOID)
+   - ✅ Use shared types or duplicate types if needed
+   - ✅ Only import from other modules if absolutely necessary

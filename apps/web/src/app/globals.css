@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: var(--font-sans), "Be Vietnam Pro", "sans-serif";
+  --font-serif: var(--font-sans), "Be Vietnam Pro", "sans-serif";
+  --color-brand-brown: #8d4f2a;
+  --color-brand-brown-dark: #763f1f;
+  --color-brand-brown-light: #a7663e;
+  --color-brand-gold: #d99c3b;
+  --color-brand-gold-dark: #b87e2a;
+  --color-brand-gold-light: #ebaf52;
+  --color-brand-dark: #0c0a09;
+  --color-brand-dark-card: #181512;
+}
+
+:root {
+  --foreground-rgb: 245, 245, 244;
+  --background-start-rgb: 12, 10, 9;
+  --background-end-rgb: 12, 10, 9;
+}
+
+body {
+  color: #f5f5f4;
+  background-color: #0c0a09;
+  scroll-behavior: smooth;
+}
+
+/* Custom golden scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #141210;
+}
+::-webkit-scrollbar-thumb {
+  background: #3a2e24;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d99c3b;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
