@@ -47,11 +47,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!isInitialized) return;
 
-    const isLoginRoute = pathname === "/login";
+    const cleanPath = pathname.replace(/^\/(vi|en)/, "") || "/";
+    const isLoginRoute = cleanPath === "/login" || cleanPath.startsWith("/login/");
     const isPublicRoute =
-      pathname === "/" ||
-      pathname === "/menu" ||
-      pathname.startsWith("/menu/");
+      cleanPath === "/" ||
+      cleanPath === "/menu" ||
+      cleanPath.startsWith("/menu/");
 
     if (!isAuthenticated && !isLoginRoute && !isPublicRoute) {
       router.push("/login");
@@ -66,8 +67,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
+    const cleanPath = pathname.replace(/^\/(vi|en)/, "") || "/";
     const match = ROUTE_PERMISSIONS.find((route) =>
-      pathname.startsWith(route.prefix),
+      cleanPath.startsWith(route.prefix),
     );
 
     if (match) {
@@ -88,21 +90,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   if (!isInitialized) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-stone-50 text-stone-600">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#D9A05B] mb-4"></div>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-stone-950 text-stone-300">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-amber-500 mb-4"></div>
         <p className="text-sm font-semibold">Đang khởi tạo ứng dụng...</p>
       </div>
     );
   }
 
+  const cleanPath = pathname.replace(/^\/(vi|en)/, "") || "/";
   const isPublic =
-    pathname === "/" ||
-    pathname === "/menu" ||
-    pathname.startsWith("/menu/");
+    cleanPath === "/" ||
+    cleanPath === "/menu" ||
+    cleanPath.startsWith("/menu/");
 
-  if (!isAuthenticated && pathname !== "/login" && !isPublic) {
+  if (!isAuthenticated && !cleanPath.startsWith("/login") && !isPublic) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-stone-50 text-stone-500 text-sm">
+      <div className="min-h-screen flex items-center justify-center bg-stone-950 text-stone-400 text-sm">
         Đang chuyển hướng đến trang đăng nhập...
       </div>
     );
