@@ -7,6 +7,8 @@ import { Locale } from "@ahien/types";
 import { LanguageSwitcher } from "../feedback/LanguageSwitcher";
 import { BaristaAudioButton } from "../feedback/BaristaAudioButton";
 import { Sparkles, Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { usePrefersReducedMotion } from "@/shared/hooks/usePrefersReducedMotion";
 
 interface HeaderProps {
   locale?: Locale;
@@ -14,6 +16,7 @@ interface HeaderProps {
 
 export function Header({ locale = "vi" }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const navItems = [
     {
@@ -45,7 +48,11 @@ export function Header({ locale = "vi" }: HeaderProps) {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href={`/${locale}`} className="flex items-center gap-3 group">
-            <div className="relative h-11 w-11 rounded-full overflow-hidden border border-amber-500/40 bg-stone-900 group-hover:border-amber-400 transition-colors">
+            <motion.div
+              whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
+              whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+              className="relative h-11 w-11 rounded-full overflow-hidden border border-amber-500/40 bg-stone-900 group-hover:border-amber-400 transition-colors"
+            >
               <Image
                 src="/logo.webp"
                 alt="A Hiền Coffee Logo"
@@ -53,7 +60,7 @@ export function Header({ locale = "vi" }: HeaderProps) {
                 className="object-cover object-center"
                 priority
               />
-            </div>
+            </motion.div>
             <div className="flex flex-col">
               <span className="font-serif font-bold text-base sm:text-lg tracking-wide text-white group-hover:text-amber-400 transition-colors">
                 A HIỀN COFFEE
@@ -67,18 +74,23 @@ export function Header({ locale = "vi" }: HeaderProps) {
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-7">
             {navItems.map((item) => (
-              <Link
+              <motion.div
                 key={item.href}
-                href={item.href}
-                className={`text-xs font-semibold tracking-wider uppercase transition-colors duration-200 ${
-                  item.highlight
-                    ? "text-amber-400 hover:text-amber-300 flex items-center gap-1.5"
-                    : "text-stone-300 hover:text-amber-400"
-                }`}
+                whileHover={prefersReducedMotion ? {} : { y: -1.5 }}
+                whileTap={prefersReducedMotion ? {} : { scale: 0.97 }}
               >
-                {item.highlight && <Sparkles size={13} className="text-amber-400 animate-pulse" />}
-                {item.label}
-              </Link>
+                <Link
+                  href={item.href}
+                  className={`text-xs font-semibold tracking-wider uppercase transition-colors duration-200 ${
+                    item.highlight
+                      ? "text-amber-400 hover:text-amber-300 flex items-center gap-1.5"
+                      : "text-stone-300 hover:text-amber-400"
+                  }`}
+                >
+                  {item.highlight && <Sparkles size={13} className="text-amber-400 animate-pulse" />}
+                  {item.label}
+                </Link>
+              </motion.div>
             ))}
           </nav>
 
@@ -91,60 +103,79 @@ export function Header({ locale = "vi" }: HeaderProps) {
             <LanguageSwitcher currentLocale={locale} />
 
             {/* Reservation CTA Button */}
-            <Link
-              href="#lien-he"
-              className="rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-bold px-4 py-2 text-xs shadow-md shadow-amber-500/20 transition-all hover:scale-[1.03] active:scale-95"
+            <motion.div
+              whileHover={prefersReducedMotion ? {} : { scale: 1.04 }}
+              whileTap={prefersReducedMotion ? {} : { scale: 0.96 }}
             >
-              {locale === "vi" ? "Đặt bàn ngay" : "Reserve Table"}
-            </Link>
+              <Link
+                href="#lien-he"
+                className="inline-block rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-bold px-4 py-2 text-xs shadow-md shadow-amber-500/20 transition-all"
+              >
+                {locale === "vi" ? "Đặt bàn ngay" : "Reserve Table"}
+              </Link>
+            </motion.div>
           </div>
 
           {/* Mobile Right Bar: Language + Toggle */}
           <div className="flex items-center gap-2 md:hidden">
             <LanguageSwitcher currentLocale={locale} />
-            <button
+            <motion.button
+              whileTap={prefersReducedMotion ? {} : { scale: 0.9 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300 hover:text-white"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-stone-950 border-t border-stone-800/80 px-4 py-6 space-y-4 animate-in fade-in slide-in-from-top-4 duration-200">
-          <div className="space-y-3">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block text-sm font-semibold text-stone-200 hover:text-amber-400 transition-colors py-2 border-b border-stone-900"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-
-          <div className="pt-3 flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-stone-400">Không gian âm thanh:</span>
-              <BaristaAudioButton locale={locale} />
+      {/* Mobile Menu Dropdown with AnimatePresence */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, height: 0, y: -10 }}
+            animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, height: "auto", y: 0 }}
+            exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, height: 0, y: -10 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="md:hidden bg-stone-950 border-t border-stone-800/80 px-4 py-6 space-y-4 overflow-hidden"
+          >
+            <div className="space-y-3">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block text-sm font-semibold text-stone-200 hover:text-amber-400 transition-colors py-2 border-b border-stone-900"
+                >
+                  {item.label}
+                </Link>
+              ))}
             </div>
 
-            <Link
-              href="#lien-he"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full text-center rounded-full bg-amber-500 text-stone-950 font-bold py-3 text-sm shadow-md"
-            >
-              {locale === "vi" ? "Đặt bàn ngay" : "Reserve Table"}
-            </Link>
-          </div>
-        </div>
-      )}
+            <div className="pt-3 flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-stone-400">Không gian âm thanh:</span>
+                <BaristaAudioButton locale={locale} />
+              </div>
+
+              <motion.div
+                whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
+              >
+                <Link
+                  href="#lien-he"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block w-full text-center rounded-full bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold py-3 text-sm shadow-md transition-colors"
+                >
+                  {locale === "vi" ? "Đặt bàn ngay" : "Reserve Table"}
+                </Link>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
+

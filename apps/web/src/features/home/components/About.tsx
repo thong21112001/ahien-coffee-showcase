@@ -1,10 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import { SettingSection } from "../types/home.types";
 import { getImageUrl } from "@/shared/utils/image";
 import { IMAGES } from "@/shared/constants/images";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "@/shared/lib/gsap";
+import { usePrefersReducedMotion } from "@/shared/hooks/usePrefersReducedMotion";
+import { motion } from "motion/react";
 
 interface AboutProps {
   storyData?: SettingSection;
@@ -12,7 +16,8 @@ interface AboutProps {
 }
 
 export function About({ storyData, valuesData }: AboutProps) {
-  if (!storyData && !valuesData) return null;
+  const aboutRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const getIcon = (iconName: string) => {
     switch (iconName) {
@@ -98,11 +103,97 @@ export function About({ storyData, valuesData }: AboutProps) {
   const img2 = (storyImages[1]?.image ? getImageUrl(storyImages[1].image) : "") || IMAGES.about.image2;
   const img3 = (storyImages[2]?.image ? getImageUrl(storyImages[2].image) : "") || IMAGES.about.image3;
 
+  useGSAP(
+    () => {
+      if (!storyData && !valuesData) return;
+
+      if (prefersReducedMotion) {
+        gsap.set([".about-header", ".about-text-card", ".about-img-card", ".about-value-card"], {
+          opacity: 1,
+          y: 0,
+          x: 0,
+          scale: 1,
+          clearProps: "all",
+        });
+        return;
+      }
+
+      // Section header entrance
+      gsap.fromTo(
+        ".about-header",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          scrollTrigger: {
+            trigger: ".about-header",
+            start: "top 85%",
+          },
+        }
+      );
+
+      // Left text reveal
+      gsap.fromTo(
+        ".about-text-card",
+        { opacity: 0, x: -30 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.9,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".about-text-card",
+            start: "top 80%",
+          },
+        }
+      );
+
+      // Right collage image cards staggered reveal
+      gsap.fromTo(
+        ".about-img-card",
+        { opacity: 0, y: 35, scale: 0.96 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".about-collage",
+            start: "top 80%",
+          },
+        }
+      );
+
+      // Core values cards staggered entrance
+      gsap.fromTo(
+        ".about-value-card",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".about-values-grid",
+            start: "top 85%",
+          },
+        }
+      );
+    },
+    { scope: aboutRef, dependencies: [prefersReducedMotion, storyData, valuesData] }
+  );
+
+  if (!storyData && !valuesData) return null;
+
   return (
-    <section id="ve-chung-toi" className="py-10 bg-stone-50 text-stone-850">
+    <section ref={aboutRef} id="ve-chung-toi" className="py-10 bg-stone-50 text-stone-850">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-8">
+        <div className="about-header text-center max-w-3xl mx-auto mb-8">
           <h2 className="text-3xl sm:text-4xl font-bold font-serif text-brand-brown mb-4">
             {storyTitle}
           </h2>
@@ -112,7 +203,7 @@ export function About({ storyData, valuesData }: AboutProps) {
         {/* Brand Meaning & Image Collage */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 items-center mb-20">
           {/* Left Text */}
-          <div className="space-y-6 py-11 px-4 border rounded-2xl border-stone-100 shadow-xs">
+          <div className="about-text-card space-y-6 py-11 px-4 border rounded-2xl border-stone-100 shadow-xs bg-white/60 backdrop-blur-xs">
             {meaningTitle && (
               <h3 className="text-xl font-bold font-serif text-stone-900 tracking-tight">
                 {meaningTitle}
@@ -126,16 +217,16 @@ export function About({ storyData, valuesData }: AboutProps) {
           </div>
 
           {/* Right Collage */}
-          <div className="grid grid-cols-2 gap-4 mb-2">
+          <div className="about-collage grid grid-cols-2 gap-4 mb-2">
             {/* Top row - large spanning image */}
-            <div className="col-span-2 relative h-80 rounded-2xl overflow-hidden shadow-lg border border-stone-200/50 hover:scale-[1.01] transition-transform duration-300">
+            <div className="about-img-card col-span-2 relative h-80 rounded-2xl overflow-hidden shadow-lg border border-stone-200/50 hover:scale-[1.01] transition-transform duration-300">
               <Image src={img1} alt={`${storyTitle} 1`} fill className="object-cover" />
             </div>
             {/* Bottom row - 2 small images */}
-            <div className="relative h-64 rounded-2xl overflow-hidden shadow-md border border-stone-200/50 hover:scale-[1.02] transition-transform duration-300">
+            <div className="about-img-card relative h-64 rounded-2xl overflow-hidden shadow-md border border-stone-200/50 hover:scale-[1.02] transition-transform duration-300">
               <Image src={img2} alt={`${storyTitle} 2`} fill className="object-cover" />
             </div>
-            <div className="relative h-64 rounded-2xl overflow-hidden shadow-md border border-stone-200/50 hover:scale-[1.02] transition-transform duration-300">
+            <div className="about-img-card relative h-64 rounded-2xl overflow-hidden shadow-md border border-stone-200/50 hover:scale-[1.02] transition-transform duration-300">
               <Image src={img3} alt={`${storyTitle} 3`} fill className="object-cover" />
             </div>
           </div>
@@ -143,14 +234,16 @@ export function About({ storyData, valuesData }: AboutProps) {
 
         {/* Core Values Grid */}
         {coreValues.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="about-values-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {coreValues.map((value, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="bg-white hover:border-[#955127] hover:shadow-[0px_0px_4px_0px_#00000014] hover:bg-[#FFF6F1] rounded-2xl p-6 border border-stone-100 shadow-xs hover:-translate-y-1 transition-all duration-300 group"
+                whileHover={prefersReducedMotion ? {} : { y: -6 }}
+                transition={{ duration: 0.2 }}
+                className="about-value-card bg-white hover:border-[#955127] hover:shadow-[0px_4px_16px_rgba(149,81,39,0.12)] hover:bg-[#FFF6F1] rounded-2xl p-6 border border-stone-100 shadow-xs transition-colors duration-300 group cursor-default"
               >
                 {value.icon && (
-                  <div className="shadow-[0px_0px_4px_0px_#00000014] rounded-lg mb-5 border-gray-200 border-2 p-1 w-fit transition-colors">
+                  <div className="shadow-[0px_0px_4px_0px_#00000014] rounded-lg mb-5 border-gray-200 border-2 p-1 w-fit transition-colors group-hover:border-amber-400">
                     {value.icon}
                   </div>
                 )}
@@ -158,7 +251,7 @@ export function About({ storyData, valuesData }: AboutProps) {
                   {value.title}
                 </h4>
                 <p className="text-stone-500 text-sm leading-relaxed">{value.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
@@ -166,3 +259,4 @@ export function About({ storyData, valuesData }: AboutProps) {
     </section>
   );
 }
+

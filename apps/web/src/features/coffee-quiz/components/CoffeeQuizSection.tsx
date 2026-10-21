@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
-import Image from "next/image";
+import React, { useState, useRef } from "react";
 import { Locale } from "@ahien/types";
 import { Button, GlassCard, RadarChart } from "@ahien/ui";
 import { CoffeeQuizModal } from "./CoffeeQuizModal";
 import { Sparkles, HelpCircle, Compass, Award } from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "@/shared/lib/gsap";
+import { usePrefersReducedMotion } from "@/shared/hooks/usePrefersReducedMotion";
+import { motion } from "motion/react";
 
 interface CoffeeQuizSectionProps {
   locale: Locale;
@@ -13,6 +16,8 @@ interface CoffeeQuizSectionProps {
 
 export function CoffeeQuizSection({ locale }: CoffeeQuizSectionProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   // Sample preview radar profile
   const sampleProfile = {
@@ -23,15 +28,64 @@ export function CoffeeQuizSection({ locale }: CoffeeQuizSectionProps) {
     bitterness: 6,
   };
 
+  useGSAP(
+    () => {
+      if (prefersReducedMotion) {
+        gsap.set([".quiz-left-col", ".quiz-right-col"], {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          clearProps: "all",
+        });
+        return;
+      }
+
+      gsap.fromTo(
+        ".quiz-left-col",
+        { opacity: 0, x: -30 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.85,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+          },
+        }
+      );
+
+      gsap.fromTo(
+        ".quiz-right-col",
+        { opacity: 0, x: 30 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.85,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+          },
+        }
+      );
+    },
+    { scope: sectionRef, dependencies: [prefersReducedMotion] }
+  );
+
   return (
-    <section id="tim-gu-ca-phe" className="relative py-20 bg-stone-950 overflow-hidden text-white select-none">
+    <section
+      ref={sectionRef}
+      id="tim-gu-ca-phe"
+      className="relative py-20 bg-stone-950 overflow-hidden text-white select-none"
+    >
       {/* Background radial glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-600/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left info */}
-          <div className="lg:col-span-7 space-y-6 text-left">
+          <div className="quiz-left-col lg:col-span-7 space-y-6 text-left">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold tracking-wide shadow-sm">
               <Sparkles size={14} className="animate-pulse" />
               <span>
@@ -80,22 +134,28 @@ export function CoffeeQuizSection({ locale }: CoffeeQuizSectionProps) {
             </div>
 
             <div className="pt-4">
-              <Button
-                variant="gold"
-                size="lg"
-                onClick={() => setIsModalOpen(true)}
-                className="flex items-center gap-3 shadow-xl shadow-amber-500/20 hover:shadow-amber-500/30"
+              <motion.div
+                whileHover={prefersReducedMotion ? {} : { scale: 1.04 }}
+                whileTap={prefersReducedMotion ? {} : { scale: 0.96 }}
+                className="inline-block"
               >
-                <Sparkles size={18} />
-                <span>
-                  {locale === "vi" ? "Bắt Đầu Khám Phá Ngay" : "Start Flavor Profiler Quiz"}
-                </span>
-              </Button>
+                <Button
+                  variant="gold"
+                  size="lg"
+                  onClick={() => setIsModalOpen(true)}
+                  className="flex items-center gap-3 shadow-xl shadow-amber-500/20 hover:shadow-amber-500/30"
+                >
+                  <Sparkles size={18} />
+                  <span>
+                    {locale === "vi" ? "Bắt Đầu Khám Phá Ngay" : "Start Flavor Profiler Quiz"}
+                  </span>
+                </Button>
+              </motion.div>
             </div>
           </div>
 
           {/* Right Visual Card */}
-          <div className="lg:col-span-5 relative flex justify-center">
+          <div className="quiz-right-col lg:col-span-5 relative flex justify-center">
             <GlassCard
               glow
               className="w-full max-w-md bg-stone-900/80 border-amber-500/30 p-6 sm:p-8 space-y-6 text-center transform hover:-translate-y-1 transition-transform duration-500"
@@ -121,14 +181,19 @@ export function CoffeeQuizSection({ locale }: CoffeeQuizSectionProps) {
                   : "Click below to discover your personalized match!"}
               </div>
 
-              <Button
-                variant="glass"
-                size="md"
-                onClick={() => setIsModalOpen(true)}
-                className="w-full"
+              <motion.div
+                whileHover={prefersReducedMotion ? {} : { scale: 1.02 }}
+                whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
               >
-                {locale === "vi" ? "Thử Nghiệm Ngay (Miễn Phí)" : "Take Quiz Now (Free)"}
-              </Button>
+                <Button
+                  variant="glass"
+                  size="md"
+                  onClick={() => setIsModalOpen(true)}
+                  className="w-full"
+                >
+                  {locale === "vi" ? "Thử Nghiệm Ngay (Miễn Phí)" : "Take Quiz Now (Free)"}
+                </Button>
+              </motion.div>
             </GlassCard>
           </div>
         </div>
@@ -143,3 +208,4 @@ export function CoffeeQuizSection({ locale }: CoffeeQuizSectionProps) {
     </section>
   );
 }
+

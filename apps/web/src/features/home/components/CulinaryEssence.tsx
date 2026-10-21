@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { SettingSection } from "../types/home.types";
 import { getImageUrl } from "@/shared/utils/image";
@@ -9,12 +9,19 @@ import {
   useFeaturedCombos,
   useMenuProducts,
 } from "../hooks/useMenu";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "@/shared/lib/gsap";
+import { usePrefersReducedMotion } from "@/shared/hooks/usePrefersReducedMotion";
+import { motion, AnimatePresence } from "motion/react";
 
 interface CulinaryEssenceProps {
   data?: SettingSection;
 }
 
 export function CulinaryEssence({ data }: CulinaryEssenceProps) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   const title = data?.title || "Cà phê phin tại A Hiền Coffee";
   const subtitle =
     data?.subtitle ||
@@ -95,8 +102,6 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
   };
 
   const displayTabs = [
-    // { id: "set-menu", label: "Set Menu", icon: "🍱" },
-    // { id: "combo", label: "Combo đặc sản", icon: "🍾" },
     ...categoriesList.map((cat: any) => ({
       id: cat._id || cat.id,
       label: cat.name,
@@ -149,32 +154,68 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
 
   const activeCategoryItems = !isComboOrSetMenu ? displayProducts : [];
 
+  useGSAP(
+    () => {
+      if (prefersReducedMotion) {
+        gsap.set(".culinary-header", { opacity: 1, y: 0, clearProps: "all" });
+        return;
+      }
+
+      gsap.fromTo(
+        ".culinary-header",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          scrollTrigger: {
+            trigger: ".culinary-header",
+            start: "top 85%",
+          },
+        }
+      );
+    },
+    { scope: sectionRef, dependencies: [prefersReducedMotion] }
+  );
+
   return (
-    <section id="thuc-don" className="py-24 bg-white text-stone-850">
+    <section ref={sectionRef} id="thuc-don" className="py-24 bg-white text-stone-850">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-5xl mx-auto mb-12">
+        <div className="culinary-header text-center max-w-5xl mx-auto mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold font-serif text-[#9A5C32] mb-4">
             {title}
           </h2>
           <p className="text-stone-600 leading-relaxed">{subtitle}</p>
         </div>
 
-        {/* Categories Tabs */}
+        {/* Categories Tabs with Motion layoutId */}
         <div className="flex overflow-x-auto justify-start gap-3 mb-10 pb-4 no-scrollbar">
-          {displayTabs.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={`flex flex-col items-center justify-center py-3 px-4 rounded-xl min-w-[120px] lg:min-w-[160px] transition-all border border-stone-200 shrink-0 cursor-pointer ${activeCategory === cat.id
-                ? "bg-[#9A5C32] text-white shadow-md border-[#9A5C32]"
-                : "bg-white text-stone-600 hover:bg-stone-50"
+          {displayTabs.map((cat) => {
+            const isActive = activeCategory === cat.id;
+            return (
+              <motion.button
+                key={cat.id}
+                whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`relative flex flex-col items-center justify-center py-3 px-4 rounded-xl min-w-[120px] lg:min-w-[160px] border border-stone-200 shrink-0 cursor-pointer transition-colors duration-200 ${
+                  isActive
+                    ? "text-white shadow-md border-[#9A5C32]"
+                    : "bg-white text-stone-600 hover:bg-stone-50"
                 }`}
-            >
-              <span className="text-2xl mb-2">{cat.icon}</span>
-              <span className="text-sm font-semibold">{cat.label}</span>
-            </button>
-          ))}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="activeCategoryPill"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                    className="absolute inset-0 bg-[#9A5C32] rounded-xl -z-0"
+                  />
+                )}
+                <span className="text-2xl mb-2 relative z-10">{cat.icon}</span>
+                <span className="text-sm font-semibold relative z-10">{cat.label}</span>
+              </motion.button>
+            );
+          })}
         </div>
 
         {/* Dynamic Content based on active category */}
@@ -183,7 +224,7 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
             <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#9A5C32]"></div>
           </div>
         ) : isComboOrSetMenu && displayGroupMenus.length > 0 ? (
-          <div className="bg-[url('/bannerExperience.png')] bg-cover bg-center rounded-[2rem] p-6 lg:p-10 shadow-2xl relative overflow-hidden border border-[#d4a373]/30">
+          <div className="bg-[url('/bannerExperience.webp')] bg-cover bg-center rounded-[2rem] p-6 lg:p-10 shadow-2xl relative overflow-hidden border border-[#d4a373]/30">
             {/* Dark overlay for better text readability */}
             <div className="absolute inset-0 bg-black/60 pointer-events-none"></div>
 
@@ -208,16 +249,18 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
               <div className="flex-1 flex flex-col">
                 <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
                   {activeSetItems.map((item: any) => (
-                    <div
+                    <motion.div
                       key={item.id}
-                      className="bg-[#e8e8e8] rounded-xl overflow-hidden p-2.5 border-2 border-transparent hover:border-[#d4a373]/50 shadow-xs hover:-translate-y-1 transition-all duration-300"
+                      whileHover={prefersReducedMotion ? {} : { y: -4 }}
+                      transition={{ duration: 0.2 }}
+                      className="bg-[#e8e8e8] rounded-xl overflow-hidden p-2.5 border-2 border-transparent hover:border-[#d4a373]/50 shadow-xs transition-colors duration-300"
                     >
                       <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-3 bg-stone-200">
                         <Image
-                          src={item.image || "/placeholder.png"}
+                          src={item.image || "/placeholder.webp"}
                           alt={item.name}
                           fill
-                          className="object-cover hover:scale-110 transition-transform duration-500"
+                          className="object-cover hover:scale-105 transition-transform duration-500"
                         />
                       </div>
                       <div className="px-1 pb-2 flex flex-col items-center justify-center min-h-[60px]">
@@ -235,7 +278,7 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
                           </span>
                         )}
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
 
@@ -249,72 +292,86 @@ export function CulinaryEssence({ data }: CulinaryEssenceProps) {
             </div>
           </div>
         ) : (
-          <div className="bg-[#1a1a1a] bg-[url('/bannerExperience.png')] bg-cover bg-center rounded-4xl p-6 lg:p-10 shadow-2xl relative overflow-hidden border border-[#d4a373]/30">
+          <div className="bg-[#1a1a1a] bg-[url('/bannerExperience.webp')] bg-cover bg-center rounded-4xl p-6 lg:p-10 shadow-2xl relative overflow-hidden border border-[#d4a373]/30">
             {/* Dark overlay */}
             <div className="absolute inset-0 bg-black/60 pointer-events-none"></div>
 
             <div className="relative z-10">
-              {activeCategoryItems.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-6">
-                  {activeCategoryItems.map((item: any) => (
-                    <div
-                      key={item.id}
-                      className="bg-[#e8e8e8] rounded-xl overflow-hidden p-2.5 border-2 border-transparent hover:border-[#d4a373]/50 shadow-xs hover:-translate-y-1 transition-all duration-300 flex flex-col"
-                    >
-                      <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-3 bg-stone-200 shrink-0">
-                        <Image
-                          src={item.image || "/placeholder.png"}
-                          alt={item.name}
-                          fill
-                          className="object-cover hover:scale-110 transition-transform duration-500"
-                        />
-                      </div>
-                      <div className="px-1 pb-1 flex flex-col items-center justify-between flex-1">
-                        <div className="flex flex-col items-center justify-center min-h-[48px] mb-2">
-                          <h4 className="text-center font-bold text-stone-800 text-[13px] lg:text-sm mb-1 leading-tight">
-                            {item.name}
-                          </h4>
-                          {item.englishName && (
-                            <p className="text-center text-[#c28e46] font-semibold text-[11px] lg:text-xs leading-tight">
-                              {item.englishName}
-                            </p>
+              <AnimatePresence mode="wait">
+                {activeCategoryItems.length > 0 ? (
+                  <motion.div
+                    key={activeCategory}
+                    initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+                    animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                    exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -12 }}
+                    transition={{ duration: 0.25 }}
+                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-6"
+                  >
+                    {activeCategoryItems.map((item: any) => (
+                      <motion.div
+                        key={item.id}
+                        whileHover={prefersReducedMotion ? {} : { y: -5 }}
+                        transition={{ duration: 0.2 }}
+                        className="bg-[#e8e8e8] rounded-xl overflow-hidden p-2.5 border-2 border-transparent hover:border-[#d4a373]/60 shadow-xs transition-colors duration-300 flex flex-col group cursor-default"
+                      >
+                        <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-3 bg-stone-200 shrink-0">
+                          <Image
+                            src={item.image || "/placeholder.webp"}
+                            alt={item.name}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                        <div className="px-1 pb-1 flex flex-col items-center justify-between flex-1">
+                          <div className="flex flex-col items-center justify-center min-h-[48px] mb-2">
+                            <h4 className="text-center font-bold text-stone-800 text-[13px] lg:text-sm mb-1 leading-tight group-hover:text-[#9A5C32] transition-colors">
+                              {item.name}
+                            </h4>
+                            {item.englishName && (
+                              <p className="text-center text-[#c28e46] font-semibold text-[11px] lg:text-xs leading-tight">
+                                {item.englishName}
+                              </p>
+                            )}
+                          </div>
+                          {item.price > 0 && (
+                            <div className="mt-auto w-full border-t border-[#d4a373]/30 pt-2 text-center">
+                              <span className="text-[#9A5C32] font-bold text-sm lg:text-base">
+                                {new Intl.NumberFormat("vi-VN").format(item.price)} VNĐ
+                              </span>
+                            </div>
                           )}
                         </div>
-                        {item.price > 0 && (
-                          <div className="mt-auto w-full border-t border-[#d4a373]/30 pt-2 text-center">
-                            <span className="text-[#9A5C32] font-bold text-sm lg:text-base">
-                              {new Intl.NumberFormat("vi-VN").format(item.price)} VNĐ
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-12 text-center border border-white/20 shadow-xs">
-                  <h4 className="text-lg font-bold text-white mb-2">
-                    Đang được cập nhật mỗi ngày
-                  </h4>
-                  <p className="text-sm text-stone-300">
-                    Sẽ được bổ sung nhanh thôi nhé.
-                  </p>
-                </div>
-              )}
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                ) : (
+                  <div className="bg-white/10 backdrop-blur-md rounded-2xl p-12 text-center border border-white/20 shadow-xs">
+                    <h4 className="text-lg font-bold text-white mb-2">
+                      Đang được cập nhật mỗi ngày
+                    </h4>
+                    <p className="text-sm text-stone-300">
+                      Sẽ được bổ sung nhanh thôi nhé.
+                    </p>
+                  </div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         )}
 
-        {/* CTA Button */}
+        {/* CTA Button with Motion feedback */}
         <div className="flex justify-center mt-12">
-          <a
+          <motion.a
+            whileHover={prefersReducedMotion ? {} : { scale: 1.04 }}
+            whileTap={prefersReducedMotion ? {} : { scale: 0.96 }}
             href="#lien-he"
-            className="rounded-xl bg-[#9A5C32] hover:bg-[#804a27] text-white px-10 py-3.5 shadow-md hover:shadow-lg transition-all text-center font-bold border border-[#d4a373]/30 uppercase tracking-wide text-sm"
+            className="rounded-full bg-[#9A5C32] hover:bg-[#804a27] text-white px-10 py-3.5 shadow-md hover:shadow-lg transition-colors text-center font-bold border border-[#d4a373]/30 uppercase tracking-wide text-sm"
           >
             Liên hệ ngay!
-          </a>
+          </motion.a>
         </div>
       </div>
     </section>
   );
 }
+

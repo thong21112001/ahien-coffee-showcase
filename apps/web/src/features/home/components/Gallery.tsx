@@ -1,24 +1,142 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import { SettingSection } from "../types/home.types";
 import { getImageUrl } from "@/shared/utils/image";
 import { IMAGES } from "@/shared/constants/images";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "@/shared/lib/gsap";
+import { usePrefersReducedMotion } from "@/shared/hooks/usePrefersReducedMotion";
+import { motion } from "motion/react";
 
 interface GalleryProps {
   data?: SettingSection;
 }
 
 export function Gallery({ data }: GalleryProps) {
-  if (!data) return null;
+  const sectionRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
-  const title = data.title || "";
-  const subtitle = data.subtitle || "";
+  const title = data?.title || "";
+  const subtitle = data?.subtitle || "";
 
-  const apiImages = data.gridItems
+  const apiImages = data?.gridItems
     ? [...data.gridItems].sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
     : [];
+
+  useGSAP(
+    () => {
+      if (!data) return;
+
+      if (prefersReducedMotion) {
+        gsap.set(
+          [
+            ".gallery-header",
+            ".gallery-row-1 > div",
+            ".gallery-row-2 > div",
+            ".gallery-row-3 > div",
+            ".gallery-disclaimer",
+          ],
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            clearProps: "all",
+          }
+        );
+        return;
+      }
+
+      // Header entrance
+      gsap.fromTo(
+        ".gallery-header",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          scrollTrigger: {
+            trigger: ".gallery-header",
+            start: "top 85%",
+          },
+        }
+      );
+
+      // Row 1 reveal
+      gsap.fromTo(
+        ".gallery-row-1 > div",
+        { opacity: 0, y: 30, scale: 0.96 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.7,
+          stagger: 0.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".gallery-row-1",
+            start: "top 85%",
+          },
+        }
+      );
+
+      // Row 2 reveal (including center signature shot)
+      gsap.fromTo(
+        ".gallery-row-2 > div",
+        { opacity: 0, y: 35, scale: 0.96 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.12,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".gallery-row-2",
+            start: "top 80%",
+          },
+        }
+      );
+
+      // Row 3 reveal
+      gsap.fromTo(
+        ".gallery-row-3 > div",
+        { opacity: 0, y: 30, scale: 0.96 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.7,
+          stagger: 0.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".gallery-row-3",
+            start: "top 85%",
+          },
+        }
+      );
+
+      // Disclaimer card reveal
+      gsap.fromTo(
+        ".gallery-disclaimer",
+        { opacity: 0, y: 25 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".gallery-disclaimer",
+            start: "top 90%",
+          },
+        }
+      );
+    },
+    { scope: sectionRef, dependencies: [prefersReducedMotion, data] }
+  );
+
+  if (!data) return null;
 
   const renderSlot = (index: number, className: string, heightClass: string) => {
     const item = apiImages.find((img) => img.position === index);
@@ -27,8 +145,10 @@ export function Gallery({ data }: GalleryProps) {
     const text = item?.key || `Khoảnh khắc Ahien #${index + 1}`;
 
     return (
-      <div
-        className={`relative rounded-2xl overflow-hidden shadow-md border border-stone-800 hover:scale-[1.02] transition-all duration-300 group cursor-pointer ${heightClass} ${className}`}
+      <motion.div
+        whileHover={prefersReducedMotion ? {} : { scale: 1.025 }}
+        transition={{ duration: 0.25 }}
+        className={`relative rounded-2xl overflow-hidden shadow-md border border-stone-800 group cursor-pointer ${heightClass} ${className}`}
       >
         <Image
           src={getImageUrl(rawImage)}
@@ -48,7 +168,7 @@ export function Gallery({ data }: GalleryProps) {
             {text}
           </span>
         </div>
-      </div>
+      </motion.div>
     );
   };
 
@@ -59,8 +179,10 @@ export function Gallery({ data }: GalleryProps) {
     const text = item?.key || `Ahien Signature Concept`;
 
     return (
-      <div
-        className={`relative rounded-2xl overflow-hidden shadow-lg border-2 border-brand-gold hover:scale-[1.02] transition-all duration-300 group cursor-pointer ${heightClass}`}
+      <motion.div
+        whileHover={prefersReducedMotion ? {} : { scale: 1.03 }}
+        transition={{ duration: 0.25 }}
+        className={`relative rounded-2xl overflow-hidden shadow-xl border-2 border-brand-gold group cursor-pointer ${heightClass}`}
       >
         <Image
           src={getImageUrl(rawImage)}
@@ -80,15 +202,15 @@ export function Gallery({ data }: GalleryProps) {
             {text}
           </span>
         </div>
-      </div>
+      </motion.div>
     );
   };
 
   return (
-    <section id="hinh-anh" className="py-24 bg-stone-900 text-white relative">
+    <section ref={sectionRef} id="hinh-anh" className="py-24 bg-stone-900 text-white relative">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-6xl mx-auto mb-16">
+        <div className="gallery-header text-center max-w-6xl mx-auto mb-16">
           <h2 className="text-2xl sm:text-[32px] font-bold font-serif mb-4">
             {title}
           </h2>
@@ -100,7 +222,7 @@ export function Gallery({ data }: GalleryProps) {
         {/* Asymmetrical Grid Collage */}
         <div className="space-y-4 select-none">
           {/* Row 1: 4 photos */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="gallery-row-1 grid grid-cols-2 md:grid-cols-4 gap-4">
             {renderSlot(0, "", "h-44 sm:h-56")}
             {renderSlot(1, "", "h-44 sm:h-56")}
             {renderSlot(2, "", "h-44 sm:h-56")}
@@ -108,7 +230,7 @@ export function Gallery({ data }: GalleryProps) {
           </div>
 
           {/* Row 2: 3 photos (middle is center slot) */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="gallery-row-2 grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Left */}
             {renderSlot(4, "", "h-56 sm:h-64")}
             {/* Center */}
@@ -118,7 +240,7 @@ export function Gallery({ data }: GalleryProps) {
           </div>
 
           {/* Row 3: 3 photos */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="gallery-row-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
             {renderSlot(7, "", "h-48 sm:h-60")}
             {renderSlot(8, "", "h-48 sm:h-60")}
             {renderSlot(9, "", "h-48 sm:h-60")}
@@ -126,7 +248,7 @@ export function Gallery({ data }: GalleryProps) {
         </div>
 
         {/* Transparency & Artistic Concept Disclaimer */}
-        <div className="mt-16 bg-stone-850/90 border border-brand-gold/30 rounded-2xl p-6 sm:p-8 backdrop-blur-md max-w-4xl mx-auto text-center space-y-4 shadow-2xl relative overflow-hidden">
+        <div className="gallery-disclaimer mt-16 bg-stone-850/90 border border-brand-gold/30 rounded-2xl p-6 sm:p-8 backdrop-blur-md max-w-4xl mx-auto text-center space-y-4 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 transform translate-x-4 -translate-y-4 w-24 h-24 bg-brand-gold/10 rounded-full blur-2xl pointer-events-none"></div>
 
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/40 text-brand-gold text-xs font-semibold uppercase tracking-wider">
@@ -160,4 +282,5 @@ export function Gallery({ data }: GalleryProps) {
     </section>
   );
 }
+
 
