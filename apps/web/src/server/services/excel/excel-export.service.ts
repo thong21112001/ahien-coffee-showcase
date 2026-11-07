@@ -1,6 +1,6 @@
 import ExcelJS from "exceljs";
-import { prisma } from "../../db/prisma";
-import { ContactFilters } from "../../repositories/contact.repository";
+import { prisma } from "../../db/prisma.ts";
+import type { ContactFilters } from "../../repositories/contact.repository.ts";
 
 /**
  * Phòng chống tấn công chèn mã độc vào bảng tính (CSV/Formula Injection)

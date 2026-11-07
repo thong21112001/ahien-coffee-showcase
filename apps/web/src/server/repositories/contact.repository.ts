@@ -1,5 +1,5 @@
-import { prisma } from "../db/prisma";
-import { ContactSubmissionInput, DataSubjectRequestInput } from "../schemas/contact.schema";
+import { prisma } from "../db/prisma.ts";
+import type { ContactSubmissionInput, DataSubjectRequestInput } from "../schemas/contact.schema.ts";
 import crypto from "node:crypto";
 
 export interface ContactFilters {
@@ -14,6 +14,86 @@ export interface ContactFilters {
 
 export const CURRENT_POLICY_VERSION = "v1.0.0-2026.01";
 export const CURRENT_CONSENT_VERSION = "consent_v1";
+
+const SAMPLE_CONTACTS = [
+  {
+    id: "sample-contact-001",
+    fullName: "Nguyễn Văn An",
+    phone: "0905123456",
+    email: "an.nguyen@example.com",
+    message: "Tôi muốn đặt bàn 4 người vào tối thứ 7 lúc 19h để thử cà phê phin di sản.",
+    inquiryType: "TABLE_RESERVATION",
+    source: "WEBSITE_CONTACT_FORM",
+    status: "NEW",
+    createdAt: new Date(Date.now() - 3600000 * 2),
+    updatedAt: new Date(Date.now() - 3600000 * 2),
+    consentRecords: [
+      {
+        id: "sample-consent-001",
+        contactId: "sample-contact-001",
+        purpose: "OPERATIONAL_INQUIRY",
+        status: "GRANTED",
+        policyVersion: CURRENT_POLICY_VERSION,
+        consentVersion: CURRENT_CONSENT_VERSION,
+        consentedAt: new Date(Date.now() - 3600000 * 2),
+      },
+      {
+        id: "sample-consent-002",
+        contactId: "sample-contact-001",
+        purpose: "MARKETING_COMMUNICATION",
+        status: "GRANTED",
+        policyVersion: CURRENT_POLICY_VERSION,
+        consentVersion: CURRENT_CONSENT_VERSION,
+        consentedAt: new Date(Date.now() - 3600000 * 2),
+      },
+    ],
+    activities: [
+      {
+        id: "sample-act-001",
+        contactId: "sample-contact-001",
+        activityType: "STATUS_CHANGE",
+        description: "Khách hàng gửi liên hệ / đặt bàn trực tuyến thành công.",
+        performedBy: "Hệ thống A Hiền Coffee",
+        createdAt: new Date(Date.now() - 3600000 * 2),
+      },
+    ],
+    _count: { activities: 1 },
+  },
+  {
+    id: "sample-contact-002",
+    fullName: "Trần Thị Mai",
+    phone: "0918765432",
+    email: "mai.tran@example.com",
+    message: "Tư vấn giúp tôi các dòng hạt Robusta chế biến mật ong (Honey Process).",
+    inquiryType: "COFFEE_PRODUCT",
+    source: "WEBSITE_CONTACT_FORM",
+    status: "CONTACTED",
+    createdAt: new Date(Date.now() - 86400000),
+    updatedAt: new Date(Date.now() - 3600000 * 5),
+    consentRecords: [
+      {
+        id: "sample-consent-003",
+        contactId: "sample-contact-002",
+        purpose: "OPERATIONAL_INQUIRY",
+        status: "GRANTED",
+        policyVersion: CURRENT_POLICY_VERSION,
+        consentVersion: CURRENT_CONSENT_VERSION,
+        consentedAt: new Date(Date.now() - 86400000),
+      },
+    ],
+    activities: [
+      {
+        id: "sample-act-002",
+        contactId: "sample-contact-002",
+        activityType: "PHONE_CALL",
+        description: "Đã gọi điện tư vấn dòng cà phê A Hiền Heritage Blend.",
+        performedBy: "Admin A Hiền",
+        createdAt: new Date(Date.now() - 3600000 * 5),
+      },
+    ],
+    _count: { activities: 1 },
+  },
+];
 
 export const contactRepository = {
   /**

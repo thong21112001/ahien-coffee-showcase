@@ -22,5 +22,9 @@
   "engines": {
     "node": ">=20"
   },
-  "packageManager": "npm@11.11.0"
+  "packageManager": "npm@11.11.0",
+  "dependencies": {
+    "@neon/config": "^1.12.1",
+    "@neon/env": "^2.0.1"
+  }
 }
