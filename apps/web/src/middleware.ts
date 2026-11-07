@@ -44,6 +44,15 @@ export function middleware(request: NextRequest) {
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
+  // Defense-in-depth: Redirect unauthenticated browser requests for /admin to /login
+  if (pathname.includes("/admin")) {
+    const adminSession = request.cookies.get("ahien_admin_session")?.value;
+    if (!adminSession) {
+      const activeLocale = pathnameHasLocale ? pathname.split("/")[1] : getPreferredLocale(request);
+      return NextResponse.redirect(new URL(`/${activeLocale}/login`, request.url));
+    }
+  }
+
   if (pathnameHasLocale) {
     // Extract current locale from path and sync cookie
     const currentLocale = pathname.split("/")[1];

@@ -52,12 +52,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const isPublicRoute =
       cleanPath === "/" ||
       cleanPath === "/menu" ||
-      cleanPath.startsWith("/menu/");
+      cleanPath.startsWith("/menu/") ||
+      cleanPath === "/chinh-sach-bao-mat" ||
+      cleanPath.startsWith("/chinh-sach-bao-mat");
 
     if (!isAuthenticated && !isLoginRoute && !isPublicRoute) {
       router.push("/login");
     } else if (isAuthenticated && isLoginRoute) {
-      router.push("/");
+      router.push("/admin/contacts");
     }
   }, [isInitialized, isAuthenticated, pathname, router]);
 
@@ -74,7 +76,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     if (match) {
       let authorized = false;
-      if (user.roleName === "super_admin" || user.role === "super_admin") {
+      if (
+        user.roleName === "super_admin" ||
+        user.role === "super_admin" ||
+        user.role === "ADMIN" ||
+        user.role === "admin"
+      ) {
         authorized = true;
       } else {
         authorized =
@@ -101,7 +108,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const isPublic =
     cleanPath === "/" ||
     cleanPath === "/menu" ||
-    cleanPath.startsWith("/menu/");
+    cleanPath.startsWith("/menu/") ||
+    cleanPath === "/chinh-sach-bao-mat" ||
+    cleanPath.startsWith("/chinh-sach-bao-mat");
 
   if (!isAuthenticated && !cleanPath.startsWith("/login") && !isPublic) {
     return (

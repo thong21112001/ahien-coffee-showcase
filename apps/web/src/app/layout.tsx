@@ -11,16 +11,41 @@ const beVietnam = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "A Hiền Coffee | Cà Phê Di Sản & Specialty Roastery",
+  title: "A Hiền Coffee | Cà Phê Di Sản & Specialty Roastery — Since 1986",
   description:
-    "Thưởng thức hương vị cà phê phin truyền thống đỉnh cao cùng dòng hạt Specialty Arabica Cầu Đất & Robusta Buôn Ma Thuột rang mộc.",
+    "Góc nhỏ A Hiền Coffee — Since 1986. Thưởng thức hương vị cà phê phin truyền thống đỉnh cao cùng dòng hạt Specialty Arabica Cầu Đất & Robusta Buôn Ma Thuột rang mộc nguyên bản.",
+  keywords: [
+    "A Hiền Coffee",
+    "cà phê phin truyền thống",
+    "specialty coffee đà nẵng",
+    "cà phê rang mộc",
+    "since 1986",
+  ],
+  metadataBase: new URL("https://ahiencoffee.vn"),
+  openGraph: {
+    type: "website",
+    locale: "vi_VN",
+    url: "https://ahiencoffee.vn",
+    siteName: "A Hiền Coffee",
+    title: "A Hiền Coffee | Cà Phê Di Sản & Specialty Roastery — Since 1986",
+    description:
+      "Góc nhỏ A Hiền Coffee — Since 1986. Nơi hương cà phê phin thủ công lan tỏa trong ánh nắng dịu và những câu chuyện đời thường.",
+    images: [
+      {
+        url: "/brand/ahien-logo.svg",
+        width: 512,
+        height: 512,
+        alt: "A Hiền Coffee — Since 1986",
+      },
+    ],
+  },
   icons: {
     icon: [
-      { url: "/logo.webp" },
-      { url: "/logo.webp", sizes: "32x32", type: "image/webp" },
+      { url: "/brand/ahien-mark.svg", type: "image/svg+xml" },
+      { url: "/brand/ahien-logo.svg", sizes: "512x512", type: "image/svg+xml" },
     ],
-    shortcut: "/logo.webp",
-    apple: "/logo.webp",
+    shortcut: "/brand/ahien-mark.svg",
+    apple: "/brand/ahien-logo.svg",
   },
 };
 

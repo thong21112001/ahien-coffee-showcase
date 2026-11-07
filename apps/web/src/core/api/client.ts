@@ -5,8 +5,13 @@ import axios, {
 } from "axios";
 import { ApiResponse } from "@/shared/types/api.types";
 
+const isClient = typeof window !== "undefined";
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
+  process.env.NEXT_PUBLIC_API_URL && !process.env.NEXT_PUBLIC_API_URL.includes("bepthu-api")
+    ? process.env.NEXT_PUBLIC_API_URL
+    : isClient
+      ? "/api"
+      : "http://localhost:3000/api";
 
 export const apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,

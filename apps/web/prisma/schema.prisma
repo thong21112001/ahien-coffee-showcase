@@ -1,0 +1,107 @@
+// A Hiền Coffee - Production Prisma Schema
+// Target Database: Neon PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// 1. Contact (Khách hàng liên hệ / Đặt bàn)
+model Contact {
+  id          String   @id @default(uuid())
+  fullName    String
+  phone       String
+  email       String?
+  message     String?
+  inquiryType String   @default("GENERAL_INQUIRY") // TABLE_RESERVATION, GENERAL_INQUIRY, COFFEE_PRODUCT, EVENT_WORKSHOP
+  source      String   @default("WEBSITE_CONTACT_FORM")
+  status      String   @default("NEW") // NEW, CONTACTED, FOLLOWING_UP, RESOLVED, ARCHIVED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  consentRecords ConsentRecord[]
+  activities     ContactActivity[]
+
+  @@index([phone])
+  @@index([email])
+  @@index([status])
+  @@index([inquiryType])
+  @@index([createdAt])
+  @@map("contacts")
+}
+
+// 2. ConsentRecord (Bằng chứng đồng ý bất biến theo Luật 91/2025/QH15)
+model ConsentRecord {
+  id             String    @id @default(uuid())
+  contactId      String
+  contact        Contact   @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  purpose        String    // OPERATIONAL_INQUIRY, MARKETING_COMMUNICATION
+  status         String    @default("GRANTED") // GRANTED, WITHDRAWN
+  policyVersion  String    @default("v1.0.0-2026.01")
+  consentVersion String    @default("consent_v1")
+  consentedAt    DateTime  @default(now())
+  withdrawnAt    DateTime?
+  ipHash         String?   // SHA-256 anonymized hash for audit verification without raw IP
+  createdAt      DateTime  @default(now())
+
+  @@index([contactId])
+  @@index([purpose])
+  @@index([status])
+  @@index([consentedAt])
+  @@map("consent_records")
+}
+
+// 3. ContactActivity (Lịch sử tương tác & chăm sóc khách hàng)
+model ContactActivity {
+  id          String   @id @default(uuid())
+  contactId   String
+  contact     Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  activityType String   // STATUS_CHANGE, FOLLOW_UP_CALL, EMAIL_SENT, NOTE_ADDED
+  description String
+  performedBy String   @default("Admin")
+  createdAt   DateTime @default(now())
+
+  @@index([contactId])
+  @@index([createdAt])
+  @@map("contact_activities")
+}
+
+// 4. DataSubjectRequest (Yêu cầu quyền chủ thể dữ liệu - DSR)
+model DataSubjectRequest {
+  id              String   @id @default(uuid())
+  requestType     String   // ACCESS, CORRECTION, DELETION, RESTRICTION, WITHDRAWAL
+  requesterName   String
+  requesterEmail  String
+  requesterPhone  String
+  details         String
+  status          String   @default("SUBMITTED") // SUBMITTED, PROCESSING, COMPLETED, REJECTED
+  resolutionNotes String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([requesterPhone])
+  @@index([requesterEmail])
+  @@index([status])
+  @@index([createdAt])
+  @@map("data_subject_requests")
+}
+
+// 5. AdminAccount (Duy nhất 1 tài khoản Quản trị viên được ủy quyền)
+model AdminAccount {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String   @default("Admin A Hiền")
+  passwordHash String
+  role         String   @default("ADMIN")
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("admin_accounts")
+}
+

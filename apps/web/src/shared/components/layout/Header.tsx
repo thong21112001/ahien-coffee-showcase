@@ -9,6 +9,7 @@ import { BaristaAudioButton } from "../feedback/BaristaAudioButton";
 import { Sparkles, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { usePrefersReducedMotion } from "@/shared/hooks/usePrefersReducedMotion";
+import { BrandLogo } from "../brand/BrandLogo";
 
 interface HeaderProps {
   locale?: Locale;
@@ -47,28 +48,8 @@ export function Header({ locale = "vi" }: HeaderProps) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href={`/${locale}`} className="flex items-center gap-3 group">
-            <motion.div
-              whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
-              whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
-              className="relative h-11 w-11 rounded-full overflow-hidden border border-amber-500/40 bg-stone-900 group-hover:border-amber-400 transition-colors"
-            >
-              <Image
-                src="/logo.webp"
-                alt="A Hiền Coffee Logo"
-                fill
-                className="object-cover object-center"
-                priority
-              />
-            </motion.div>
-            <div className="flex flex-col">
-              <span className="font-serif font-bold text-base sm:text-lg tracking-wide text-white group-hover:text-amber-400 transition-colors">
-                A HIỀN COFFEE
-              </span>
-              <span className="text-[10px] text-amber-500/80 font-medium tracking-widest uppercase">
-                Artisanal Roastery
-              </span>
-            </div>
+          <Link href={`/${locale}`} className="inline-flex items-center">
+            <BrandLogo size="md" priority />
           </Link>
 
           {/* Desktop Nav */}

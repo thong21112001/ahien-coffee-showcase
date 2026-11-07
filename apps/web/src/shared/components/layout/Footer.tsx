@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Locale } from "@ahien/types";
+import { BrandLogo } from "../brand/BrandLogo";
 
 interface FooterProps {
   locale?: Locale;
@@ -18,27 +19,12 @@ export function Footer({ locale = "vi" }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pb-12 border-b border-stone-800/80">
           {/* Column 1: Info & Description */}
           <div className="space-y-5">
-            <div className="flex items-center gap-3">
-              <div className="relative h-12 w-12 rounded-full overflow-hidden border border-amber-500/30 bg-stone-900">
-                <Image
-                  src="/logo.webp"
-                  alt="A Hiền Coffee Logo"
-                  fill
-                  className="object-cover object-center"
-                />
-              </div>
-              <div>
-                <h3 className="font-serif font-bold text-lg text-white">A HIỀN COFFEE</h3>
-                <p className="text-[10px] text-amber-400 uppercase tracking-widest">
-                  Artisanal Heritage Coffee
-                </p>
-              </div>
-            </div>
+            <BrandLogo size="lg" />
 
             <p className="text-xs sm:text-sm text-stone-400 leading-relaxed max-w-md">
               {locale === "vi"
-                ? "A Hiền Coffee là nơi hương cà phê phin thủ công lan tỏa trong ánh nắng dịu và những câu chuyện đời thường. Lưu giữ bản sắc Việt, nâng tầm hạt cà phê đặc sản."
-                : "A Hiền Coffee is where handcrafted Vietnamese Phin coffee merges with tranquil moments. Preserving native heritage while elevating specialty highland beans."}
+                ? "Góc nhỏ A Hiền Coffee — Since 1986. Nơi hương cà phê phin thủ công lan tỏa trong ánh nắng dịu và những câu chuyện đời thường. Lưu giữ bản sắc Việt, nâng tầm hạt cà phê đặc sản."
+                : "A Hiền Coffee — Since 1986. Where handcrafted Vietnamese Phin coffee merges with tranquil moments. Preserving native heritage while elevating specialty highland beans."}
             </p>
 
             <div className="flex items-center gap-4 text-xs text-amber-400/90 font-medium">
@@ -118,9 +104,12 @@ export function Footer({ locale = "vi" }: FooterProps) {
         <div className="flex flex-col sm:flex-row items-center justify-between pt-6 text-xs text-stone-500 gap-4">
           <p>© {currentYear} A Hiền Coffee. {locale === "vi" ? "Tất cả các quyền được bảo lưu." : "All rights reserved."}</p>
           <div className="flex gap-6">
-            <span className="hover:text-amber-400 transition-colors cursor-pointer">
-              {locale === "vi" ? "Chính sách bảo mật" : "Privacy Policy"}
-            </span>
+            <Link
+              href={`/${locale}/chinh-sach-bao-mat`}
+              className="hover:text-amber-400 transition-colors"
+            >
+              {locale === "vi" ? "Chính sách bảo vệ dữ liệu" : "Privacy Policy"}
+            </Link>
             <span className="hover:text-amber-400 transition-colors cursor-pointer">
               {locale === "vi" ? "Điều khoản dịch vụ" : "Terms of Service"}
             </span>

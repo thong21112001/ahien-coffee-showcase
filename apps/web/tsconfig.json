@@ -2,6 +2,7 @@
   "extends": "@ahien/typescript-config/nextjs.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "allowImportingTsExtensions": true,
     "paths": {
       "@/*": ["./src/*"]
     }

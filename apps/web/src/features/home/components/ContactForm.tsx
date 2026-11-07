@@ -11,6 +11,8 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "@/shared/lib/gsap";
 import { usePrefersReducedMotion } from "@/shared/hooks/usePrefersReducedMotion";
 import { motion } from "motion/react";
+import { Shield, Info, CheckCircle2 } from "lucide-react";
+import { PrivacyNoticeModal } from "@/features/privacy/components/PrivacyNoticeModal";
 
 interface ContactFormProps {
   data?: SettingSection;
@@ -27,27 +29,70 @@ export function ContactForm({ data }: ContactFormProps) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [inquiryType, setInquiryType] = useState("GENERAL_INQUIRY");
   const [content, setContent] = useState("");
+  const [consentOperational, setConsentOperational] = useState(false);
+  const [consentMarketing, setConsentMarketing] = useState(false);
+  const [botField, setBotField] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !phone) {
-      toast.error("Vui lòng nhập Họ tên và Số điện thoại!");
+
+    if (!name.trim() || !phone.trim()) {
+      toast.error("Vui lòng nhập đầy đủ Họ tên và Số điện thoại!");
       return;
     }
-    setIsSubmitting(true);
-    // Simulate booking API call
-    setTimeout(() => {
-      toast.success(
-        "Liên hệ thành công! Chúng tôi sẽ phản hồi sớm nhất."
+
+    if (!consentOperational) {
+      toast.error(
+        "Quý khách vui lòng xác nhận đồng ý với Chính sách bảo vệ dữ liệu để gửi yêu cầu."
       );
-      setName("");
-      setPhone("");
-      setEmail("");
-      setContent("");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/contacts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: name.trim(),
+          phone: phone.trim(),
+          email: email.trim() || undefined,
+          inquiryType,
+          message: content.trim() || undefined,
+          consentOperational,
+          consentMarketing,
+          botField,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        toast.success(
+          result.message || "Liên hệ thành công! Chúng tôi sẽ phản hồi sớm nhất."
+        );
+        setName("");
+        setPhone("");
+        setEmail("");
+        setContent("");
+        setInquiryType("GENERAL_INQUIRY");
+        setConsentOperational(false);
+        setConsentMarketing(false);
+        setBotField("");
+      } else {
+        toast.error(result.message || "Có lỗi xảy ra. Vui lòng kiểm tra lại thông tin!");
+      }
+    } catch (err) {
+      console.error("Submission failed:", err);
+      toast.error("Không thể kết nối đến máy chủ. Vui lòng thử lại sau ít phút!");
+    } finally {
       setIsSubmitting(false);
-    }, 1200);
+    }
   };
 
   const contactMethods =
@@ -179,58 +224,142 @@ export function ContactForm({ data }: ContactFormProps) {
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-xs text-gray-500 tracking-wider mb-1 font-medium">
-                      Họ và tên *
-                    </label>
+                  {/* Anti-spam Honeypot field (invisible to users) */}
+                  <div className="hidden" aria-hidden="true">
+                    <label htmlFor="website-hp">Không điền ô này nếu bạn là người</label>
                     <input
+                      id="website-hp"
                       type="text"
-                      required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Vui lòng nhập họ tên"
-                      className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm focus:border-brand-brown focus:bg-white focus:outline-none transition-all duration-200"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={botField}
+                      onChange={(e) => setBotField(e.target.value)}
                     />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs text-gray-500 tracking-wider mb-1 font-medium">
+                        Họ và tên *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Vui lòng nhập họ tên"
+                        className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm focus:border-brand-brown focus:bg-white focus:outline-none transition-all duration-200"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs text-gray-500 tracking-wider mb-1 font-medium">
+                        Số điện thoại *
+                      </label>
+                      <input
+                        type="tel"
+                        required
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="Ví dụ: 0367262415"
+                        className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm focus:border-brand-brown focus:bg-white focus:outline-none transition-all duration-200"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs text-gray-500 tracking-wider mb-1 font-medium">
+                        Địa chỉ Email (tùy chọn)
+                      </label>
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Để nhận thư xác nhận"
+                        className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm focus:border-brand-brown focus:bg-white focus:outline-none transition-all duration-200"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs text-gray-500 tracking-wider mb-1 font-medium">
+                        Mục đích liên hệ
+                      </label>
+                      <select
+                        value={inquiryType}
+                        onChange={(e) => setInquiryType(e.target.value)}
+                        className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm focus:border-brand-brown focus:bg-white focus:outline-none transition-all duration-200 bg-white"
+                      >
+                        <option value="GENERAL_INQUIRY">Tư vấn thông tin chung</option>
+                        <option value="TABLE_RESERVATION">Đặt bàn trước / Không gian</option>
+                        <option value="COFFEE_PRODUCT">Hỏi mua cà phê rang mộc</option>
+                        <option value="EVENT_WORKSHOP">Tổ chức sự kiện / Workshop</option>
+                      </select>
+                    </div>
                   </div>
 
                   <div>
                     <label className="block text-xs text-gray-500 tracking-wider mb-1 font-medium">
-                      Số điện thoại *
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      placeholder="Vui lòng nhập số điện thoại"
-                      className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm focus:border-brand-brown focus:bg-white focus:outline-none transition-all duration-200"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs text-gray-500 tracking-wider mb-1 font-medium">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Vui lòng nhập email"
-                      className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm focus:border-brand-brown focus:bg-white focus:outline-none transition-all duration-200"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs text-gray-500 tracking-wider mb-1 font-medium">
-                      Nội dung
+                      Nội dung chi tiết
                     </label>
                     <textarea
                       rows={3}
                       value={content}
                       onChange={(e) => setContent(e.target.value)}
-                      placeholder="Ghi chú thêm về yêu cầu đặt bàn hoặc câu hỏi"
+                      placeholder="Ghi chú thêm về yêu cầu đặt bàn, số lượng khách hoặc câu hỏi cho quán"
                       className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm focus:border-brand-brown focus:bg-white focus:outline-none transition-all duration-200 resize-none"
                     ></textarea>
+                  </div>
+
+                  {/* VIETNAMESE PERSONAL DATA PROTECTION CONSENT BOXES */}
+                  <div className="rounded-2xl bg-stone-50 border border-stone-200/80 p-4 space-y-3.5 mt-2">
+                    <div className="flex items-center justify-between text-xs text-stone-600 border-b border-stone-200/60 pb-2">
+                      <span className="font-semibold flex items-center gap-1.5 text-stone-700">
+                        <Shield size={14} className="text-amber-600" />
+                        Bảo vệ dữ liệu cá nhân (Luật 91/2025/QH15)
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setIsPrivacyModalOpen(true)}
+                        className="text-amber-700 hover:text-amber-800 underline font-medium text-[11px] cursor-pointer"
+                      >
+                        Xem chính sách
+                      </button>
+                    </div>
+
+                    {/* Consent 1: Required Operational Consent */}
+                    <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked={consentOperational}
+                        onChange={(e) => setConsentOperational(e.target.checked)}
+                        className="mt-0.5 h-4 w-4 rounded border-stone-300 text-amber-600 focus:ring-amber-500 cursor-pointer shrink-0"
+                      />
+                      <span className="text-[12px] leading-relaxed text-stone-600">
+                        <strong className="text-stone-800">Đồng ý xử lý thông tin (*):</strong> Tôi đồng ý cho phép A Hiền Coffee thu thập và xử lý các thông tin trên nhằm mục đích tiếp nhận, giải quyết và liên hệ phản hồi yêu cầu của tôi theo{" "}
+                        <button
+                          type="button"
+                          onClick={() => setIsPrivacyModalOpen(true)}
+                          className="text-amber-700 underline font-semibold cursor-pointer"
+                        >
+                          Chính sách bảo vệ dữ liệu cá nhân
+                        </button>
+                        .
+                      </span>
+                    </label>
+
+                    {/* Consent 2: Optional Marketing Consent */}
+                    <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked={consentMarketing}
+                        onChange={(e) => setConsentMarketing(e.target.checked)}
+                        className="mt-0.5 h-4 w-4 rounded border-stone-300 text-amber-600 focus:ring-amber-500 cursor-pointer shrink-0"
+                      />
+                      <span className="text-[12px] leading-relaxed text-stone-500">
+                        <span className="font-semibold text-stone-700">Nhận ưu đãi (tùy chọn):</span> Tôi đồng ý nhận thông tin khuyến mãi, sự kiện đặc biệt và bản tin cà phê đặc sản từ quán (không bắt buộc, có thể hủy bất kỳ lúc nào).
+                      </span>
+                    </label>
                   </div>
 
                   <motion.button
@@ -240,7 +369,7 @@ export function ContactForm({ data }: ContactFormProps) {
                     disabled={isSubmitting}
                     className="w-full mt-2 rounded-xl bg-brand-brown hover:bg-brand-brown-dark disabled:bg-stone-400 text-white py-3.5 text-sm shadow-md hover:shadow-lg transition-colors cursor-pointer text-center font-bold"
                   >
-                    {isSubmitting ? "Đang gửi..." : "Liên hệ ngay!"}
+                    {isSubmitting ? "Đang gửi yêu cầu..." : "Gửi liên hệ ngay"}
                   </motion.button>
                 </form>
               </div>
@@ -325,6 +454,12 @@ export function ContactForm({ data }: ContactFormProps) {
           </div>
         </div>
       </div>
+
+      {/* Privacy Notice Quick-View Modal */}
+      <PrivacyNoticeModal
+        isOpen={isPrivacyModalOpen}
+        onClose={() => setIsPrivacyModalOpen(false)}
+      />
     </section>
   );
 }

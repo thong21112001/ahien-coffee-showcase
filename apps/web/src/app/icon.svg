@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="100%" height="100%">
+  <defs>
+    <radialGradient id="markCrema" cx="50%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="60%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#78350f" />
+    </radialGradient>
+    <radialGradient id="markBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2a1a10" />
+      <stop offset="100%" stop-color="#0e0a07" />
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="60" fill="url(#markBg)" stroke="#d97706" stroke-width="3.5" />
+  <circle cx="64" cy="64" r="54" fill="none" stroke="#f59e0b" stroke-width="1" stroke-dasharray="2 3" opacity="0.7" />
+  <path d="M 58 32 C 55 24, 61 18, 58 12" fill="none" stroke="#fef3c7" stroke-width="2" stroke-linecap="round" opacity="0.75" />
+  <path d="M 68 32 C 71 24, 65 18, 68 12" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" opacity="0.75" />
+  <ellipse cx="64" cy="35" rx="5" ry="2.5" fill="#fef3c7" />
+  <path d="M 44 42 C 44 38, 54 37, 64 37 C 74 37, 84 38, 84 42 Z" fill="#d97706" stroke="#fef3c7" stroke-width="1" />
+  <path d="M 46 43 L 50 67 C 51 70, 56 72, 64 72 C 72 72, 77 70, 78 67 L 82 43 Z" fill="#451a03" stroke="#f59e0b" stroke-width="2" />
+  <path d="M 46 48 C 39 48, 39 56, 47 57" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" />
+  <path d="M 82 48 C 89 48, 89 56, 81 57" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" />
+  <ellipse cx="64" cy="73" rx="28" ry="4" fill="#d97706" stroke="#fef3c7" stroke-width="1" />
+  <path d="M 64 79 C 61 84, 60 88, 64 92 C 68 88, 67 84, 64 79 Z" fill="url(#markCrema)" />
+  <path d="M 48 80 L 51 101 C 52 107, 57 110, 64 110 C 71 110, 76 107, 77 101 L 80 80" fill="none" stroke="#f59e0b" stroke-width="2" opacity="0.8" />
+  <ellipse cx="64" cy="102" rx="18" ry="4" fill="url(#markCrema)" opacity="0.9" />
+</svg>
